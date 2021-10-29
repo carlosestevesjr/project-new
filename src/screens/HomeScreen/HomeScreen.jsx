@@ -1,18 +1,25 @@
 import React , { useState, useEffect } from 'react';
-import { Button, Text, TextInput, View, StyleSheet } from 'react-native';
 
+//Utils
 import _ from 'lodash'
 
+//Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
 import { buscaPokemon } from '../../redux/slices/pokemonSlice'
 
+//Components
+import { Button, Text, TextInput, View, Image, ScrollView, SafeAreaView } from 'react-native';
+import Components  from './../../components'
+
+//Styles
 import styles from './Styles';
+
 
 
 const Screen = ({ navigation }) => {
 
     const [namePokemon, setNamePokemon] = useState(null);
-
+    const [numberPokemon, setNumberPokemon] = useState(1);
 
     const dispatch = useDispatch()
 
@@ -22,37 +29,80 @@ const Screen = ({ navigation }) => {
     
     const goToLoginScreen = () => navigation.navigate('Login');
 
-    const clickBuscar = () => dispatch(
+    const clickBuscar = (id = null) => dispatch(
         buscaPokemon(
             { 
                 params:{
-                    id:namePokemon,
+                    id: id == null ? namePokemon : id,
                 } 
             } 
         ) 
     );
 
-    const pokemon = useSelector((state) => state.pokemon.single)
-    // console.log('pokemon', pokemon)
-    
-    return (
-        <View style={styles.sampleStyle}>
-            <Text>HOME </Text>
-            {
-                !_.isEmpty(pokemon) && 
-                <Text>Nome Pokemon : { pokemon } </Text>
-            }
-            <TextInput
-                style={styles.input}
-                onChangeText={setNamePokemon}
-                value={namePokemon}
-                placeholder="Id ou Nome do pokemon"
-                // keyboardType="numeric"
-            />
+    const mudaNomePokemon = (number) => {
+        setNumberPokemon(number)
+        clickBuscar(number)
+    };
 
-            <Button  title="Buscar" onPress={() => clickBuscar()}></Button>
-            {/* <Button  title="Ir para Login" onPress={goToLoginScreen}>Go to Login Screen</Button> */}
-        </View>
+    const regularId = (id) => {
+        console.log(id.toString().length)
+        if(id.toString().length === 1 ){
+            return '00'
+        }else if(id.toString().length === 2){
+            return '0'
+        }else{
+            return ''
+        }
+    };
+
+    const pokemon = useSelector((state) => state.pokemon.single)
+   
+    return (
+        <SafeAreaView style={styles.sampleStyle}>
+            <ScrollView style={styles.scrollV} >
+                <Text>HOME </Text>
+                
+                {
+                    !_.isEmpty(pokemon.name) && 
+                    <Text style={styles.name} >Nome : { pokemon.name } </Text>
+                }
+                {
+                    numberPokemon && 
+                    <Text>Number Pokemon : { numberPokemon } </Text>
+                }
+
+                {
+                    !_.isEmpty(pokemon.sprites.front_default) && 
+                    <Image
+                        style={styles.imagePokemon}
+                        resizeMode={'contain'}
+                        source={{
+                            uri:  'https://assets.pokemon.com/assets/cms2/img/pokedex/full/'+ regularId(pokemon.id) + pokemon.id+'.png',
+                        }}
+                    
+                    />
+                }
+                
+                <View style={styles.boxButtons}>
+                    <Button  title="+" onPress={() => mudaNomePokemon(numberPokemon + 1 )}></Button>  
+                    <Button  title="-" onPress={() => mudaNomePokemon(numberPokemon - 1)}></Button>       
+                    <Button  title="Buscar" onPress={() => clickBuscar()}></Button>
+                </View>
+                <View style={styles.boxInput}>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setNamePokemon}
+                        value={namePokemon}
+                        placeholder="Id ou Nome do pokemon"
+                        // keyboardType="numeric"
+                    /> 
+                </View>
+                {/* <Button  title="Ir para Login" onPress={goToLoginScreen}>Go to Login Screen</Button> */}
+                
+                {/* Componentes Padõres */}
+                <Components.LoaderGeral/>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 

@@ -10,7 +10,7 @@ export const pokemonSlice = createSlice({
     },
     reducers: {
         salvaPokemonSingle: (state, action) => {
-            console.log('action', action)
+            // console.log('action', action)
             state.single = action.payload
            
         },
@@ -31,13 +31,13 @@ export const buscaPokemon = payload => async(dispatch) => {
         const { buscaPokemon }  = API
         const res = await buscaPokemon(payload)
 
-        console.log('resposta', res.data.name)
-        console.log('resposta', res.status)
+        // console.log('resposta', res.data.name)
+        // console.log('resposta', res.status)
 
         if(res.status == 200) {
             console.log('dei o dispatch')
             dispatch(
-                salvaPokemonSingle(res.data.name)
+                salvaPokemonSingle(res.data)
             );
         }
 
