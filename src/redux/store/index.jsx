@@ -8,7 +8,10 @@ import rootReducer from '../slices';
 
 const persistConfig = {
     key: 'root',
-    storage:AsyncStorage
+    storage:AsyncStorage,
+    blacklist: [
+        'geral',
+    ],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

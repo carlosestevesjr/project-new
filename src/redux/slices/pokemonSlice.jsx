@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import { API }   from '../../services/api'
 
+
 export const pokemonSlice = createSlice({
     name: 'pokemon',
     initialState: {
@@ -12,7 +13,6 @@ export const pokemonSlice = createSlice({
         salvaPokemonSingle: (state, action) => {
             // console.log('action', action)
             state.single = action.payload
-           
         },
     },
 });
@@ -26,20 +26,28 @@ export const {
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
 export const buscaPokemon = payload => async(dispatch) => {
+    // dispatch(
+    //     console.log('dispatch false'),
+    //     alteraStatusLoaderGeral(false)
+    // )
      
     try {
-        const { buscaPokemon }  = API
+        const { buscaPokemon } = API
         const res = await buscaPokemon(payload)
 
+
         // console.log('resposta', res.data.name)
-        // console.log('resposta', res.status)
+        // console.log('resposta', res)
 
         if(res.status == 200) {
-            console.log('dei o dispatch')
+
             dispatch(
-                salvaPokemonSingle(res.data)
-            );
+                salvaPokemonSingle(res.data),
+            )
+
         }
+
+        
 
     } catch (error) {
         console.log('errou')

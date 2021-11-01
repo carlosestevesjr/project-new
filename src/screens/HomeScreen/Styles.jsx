@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     },
     boxInput: {
         width: '100%',
-        height: 200,
+        height: 800,
         backgroundColor:'#d3d3d3',
     },
     input: {

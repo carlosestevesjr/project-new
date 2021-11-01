@@ -8,9 +8,24 @@ const instance = axios.create({
 })
 
 export const handleError = ({ message, data, status }) => {
-    console.log('promisse',data)
+    console.log('promisse', data)
     return Promise.reject({ message, data, status })
 }
+
+export const resolve = (res) => {
+    //Variables Default
+    console.log('store ')
+
+    return Promise.resolve(res)
+}
+
+instance.interceptors.request.use(function(config) {
+    
+    const token = 'dasdsadmdasdasds5151156156';
+    console.log('passou', config.baseURL)
+    // config.headers.Authorization = `Bearer ${token}`;
+    return config;
+});
 
 instance.interceptors.response.use(
     (response) => response, ({ message, response: { data, status } }) => {
