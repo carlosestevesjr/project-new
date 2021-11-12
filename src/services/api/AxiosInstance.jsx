@@ -13,21 +13,19 @@ export const handleError = ({ message, data, status }) => {
 }
 
 export const resolve = (res) => {
-    //Variables Default
-    console.log('store ')
-
     return Promise.resolve(res)
 }
 
 instance.interceptors.request.use(function(config) {
-    
-    const token = 'dasdsadmdasdasds5151156156';
-    console.log('passou', config.baseURL)
+    // console.log('passou', config.baseURL)
     // config.headers.Authorization = `Bearer ${token}`;
     return config;
 });
 
 instance.interceptors.response.use(
+    (res) => {
+        return resolve(res)
+    },
     (response) => response, ({ message, response: { data, status } }) => {
         console.log('promisse')
         return handleError({ message, data, status })

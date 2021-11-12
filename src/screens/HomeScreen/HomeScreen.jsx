@@ -45,7 +45,6 @@ const Screen = ({ navigation }) => {
     const clickBuscar = (id = null) => {
         
         dispatch(
-            alteraStatusLoaderGeral(true),
             buscaPokemon(
                 { 
                     params:{
@@ -53,6 +52,10 @@ const Screen = ({ navigation }) => {
                     } 
                 } 
             ) 
+        )
+
+        dispatch(
+            alteraStatusLoaderGeral(true)
         )
         
     }
@@ -68,17 +71,18 @@ const Screen = ({ navigation }) => {
     //Get State
     const pokemon = useSelector((state) => state.pokemon.single)
     const statusLoader = useSelector((state) => state.geral.loaderGeral.open )
-    
-        
+            
     return (
         <SafeAreaView style={styles.sampleStyle}>
             <ScrollView style={styles.scrollV} >
 
                 <Text>HOME </Text>
+
+                { console.log('status loader', statusLoader) }
                 
                 {
                     !_.isEmpty(pokemon.name) && 
-                    <Text style={styles.name} >Nome : { pokemon.name } </Text>
+                    <Text style={styles.name} >Nome : { pokemon.name }</Text>
                 }
 
                 {
@@ -87,21 +91,20 @@ const Screen = ({ navigation }) => {
                 }
 
                 {
-                    !_.isEmpty(pokemon.sprites.front_default) && 
+                    ( !_.isEmpty(pokemon.sprites) && !_.isEmpty(pokemon.sprites.front_default) ) && 
                     <Image
                         style={styles.imagePokemon}
                         resizeMode={'contain'}
                         source={{
                             uri:  'https://assets.pokemon.com/assets/cms2/img/pokedex/full/'+ regularId(pokemon.id) + pokemon.id+'.png',
                         }}
-                    
                     />
                 }
                 
                 <View style={styles.boxButtons}>
-                    <Button  title="+" onPress={() => mudaNomePokemon(numberPokemon + 1 )}></Button>  
-                    <Button  title="-" onPress={() => mudaNomePokemon(numberPokemon - 1)}></Button>       
-                    <Button  title="Buscar" onPress={() => clickBuscar()}></Button>
+                    <Button title="+" onPress={() => mudaNomePokemon(numberPokemon + 1 )}></Button>  
+                    <Button title="-" onPress={() => mudaNomePokemon(numberPokemon - 1)}></Button>       
+                    <Button title="Buscar" onPress={() => clickBuscar()}></Button>
                 </View>
 
                 <View style={styles.boxInput}>
@@ -116,13 +119,14 @@ const Screen = ({ navigation }) => {
 
                 {/* <Button  title="Ir para Login" onPress={goToLoginScreen}>Go to Login Screen</Button> */}
                 
-                {/* Componentes Padõres */}
             </ScrollView>
+
+            {/* Componentes Padõres */}
             {
-                statusLoader && 
+                statusLoader.open &&
                 <Components.LoaderGeral />
             }
-
+            
         </SafeAreaView>
     )
 }
