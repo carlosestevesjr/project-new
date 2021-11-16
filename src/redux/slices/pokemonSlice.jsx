@@ -32,14 +32,19 @@ export const buscaPokemon = payload => async(dispatch) => {
         const { buscaPokemon } = API
         const res = await buscaPokemon(payload)
 
+        console.log('fer')
+
         if(res.status == 200) {
             dispatch(
                 salvaPokemonSingle(res.data),
             )
-            dispatch(
-                alteraStatusLoaderGeral(false)
-            )
         }
+
+        console.log('teste developer')
+
+        dispatch(
+            alteraStatusLoaderGeral(false)
+        )
 
     } catch (error) {
         console.log('errou')

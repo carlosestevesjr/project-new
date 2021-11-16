@@ -3,8 +3,12 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+//Components
+import Componets from '../components'
+
 import Screens from '../screens'
 
+import  { theme }   from "../theme/index"
 
 const MainNavigator = () => {
     
@@ -12,7 +16,13 @@ const MainNavigator = () => {
 
     return (
         <NavigationContainer>
-            <MainStack.Navigator initialRouteName="Home">
+            <MainStack.Navigator
+                initialRouteName="Home"
+                screenOptions={{
+                    headerTintColor: '000',
+                    headerStyle: { backgroundColor: theme.colors.primary },
+                }}
+            >
                 <MainStack.Screen 
                     name="Home" 
                     component={Screens.HomeScreen} 
@@ -20,11 +30,18 @@ const MainNavigator = () => {
                         headerShown:true
                     }}
                 />
-                 <MainStack.Screen 
+                <MainStack.Screen 
                     name="Login" 
                     component={Screens.LoginScreen} 
                     options={{
-                        headerShown:true
+                        headerTitle: props => <Componets.Header props={props} />
+                        // headerRight: () => (
+                        //     <Button
+                        //         onPress={() => alert('This is a button!')}
+                        //         title="Info"
+                        //         color="#000"
+                        //     />
+                        // ),
                     }}
                 />
             </MainStack.Navigator>

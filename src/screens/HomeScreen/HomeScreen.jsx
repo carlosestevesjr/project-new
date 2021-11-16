@@ -74,6 +74,7 @@ const Screen = ({ navigation }) => {
             
     return (
         <SafeAreaView style={styles.sampleStyle}>
+             <Button  title="Ir para Login" onPress={goToLoginScreen}>Go to Login Screen</Button>
             <ScrollView style={styles.scrollV} >
 
                 <Text>HOME </Text>
@@ -117,7 +118,7 @@ const Screen = ({ navigation }) => {
                     /> 
                 </View>
 
-                {/* <Button  title="Ir para Login" onPress={goToLoginScreen}>Go to Login Screen</Button> */}
+               
                 
             </ScrollView>
 

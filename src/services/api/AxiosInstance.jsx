@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import Config from '../../config';
 
@@ -8,15 +9,16 @@ const instance = axios.create({
 })
 
 export const handleError = ({ message, data, status }) => {
-    console.log('promisse', data)
     return Promise.reject({ message, data, status })
 }
 
 export const resolve = (res) => {
+
     return Promise.resolve(res)
 }
 
 instance.interceptors.request.use(function(config) {
+
     // console.log('passou', config.baseURL)
     // config.headers.Authorization = `Bearer ${token}`;
     return config;

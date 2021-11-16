@@ -1,5 +1,7 @@
 
-import LoaderGeral from './LottieComponent/LottieComponent'
+import LoaderGeral from './LoaderGeral/LoaderGeral'
+import Header from './Header/Header'
 export default {
-    LoaderGeral
+    LoaderGeral,
+    Header
 }
