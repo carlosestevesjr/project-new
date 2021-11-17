@@ -1,9 +1,10 @@
-import { StyleSheet, StatusBar } from 'react-native';
+import { StyleSheet} from 'react-native';
+import  { background }  from "../../theme/index"
 
 const styles = StyleSheet.create({
-    sampleStyle: {
+    base: {
         flex:1, 
-        // flexDirection:'row',
+        backgroundColor: background
     },
     scrollV: {
         backgroundColor: 'pink',

@@ -48,27 +48,30 @@ export const bgInfo = '#d1ecf1';
 export const divider = primary50;
 
 //Sizes
-export const extraSmall = 20;
-export const small = 30;
-export const medium = 40;
-export const large = 50;
-export const extraLarge = 60;
+export const extraSmall = 15;
+export const small = 22;
+export const medium = 28;
+export const large = 34;
+export const extraLarge = 40;
 
 //Text
 export const light = '#FFFFFF';
 export const dark = '#000000';
 
-export const theme = {
+//Background
+export const background = '#F5F5F6';
+
+//Surface( Superfice - Box Cards )
+export const surface = '#FFFFFF';
+
+export default theme = {
     colors: {
-        primary: "#000",
-        secundary: "#000",
+        primary: primary500,
+        secundary: secundary200,
         light,
         dark,
-        textSuccess,
-        error,
-        textDanger,
-        textWarning,
-        textInfo,
+        success:textSuccess,
+        error:textDanger,
         divider,
         platform: {
             ios: {

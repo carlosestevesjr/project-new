@@ -1,17 +1,14 @@
-import { StyleSheet, Dimensions } from 'react-native';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import { StyleSheet } from 'react-native';
+import { light } from "../../theme/index"
+import  theme  from "../../theme/index"
 
 const styles =  StyleSheet.create({
     sampleStyle: {
         flex:1,
-        zIndex:999,
-        bottom: 0,
-        position: 'absolute', 
-        width: windowWidth ,
-        height: windowHeight ,
-        backgroundColor:"#d3d3d3"
+    },
+    title: {
+        color:light,
+        fontSize:theme.sizes.small
     },
    
 });

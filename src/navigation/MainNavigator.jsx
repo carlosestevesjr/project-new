@@ -8,7 +8,7 @@ import Componets from '../components'
 
 import Screens from '../screens'
 
-import  { theme }   from "../theme/index"
+import  theme    from "../theme/index"
 
 const MainNavigator = () => {
     
@@ -19,7 +19,7 @@ const MainNavigator = () => {
             <MainStack.Navigator
                 initialRouteName="Home"
                 screenOptions={{
-                    headerTintColor: '000',
+                    headerTintColor: '#fff',
                     headerStyle: { backgroundColor: theme.colors.primary },
                 }}
             >
@@ -33,8 +33,10 @@ const MainNavigator = () => {
                 <MainStack.Screen 
                     name="Login" 
                     component={Screens.LoginScreen} 
-                    options={{
-                        headerTitle: props => <Componets.Header props={props} />
+                    options={({ navigation, route }) => ({
+                        headerShown:true,
+                        title: 'Login',
+                        headerTitle: (props) =>  <Componets.Header { ...props } {...navigation } {...route}/>,
                         // headerRight: () => (
                         //     <Button
                         //         onPress={() => alert('This is a button!')}
@@ -42,7 +44,25 @@ const MainNavigator = () => {
                         //         color="#000"
                         //     />
                         // ),
-                    }}
+                    })}
+                  
+                />
+                <MainStack.Screen 
+                    name="Pokemon Detalhes" 
+                    component={Screens.PokemonDetailScreen} 
+                    options={({ navigation, route }) => ({
+                        headerShown:true,
+                        title: 'Detalhes Pokemon',
+                        headerTitle: (props) =>  <Componets.Header { ...props } {...navigation } {...route}/>,
+                        // headerRight: () => (
+                        //     <Button
+                        //         onPress={() => alert('This is a button!')}
+                        //         title="Info"
+                        //         color="#000"
+                        //     />
+                        // ),
+                    })}
+                  
                 />
             </MainStack.Navigator>
         </NavigationContainer>

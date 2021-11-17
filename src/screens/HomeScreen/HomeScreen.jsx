@@ -66,21 +66,22 @@ const Screen = ({ navigation }) => {
     }
     
     //Go Screen
-    const goToLoginScreen = () => navigation.navigate('Login');
+    const goToDetalhesPokemonScreen = () => navigation.navigate('Detalhes Pokemon', {
+        itemId: 86,
+        otherParam: 'anything you want here',
+      });
 
     //Get State
     const pokemon = useSelector((state) => state.pokemon.single)
     const statusLoader = useSelector((state) => state.geral.loaderGeral.open )
             
     return (
-        <SafeAreaView style={styles.sampleStyle}>
-             <Button  title="Ir para Login" onPress={goToLoginScreen}>Go to Login Screen</Button>
+        <SafeAreaView style={styles.base}>
+            <Button  title="Detalhes Pokemon" onPress={goToDetalhesPokemonScreen}>Detalhes Pokemon</Button>
             <ScrollView style={styles.scrollV} >
 
                 <Text>HOME </Text>
 
-                { console.log('status loader', statusLoader) }
-                
                 {
                     !_.isEmpty(pokemon.name) && 
                     <Text style={styles.name} >Nome : { pokemon.name }</Text>
