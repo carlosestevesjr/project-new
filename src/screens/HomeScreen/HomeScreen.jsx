@@ -1,135 +1,82 @@
-import React , { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+
+//Config
+import Config from '../../config'
 
 //Utils
 import _ from 'lodash'
 
 //Dispatchs
-import { useSelector, useDispatch } from 'react-redux';
-import { buscaPokemon } from '../../redux/slices/pokemonSlice'
-import { alteraStatusLoaderGeral } from '../../redux/slices/geralSlice'
+
 
 //Components
-import { Button, Text, TextInput, View, Image, ScrollView, SafeAreaView } from 'react-native';
+import { View, Image, TouchableOpacity } from 'react-native'
 
-import Components  from './../../components'
+import ListNews from '../HomeScreen/components/ListNews/ListNews'
+import Components from './../../components'
 
-//Styles
-import styles from './Styles';
+// import { Appbar, BottomNavigation, Text, Drawer } from 'react-native-paper';
 
-const Screen = ({ navigation }) => {
+const Screen = ({ navigation, route, ...props}) => {
 
-    //Variables Default
-    const dispatch = useDispatch()
+    // const NewsRoute = () => <Text>Noticias</Text>;
 
-    //States
-    const [namePokemon, setNamePokemon] = useState(null);
-    const [numberPokemon, setNumberPokemon] = useState(1);
+    // const AlbumsRoute = () => <Text>Albums</Text>;
 
-    //Cicle Life
-    useEffect(() => {
-        
-    })
+    // const RecentsRoute = () => <Text>Recents</Text>;
 
-    //Functions
-    const regularId = (id) => {
-        // console.log(id.toString().length)
-        if(id.toString().length === 1 ){
-            return '00'
-        }else if(id.toString().length === 2){
-            return '0'
-        }else{
-            return ''
-        }
-    }
+    // const _goBack = () => console.log('Went back');
 
-    const clickBuscar = (id = null) => {
-        
-        dispatch(
-            buscaPokemon(
-                { 
-                    params:{
-                        id: id == null ? namePokemon : id,
-                    } 
-                } 
-            ) 
-        )
+    // const _handleSearch = () => console.log('Searching');
 
-        dispatch(
-            alteraStatusLoaderGeral(true)
-        )
-        
-    }
+    // const _handleMore = () => console.log('Shown more');
 
-    const mudaNomePokemon = (number) => {
-        setNumberPokemon(number)
-        clickBuscar(number)
-    }
-    
-    //Go Screen
-    const goToDetalhesPokemonScreen = () => navigation.navigate('Detalhes Pokemon', {
-        itemId: 86,
-        otherParam: 'anything you want here',
-      });
+    const [index, setIndex] = React.useState(0);
 
-    //Get State
-    const pokemon = useSelector((state) => state.pokemon.single)
-    const statusLoader = useSelector((state) => state.geral.loaderGeral.open )
-            
+    const [lista, setLista] = useState([]);
+	const [page, setPage] = useState(1);
+	const [loader, setLoader] = useState(true);
+	const [refreshing, setRefreshing] = useState(false);
+	const [modalVisible, setModalVisible] = useState(false);
+
+
+
+    // const [routes] = React.useState([
+    //     { key: 'news', title: 'Noticias', icon: 'newspaper-variant-outline' },
+    //     { key: 'albums', title: 'Albums', icon: 'album' },
+    //     { key: 'recents', title: 'Recents', icon: 'history' },
+    // ]);
+
+    // const renderScene = BottomNavigation.SceneMap({
+    //     news: NewsRoute,
+    //     albums: AlbumsRoute,
+    //     recents: RecentsRoute,
+    // });
+
+    // const [active, setActive] = React.useState('');
+
+
     return (
-        <SafeAreaView style={styles.base}>
-            <Button  title="Detalhes Pokemon" onPress={goToDetalhesPokemonScreen}>Detalhes Pokemon</Button>
-            <ScrollView style={styles.scrollV} >
-
-                <Text>HOME </Text>
-
-                {
-                    !_.isEmpty(pokemon.name) && 
-                    <Text style={styles.name} >Nome : { pokemon.name }</Text>
-                }
-
-                {
-                    numberPokemon && 
-                    <Text>Number Pokemon : { numberPokemon } </Text>
-                }
-
-                {
-                    ( !_.isEmpty(pokemon.sprites) && !_.isEmpty(pokemon.sprites.front_default) ) && 
+        <Components.Container title="home">
+            <ListNews  navigation={navigation} />
+            <View style={{ position: 'absolute', right: 10, bottom: 10 }}>
+                <TouchableOpacity
+                    style={{ width: 50, height: 50 }}
+                    onPress={() => {
+                        navigation.push('Feed Config', {
+                            title: 'Feed Config'
+                        })
+                    }}
+                >
                     <Image
-                        style={styles.imagePokemon}
-                        resizeMode={'contain'}
-                        source={{
-                            uri:  'https://assets.pokemon.com/assets/cms2/img/pokedex/full/'+ regularId(pokemon.id) + pokemon.id+'.png',
-                        }}
+                        style={{ width: 50, height: 50 }}
+                        source={require('../../assets/images/commons/config.png')}
                     />
-                }
-                
-                <View style={styles.boxButtons}>
-                    <Button title="+" onPress={() => mudaNomePokemon(numberPokemon + 1 )}></Button>  
-                    <Button title="-" onPress={() => mudaNomePokemon(numberPokemon - 1)}></Button>       
-                    <Button title="Buscar" onPress={() => clickBuscar()}></Button>
-                </View>
+                </TouchableOpacity>
+            </View>
 
-                <View style={styles.boxInput}>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setNamePokemon}
-                        value={namePokemon}
-                        placeholder="Id ou Nome do pokemon"
-                        // keyboardType="numeric"
-                    /> 
-                </View>
-
-               
-                
-            </ScrollView>
-
-            {/* Componentes Padõres */}
-            {
-                statusLoader.open &&
-                <Components.LoaderGeral />
-            }
-            
-        </SafeAreaView>
+           
+        </Components.Container>
     )
 }
 

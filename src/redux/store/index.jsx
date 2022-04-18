@@ -11,6 +11,9 @@ const persistConfig = {
     storage:AsyncStorage,
     blacklist: [
         'geral',
+        'news',
+        'news_channel',
+        'channels',
     ],
 }
 

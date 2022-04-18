@@ -12,7 +12,7 @@ export const geralSlice = createSlice({
     },
     reducers: {
         alteraStatusLoaderGeral_: (state, action) => {
-            // console.log('action', action.payload)
+            console.log('loaderGeral', action.payload)
             state.loaderGeral.open = { open:action.payload } 
         },
     },

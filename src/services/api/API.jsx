@@ -18,7 +18,23 @@ export const api = {
 
 const apiRoutes = {
     //Pokemon
-    buscaPokemon: (payload) => api.get("/pokemon/"+ payload.params.id +"/" , payload) 
+    buscaPokemon: (payload) => api.get("/pokemon/"+ payload.params.id +"/" , payload), 
+    
+   
+    buscaNews: (payload) =>  {
+        console.log('route' ,"/v1/lista-news/?page="+ payload.params.v_page)
+        return api.get("/v1/lista-news/?page="+ payload.params.v_page , payload) 
+    }, 
+
+    buscaNewsChannel: (payload) => {
+        console.log('route' ,"/v1/lista-news-channel-user/"+payload.params.channel_id+"/false?page="+ payload.params.v_page)
+        return api.get("/v1/lista-news-channel-user/"+payload.params.channel_id+"/false?page="+ payload.params.v_page , payload) 
+    },
+
+    buscaChannels: (payload) => {
+        console.log('route' ,"/v1/lista-canais/")
+        return api.get("/v1/lista-canais/?page="+ payload.params.v_page, payload) 
+    }
 }
 
 export { apiRoutes } 

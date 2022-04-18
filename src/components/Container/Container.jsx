@@ -1,0 +1,42 @@
+import React from 'react'
+import { LinearGradient } from 'expo-linear-gradient';
+import { View, Text , Image} from 'react-native'
+import { SafeAreaView, SafeAreaProvider } from 'react-native';
+import styles from './styles'
+
+import { gradientStart, gradientEnd } from '../../theme/index'
+
+//Dispatchs
+import { useSelector } from 'react-redux';
+
+const Container = ({ children, title }) => {
+
+    const statusLoader = useSelector((state) =>  state.geral.loaderGeral.open.open )
+
+    return (
+        <>
+            <LinearGradient
+                style={[styles.container]}
+                colors={[gradientStart, gradientEnd]}
+                start={{ x: 1, y: 1 }}
+                end={{ x: 1, y: 1 }}
+            >
+                <SafeAreaView  style={[styles.safeArea]}>
+                    {children}
+                    {
+                        (statusLoader) && <View style={styles.containerLoader}>
+                            <Image
+                                style={styles.containerLoaderImage}
+                                source={require('../../assets/images/commons/loader.gif')}
+                            />
+                            <Text style={styles.containerLoaderText} >Carregando...</Text>
+                        </View>
+                    }   
+                </SafeAreaView>
+            </LinearGradient >
+        </>
+
+    )
+}
+
+export default Container

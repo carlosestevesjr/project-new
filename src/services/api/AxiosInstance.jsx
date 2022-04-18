@@ -3,7 +3,7 @@ import axios from 'axios';
 import Config from '../../config';
 
 const instance = axios.create({
-    baseURL: Config.API_POKEMON,
+    baseURL: Config.LOCAL_API_NOCINEMA,
     timeout: 3000,
     // headers: {'X-Custom-Header': 'foobar'}
 })
@@ -13,7 +13,6 @@ export const handleError = ({ message, data, status }) => {
 }
 
 export const resolve = (res) => {
-
     return Promise.resolve(res)
 }
 

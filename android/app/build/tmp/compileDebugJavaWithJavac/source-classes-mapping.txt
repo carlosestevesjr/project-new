@@ -1,0 +1,15 @@
+com/projectnews/BuildConfig.java
+ com.projectnews.BuildConfig
+com/projectnews/ReactNativeFlipper.java
+ com.projectnews.ReactNativeFlipper
+ com.projectnews.ReactNativeFlipper$1
+ com.projectnews.ReactNativeFlipper$2
+ com.projectnews.ReactNativeFlipper$2$1
+com/projectnews/MainActivity.java
+ com.projectnews.MainActivity
+ com.projectnews.MainActivity$1
+com/projectnews/MainApplication.java
+ com.projectnews.MainApplication
+ com.projectnews.MainApplication$1
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList
