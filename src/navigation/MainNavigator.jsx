@@ -38,8 +38,16 @@ const MainNavigator = () => {
         <Screens.ChannelScreen {...props} {...route} />
     )
 
+    const TagNewsComponent = (props, route) => (
+        <Screens.TagNewsScreen {...props} {...route} />
+    )
+
     const ChannelsComponent = (props, route) => (
         <Screens.ChannelsScreen {...props} {...route} />
+    )
+
+    const TagsComponent = (props, route) => (
+        <Screens.TagsScreen {...props} {...route} />
     )
 
     const LoginComponent = (props, route) => (
@@ -64,6 +72,11 @@ const MainNavigator = () => {
                         name="Canais"
                         component={ChannelsComponent}
                         options={titleOptions('Canais')}
+                    />
+                    <MainDrawer.Screen
+                        name="Tags"
+                        component={TagsComponent}
+                        options={titleOptions('Tags')}
                     />
                     <MainDrawer.Screen
                         name="Login"
@@ -93,6 +106,12 @@ const MainNavigator = () => {
                         name="Canal"
                         component={ChannelComponent}
                         options={titleOptions('Canal')}
+                    />
+
+                    <MainStack.Screen
+                        name="Tag"
+                        component={TagNewsComponent}
+                        options={titleOptions('Tag')}
                     />
                 </MainStack.Navigator>
             </NavigationContainer>

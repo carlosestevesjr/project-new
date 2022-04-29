@@ -7,10 +7,10 @@ import { View } from 'react-native';
 //Styles
 import styles from './Styles';
 
-const LoaderGeral = () => {
+const MontaAnimationLottie = (props) => {
 
     const animation = useRef(null);
-
+  
     //Cicle Life
     useEffect(() => {
         animation.current.play();
@@ -20,7 +20,7 @@ const LoaderGeral = () => {
         <View style={styles.sampleStyle} >
             <LottieView
                 ref={animation}
-                source={require('./../../assets/lottie/loader-geral.json')}
+                source={props.nameLottie}
                 loop
             />
         </View>
@@ -28,4 +28,4 @@ const LoaderGeral = () => {
    
 }
 
-export default LoaderGeral
+export default MontaAnimationLottie

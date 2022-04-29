@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 //Config
-import Config from '../../../../config'
+import Config from '../../../config'
 
 //Utils
 import _ from 'lodash'
-import { formataDataBr } from '../../../../utils/index'
+import { formataDataBr } from '../../../utils/index'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaNewsChannel } from '../../../../redux/slices/newsChannelSlice'
+import { buscaNewsTag } from '../../../redux/slices/newsTagSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, FlatList, Image, TouchableOpacity } from 'react-native'
-import Components from './../../../../components'
+import Components from './../../../components'
 
 //Styles
 import styles from './Styles'
@@ -41,12 +41,12 @@ const Screen = ({ navigation, route, ...props}) => {
         // setRefreshing(true);
        
         dispatch(
-            buscaNewsChannel(
+            buscaNewsTag(
                 {
                     params:{
                         v_page: "",
                         reload: reload,
-                        channel_id: route.params.data.channels_id
+                        tag_id: route.params.data.id
                     }
                 }
             ),
@@ -60,12 +60,12 @@ const Screen = ({ navigation, route, ...props}) => {
         // setRefreshing(true);
        
         dispatch(
-            buscaNewsChannel(
+            buscaNewsTag(
                 {
                     params:{
                         v_page: "",
                         reload: reload,
-                        channel_id: route.params.data.channels_id
+                        tag_id: route.params.data.id
                     }
                 }
             ),
@@ -78,12 +78,12 @@ const Screen = ({ navigation, route, ...props}) => {
         const v_page = page+1
       
         dispatch(
-            buscaNewsChannel(
+            buscaNewsTag(
                 {
                     params:{
                         v_page: v_page,
                         reload: reload,
-                        channel_id: route.params.data.channels_id
+                        tag_id: route.params.data.id
                     }
                 }
             ),
@@ -94,6 +94,7 @@ const Screen = ({ navigation, route, ...props}) => {
 
     const HeaderList = ({ }) => (
         <>
+          
         </>
     )
 
@@ -142,7 +143,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     <View style={styles.newsTypeMedia} >
                                         <Image
                                             style={{ width: 25, height: 25 }}
-                                            source={require('../../../../assets/images/commons/type_podcast.png')}
+                                            source={require('../../../assets/images/commons/type_podcast.png')}
                                         />
                                     </View>
                                 }
@@ -151,7 +152,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     <View style={styles.newsTypeMedia} >
                                         <Image
                                             style={{ width: 25, height: 25 }}
-                                            source={require('../../../../assets/images/commons/type_site.png')}
+                                            source={require('../../../assets/images/commons/type_site.png')}
                                         />
                                     </View>
                                 }
@@ -160,7 +161,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     <View style={styles.newsTypeMedia} >
                                         <Image
                                             style={{ width: 25, height: 25 }}
-                                            source={require('../../../../assets/images/commons/type_youtube.png')}
+                                            source={require('../../../assets/images/commons/type_youtube.png')}
                                         />
                                     </View>
                                 }
@@ -183,7 +184,7 @@ const Screen = ({ navigation, route, ...props}) => {
                             <View style={styles.newsBanner}>
                                 <Image
                                     style={styles.newsBannerLoader}
-                                    source={require('../../../../assets/images/commons/loader.gif')}
+                                    source={require('../../../assets/images/commons/loader.gif')}
                                 />
                                 <Image
                                     style={styles.newsBannerImage}
@@ -254,24 +255,18 @@ const Screen = ({ navigation, route, ...props}) => {
 	}, []);
 
     // Get State
-    const news_channel = useSelector((state) => state.news_channel.news_channel)
+    const news_tag = useSelector((state) => state.news_tag.news_tag)
 
     return (
-        <View style={styles.container}>
-            <View style={styles.containerHeaderChannel} >
-                <Image
-                    style={styles.headerChannelImage}
-                    resizeMode={'contain'}
-                    source={{
-                        uri:Config.LOCAL_HOST_NOCINEMA+route.params.data.image,
-                    }}
-                />
-                <Text style={styles.headerChannel}>
-                    {route.params.data.channel}
+        <>
+            <View style={styles.containerTag} >
+                <Text style={styles.headerTag}>
+                #{route.params.data.title}
                 </Text>
             </View>
+
             {
-                ( news_channel.length > 0) ?
+                ( news_tag.length > 0) ?
                     
                     <FlatList
                         ListHeaderComponent={HeaderList}
@@ -290,22 +285,21 @@ const Screen = ({ navigation, route, ...props}) => {
                         removeClippedSubviews={true}
                         // windowSize={21}
                         // getItemLayout={getItemLayout}
-                        data={news_channel}
+                        data={news_tag}
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
                         onEndReachedThreshold={0.5}
                         onEndReached={({ distanceFromEnd }) => {
                             if (distanceFromEnd >= 0) {
-                                console.log('distanceFromEnd', distanceFromEnd)
                                 clickBuscarMais()
                             }
                         }}
                     />
                     :
-                    <Components.MontaAnimationLottie nameLottie={require("../../../../assets/lottie/camera-cinema.json")} />
+                    <Components.MontaAnimationLottie nameLottie={require("../../../assets/lottie/camera-cinema.json")} />
             }
-        </View>
         
+        </>
     )
 }
 

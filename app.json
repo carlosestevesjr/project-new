@@ -1,11 +1,35 @@
 {
-  "expo": {
-    "name": "project-news",
-    "slug": "project-news",
-    "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
-  },
-  "name": "project-news"
-}
+    "expo": {
+      "name": "Meu Hype",
+      "slug": "meu-hype",
+      "version": "1.0.0",
+      "orientation": "portrait",
+      "icon": "./src/assets/images/commons/icon-logo.png",
+      "splash": {
+        "resizeMode": "contain",
+        "image": "./src/assets/images/commons/splash-no-cinema-logo.png",
+        "backgroundColor": "#2b0032"
+      },
+      "updates": {
+        "fallbackToCacheTimeout": 0
+      },
+      "assetBundlePatterns": [
+        "**/*"
+      ],
+      "ios": {
+        "supportsTablet": true,
+        "bundleIdentifier": "com.carlosestevesjr.meuhype",
+        "buildNumber": "1.0.0"
+      },
+      "android": {
+        "adaptiveIcon": {
+          "foregroundImage": "./src/assets/images/commons/icon-logo.png",
+          "backgroundColor": "#FFFFFF"
+        },
+        "package": "com.carlosestevesjr.meuhype"
+      },
+      "web": {
+        "favicon": "./assets/favicon.png"
+      }
+    }
+  }

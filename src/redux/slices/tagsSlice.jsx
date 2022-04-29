@@ -4,28 +4,27 @@ import { API }   from '../../services/api'
 
 import { alteraStatusLoaderGeral } from './geralSlice'
 
-export const newsSlice = createSlice({
-    name: 'news',
+export const tagsSlice = createSlice({
+    name: 'tags',
     initialState: {
-        news: [],
+        tags: [],
         message: "",
     },
     reducers: {
-        salvaListaNews: (state, action) => {
+        salvaListaTags: (state, action) => {
+          
+            // console.log('status reload', action.payload.reload)
+            // console.log('state.tags', state.tags)
             if(action.payload.reload){
                 console.log('primeira condição')
                 if(action.payload.data.content.dados.data.length > 0){
-                    state.news = []
-                    state.news = action.payload.data.content.dados.data
-                }else{
-                    state.news = []
+                    state.tags = []
+                    state.tags = action.payload.data.content.dados.data
                 }
             }else{
                 console.log('segunda condição')
                 if(action.payload.data.content.dados.data.length > 0){
-                    state.news = state.news.concat(action.payload.data.content.dados.data)
-                }else{
-                    state.news = []
+                    state.tags = state.tags.concat(action.payload.data.content.dados.data)
                 }
             }
         },
@@ -33,21 +32,22 @@ export const newsSlice = createSlice({
 });
 
 export const { 
-    salvaListaNews, 
-} = newsSlice.actions;
+    salvaListaTags, 
+} = tagsSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
-export const buscaNews = payload => async(dispatch) => {
+export const buscaTags = payload => async(dispatch) => {
     dispatch(alteraStatusLoaderGeral(true))
     try {
-        const { buscaNews } = API
-        const resp = await buscaNews(payload)
+        const { buscaTags } = API
+        const resp = await buscaTags(payload)
+       
         if(resp.status == 200) {
             dispatch(
-                salvaListaNews({
+                salvaListaTags({
                     'data':resp.data,
                     'reload': payload.params.reload
                 }),
@@ -68,4 +68,4 @@ export const buscaNews = payload => async(dispatch) => {
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 // export const selectCount = state => state.counter.value;
 
-export default newsSlice.reducer;
+export default tagsSlice.reducer;

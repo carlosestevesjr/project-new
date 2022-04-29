@@ -26,7 +26,9 @@ const MenuContent = (props) => {
 	return (
 		<View style={[styles.menuContent]}>
 			<DrawerContentScrollView {...props}>
-                <Text>Image Sobre APP { theme.sizes.extraSmall }</Text>
+                <View style={[styles.cabecalho]}>
+                    <Text style={[styles.cabecalhoTitle]}>MEU HYPE</Text>
+                </View>
 				<Drawer.Section style={[styles.bottomDrawerSection]}>
 					<DrawerItem
 						label={"Home"}
@@ -52,6 +54,22 @@ const MenuContent = (props) => {
 						icon={() =>	<Icon
                                 iconStyle={{ padding : 10, borderRadius:10, backgroundColor:background, color:primary500}}
                                 name='desktop'
+                                type='font-awesome'
+                                color={light}
+                                size={theme.sizes.extraSmall}  
+                            />
+                        } //home-outline
+						labelStyle={styles.drawerItemLabel}
+						style={styles.drawerItem}
+					/>
+                     <DrawerItem
+						label={"Tags"}                                                                                                                                                                                                                                                                                                                                                                                                            
+						onPress={() => { 
+							navigation.navigate('Tags') 
+						}}
+						icon={() =>	<Icon
+                                iconStyle={{ padding : 10, borderRadius:10, backgroundColor:background, color:primary500}}
+                                name='hashtag'
                                 type='font-awesome'
                                 color={light}
                                 size={theme.sizes.extraSmall}  

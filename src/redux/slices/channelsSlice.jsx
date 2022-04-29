@@ -20,11 +20,15 @@ export const channelsSlice = createSlice({
                 if(action.payload.data.content.dados.data.length > 0){
                     state.channels = []
                     state.channels = action.payload.data.content.dados.data
+                }else{
+                    state.channels = []
                 }
             }else{
                 console.log('segunda condição')
                 if(action.payload.data.content.dados.data.length > 0){
                     state.channels = state.channels.concat(action.payload.data.content.dados.data)
+                }else{
+                    state.channels = []
                 }
             }
         },
@@ -44,7 +48,7 @@ export const buscaChannels = payload => async(dispatch) => {
     try {
         const { buscaChannels } = API
         const resp = await buscaChannels(payload)
-        console.log('dasdsa',resp.status )
+       
         if(resp.status == 200) {
             dispatch(
                 salvaListaChannels({

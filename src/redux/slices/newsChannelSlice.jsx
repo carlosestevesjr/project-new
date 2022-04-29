@@ -23,6 +23,8 @@ export const newsChannelSlice = createSlice({
                 console.log('segunda condição')
                 if(action.payload.data.content.dados.data.length > 0){
                     state.news_channel = state.news_channel.concat(action.payload.data.content.dados.data)
+                }else{
+                    state.news_channel = []
                 }
             }
         },

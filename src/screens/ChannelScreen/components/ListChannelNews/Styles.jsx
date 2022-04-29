@@ -3,12 +3,51 @@ import  {
     background, 
     primary500,
     primary700,
-    secundary200
+    secundary200,
+    light,
+    dark
 }  from "../../../../theme/index"
 
 const styles = StyleSheet.create({
     container: {
 		flex: 1,
+        paddingTop:65
+	},
+    containerHeaderChannel:{
+        width: '100%',
+        flexDirection:'row',
+        backgroundColor:background,
+        shadowColor: dark,
+        shadowOffset: {
+        width: 0,
+        height: 3,
+        },
+        shadowOpacity:  0.17,
+        shadowRadius: 3.05,
+        elevation: 4,
+        borderRadius:3,
+        position:'absolute',
+        top:1,
+        left:0 ,
+        zIndex:9999,
+        padding: 5,
+        borderBottomWidth:3,
+        borderBottomColor:primary500,
+	},
+    headerChannel:{
+        width: '80%',
+        marginTop: 2,
+        marginLeft: '1%',
+        marginRight: '1%',
+        fontWeight:'bold',
+        fontSize:theme.sizes.small,
+        color: primary500,
+        padding: 10,
+      
+	},
+    headerChannelImage:{
+        width: '20%',
+        height:50,
 	},
     boxNews:{
         // backgroundColor:primary500,
@@ -24,7 +63,8 @@ const styles = StyleSheet.create({
         margin:3,
         padding:5,
 		fontSize:theme.sizes.extraSmall,
-		color:'#a10032'
+		backgroundColor:primary500,
+		color:light
 	},
 	news:{
 		width:'100%',

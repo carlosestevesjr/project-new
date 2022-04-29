@@ -34,7 +34,19 @@ const apiRoutes = {
     buscaChannels: (payload) => {
         console.log('route' ,"/v1/lista-canais/")
         return api.get("/v1/lista-canais/?page="+ payload.params.v_page, payload) 
-    }
+    },
+
+    buscaNewsTag: (payload) => {
+        console.log('route' ,"/v1/lista-news-tag-user/"+payload.params.tag_id+"/false?page="+ payload.params.v_page)
+        return api.get("/v1/lista-news-tag-user/"+payload.params.tag_id+"/false?page="+ payload.params.v_page , payload) 
+    },
+
+    buscaTags: (payload) => {
+        console.log('route' ,"/v1/lista-tags/")
+        return api.get("/v1/lista-tags/?page="+ payload.params.v_page, payload) 
+    },
+
+    
 }
 
 export { apiRoutes } 

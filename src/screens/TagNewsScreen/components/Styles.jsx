@@ -1,15 +1,44 @@
-import { StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import  { 
     background, 
-    light, 
+    dark, 
     primary500,
     primary700,
-    secundary200
-}  from "../../../../theme/index"
+    light
+}  from "../../../theme/index"
 
 const styles = StyleSheet.create({
     container: {
 		flex: 1,
+	},
+    containerTag:{
+        backgroundColor:background,
+        paddingTop:50,
+        shadowColor: dark,
+        shadowOffset: {
+        width: 0,
+        height: 3,
+        },
+        shadowOpacity:  0.17,
+        shadowRadius: 3.05,
+        elevation: 4,
+        borderRadius:3,
+	},
+    headerTag:{
+        width: '98%',
+        borderBottomWidth:3,
+        borderBottomColor:primary500,
+        marginTop: 2,
+        marginLeft: '1%',
+        marginRight: '1%',
+        fontWeight:'bold',
+        fontSize:theme.sizes.small,
+        color: primary500,
+        padding: 10,
+        position:'absolute',
+        top:1,
+        left:0 ,
+        zIndex:9999,
 	},
     boxNews:{
         // backgroundColor:primary500,
@@ -24,8 +53,7 @@ const styles = StyleSheet.create({
         borderRadius:5,
         margin:3,
         padding:5,
-		fontSize:theme.sizes.extraSmall,
-        backgroundColor:primary500,
+		backgroundColor:primary500,
 		color:light
 	},
 	news:{

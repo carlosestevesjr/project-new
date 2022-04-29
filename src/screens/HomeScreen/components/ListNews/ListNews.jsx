@@ -245,18 +245,17 @@ const Screen = ({ navigation, route, ...props}) => {
 
     // Get State
     const news = useSelector((state) => state.news.news)
+   
 
     return (
         <>
             {
                 ( news.length > 0) ?
-                    
                     <FlatList
                         ListHeaderComponent={HeaderList}
                         refreshControl={
                             <RefreshControl refreshing={refreshing} onRefresh={clickBuscarRefreshing} />
                         }
-
                         initialNumToRender={8}
                         scrollEnabled={true}
                         // horizontal={true}
@@ -279,8 +278,9 @@ const Screen = ({ navigation, route, ...props}) => {
                             }
                         }}
                     />
-                    :
-                    <Text style={{ color: '#fff' }}>NÃO HÁ NOTÍCIAS</Text>
+                :
+                    <Components.MontaAnimationLottie nameLottie={require("../../../../assets/lottie/camera-cinema.json")} />
+                
             }
 
         </>

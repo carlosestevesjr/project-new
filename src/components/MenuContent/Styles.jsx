@@ -1,9 +1,13 @@
 import { StyleSheet } from 'react-native'
-import { light } from "../../theme/index"
+
 import {
     primary500,
     primary400,
-    background
+    background,
+    secundaryA200,
+    dark,
+    light,
+    primary300
 } from '../../theme/index'
 
 const styles = StyleSheet.create({
@@ -25,7 +29,7 @@ const styles = StyleSheet.create({
 		
         marginLeft: 0,
 		marginRight: 0,
-        marginTop:0,
+        marginLeft:0,
 		marginBottom: 5,
         // borderRadius:15,
         borderBottomColor:primary500,
@@ -38,6 +42,24 @@ const styles = StyleSheet.create({
         // fontWeight:'bold',
 		marginLeft: -20,
 		color:light,
+	},
+    cabecalho: {
+		fontSize: theme.sizes.extraSmall,
+        // fontWeight:'bold',
+        marginTop: 15,
+		marginBottom: 15,
+		color:light,
+	},
+    cabecalhoTitle: {
+		fontSize: theme.sizes.extraSmall,
+        textAlign:'center',
+        fontWeight:'bold',
+		color:light,
+        paddingTop:25,
+        paddingBottom:25,
+        paddingLeft:15,
+        paddingRight:15,
+        backgroundColor:primary300 ,
 	},
 })
 
