@@ -57,7 +57,7 @@ const MainNavigator = () => {
     const ViewNewsComponent = (props, route) => (
         <Screens.ViewNewsScreen {...props} {...route} />
     )
-
+        
     const DrawerNavigator = ({navigation, route}) => {
         return <MainDrawer.Navigator
                     initialRouteName="Home"
