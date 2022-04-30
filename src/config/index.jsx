@@ -1,15 +1,19 @@
-export default {
-    HOST_NOCINEMA:'http://www.nocinema.kinghost.net/',
-    API_NOCINEMA:'http://www.nocinema.kinghost.net/api/',
 
-    LOCAL_HOST_NOCINEMA:'http://192.168.1.100/',
-    LOCAL_API_NOCINEMA:'http://192.168.1.100/api/',
+let LOCAL_HOST_NOCINEMA = ""
+let LOCAL_API_NOCINEMA = ""
+
+if (__DEV__) {
+
+    LOCAL_HOST_NOCINEMA = 'http://192.168.1.100/'
+    LOCAL_API_NOCINEMA = 'http://192.168.1.100/api/'
     
+}else{
+    LOCAL_HOST_NOCINEMA = 'http://www.nocinema.kinghost.net/'
+    LOCAL_API_NOCINEMA = 'http://www.nocinema.kinghost.net/api/'
+}
+
+export default {
+    LOCAL_HOST_NOCINEMA : LOCAL_HOST_NOCINEMA,
+    LOCAL_API_NOCINEMA : LOCAL_API_NOCINEMA,
     API_POKEMON:'https://pokeapi.co/api/v2/'
-
-    // export const host = 'http://www.nocinema.kinghost.net/'
-    // export const host_api = 'http://www.nocinema.kinghost.net/api/'
-
-    // export const host = 'http://192.168.1.100/'
-    // export const host_api = 'http://192.168.1.100/api/'
 }

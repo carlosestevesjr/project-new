@@ -244,9 +244,11 @@ const Screen = ({ navigation, route, ...props}) => {
 	}, [isMounted]);
 
     // Get State
-    const news = useSelector((state) => state.news.news)
+    const news = useSelector((state) => {
+        // console.log('dasdasdas',state.news.news)
+        return state.news.news
+    } )
    
-
     return (
         <>
             {

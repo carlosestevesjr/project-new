@@ -24,7 +24,7 @@ export const newsChannelSlice = createSlice({
                 if(action.payload.data.content.dados.data.length > 0){
                     state.news_channel = state.news_channel.concat(action.payload.data.content.dados.data)
                 }else{
-                    state.news_channel = []
+                    // state.news_channel = []
                 }
             }
         },

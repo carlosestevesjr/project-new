@@ -113,7 +113,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                             channels_id: item.new.channels_id,
                                             channel_type: item.new.channel_type,
                                             channel: item.new.channel,
-                                            image: item.new.channel_logo,
+                                            image: item.new.image,
                                             tags: item.tags
                                         },
                                         title:'Canal'

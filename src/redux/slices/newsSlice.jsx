@@ -18,14 +18,14 @@ export const newsSlice = createSlice({
                     state.news = []
                     state.news = action.payload.data.content.dados.data
                 }else{
-                    state.news = []
+                    // state.news = []
                 }
             }else{
                 console.log('segunda condição')
                 if(action.payload.data.content.dados.data.length > 0){
                     state.news = state.news.concat(action.payload.data.content.dados.data)
                 }else{
-                    state.news = []
+                    // state.news = []
                 }
             }
         },

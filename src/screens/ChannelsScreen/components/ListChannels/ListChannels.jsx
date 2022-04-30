@@ -216,7 +216,7 @@ const Screen = ({ navigation, route, ...props}) => {
 
     // Get State
     const channels = useSelector((state) => {
-        console.log(state.channels.channels)
+        // console.log(state.channels.channels)
         return state.channels.channels
     })
 
