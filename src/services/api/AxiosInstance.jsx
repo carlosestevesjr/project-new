@@ -4,7 +4,7 @@ import Config from '../../config';
 
 const instance = axios.create({
     baseURL: Config.LOCAL_API_NOCINEMA,
-    timeout: 3000,
+    timeout: 30000,
     // headers: {'X-Custom-Header': 'foobar'}
 })
 

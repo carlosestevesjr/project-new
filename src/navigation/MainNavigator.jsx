@@ -29,6 +29,10 @@ const MainNavigator = () => {
         },
       }
     )
+
+    const PokemonComponent = (props, route) => (
+        <Screens.PokemonDetailScreen {...props}  {...route} />
+    )
     
     const HomeComponent = (props, route) => (
         <Screens.HomeScreen {...props}  {...route} />
@@ -68,6 +72,13 @@ const MainNavigator = () => {
                         component={HomeComponent}
                         options={titleOptions('NOTÍCIAS')}
                     />
+
+                    <MainDrawer.Screen
+                        name="Pokemon"
+                        component={PokemonComponent}
+                        options={titleOptions('Pokemon')}
+                    />
+
                     <MainDrawer.Screen
                         name="Canais"
                         component={ChannelsComponent}

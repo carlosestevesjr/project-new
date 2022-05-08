@@ -16,9 +16,9 @@ export const tagsSlice = createSlice({
             // console.log('status reload', action.payload.reload)
             // console.log('state.tags', state.tags)
             if(action.payload.reload){
+                state.tags = []
                 console.log('primeira condição')
                 if(action.payload.data.content.dados.data.length > 0){
-                    state.tags = []
                     state.tags = action.payload.data.content.dados.data
                 }
             }else{

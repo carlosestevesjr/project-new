@@ -1,5 +1,5 @@
 import React from 'react';
-// import { usePushNotification } from '@hooks'
+import { usePushNotification } from './src/Hooks'
 import { StatusBar } from 'expo-status-bar';
 
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -26,9 +26,14 @@ if (__DEV__) {
     require('react-devtools');
 }
 
+const Initialize = () => {
+    usePushNotification()
+    return null  
+}
+
 const App = () => {
 
-    // usePushNotification()
+    
     return (
         <>
             <Provider store={store}>
@@ -36,6 +41,7 @@ const App = () => {
                     <PersistGate loading={null} persistor={persistor}>
                         <StatusBar barStyle="default" />
                         <MainNavigator /> 
+                        <Initialize />
                     </PersistGate>
                 </PaperProvider>
             </Provider>

@@ -252,7 +252,7 @@ const Screen = ({ navigation, route, ...props}) => {
     return (
         <>
             {
-                ( news.length > 0) ?
+                ( news.length > 0) &&
                     <FlatList
                         ListHeaderComponent={HeaderList}
                         refreshControl={
@@ -279,9 +279,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                 clickBuscarMais()
                             }
                         }}
-                    />
-                :
-                    <Components.MontaAnimationLottie nameLottie={require("../../../../assets/lottie/camera-cinema.json")} />
+                    />              
                 
             }
 

@@ -14,9 +14,9 @@ export const newsChannelSlice = createSlice({
         salvaListaNewsChannel: (state, action) => {
             console.log('status reload', action.payload.reload)
             if(action.payload.reload){
+                state.news_channel = []
                 console.log('primeira condição')
                 if(action.payload.data.content.dados.data.length > 0){
-                    state.news_channel = []
                     state.news_channel = action.payload.data.content.dados.data
                 }
             }else{

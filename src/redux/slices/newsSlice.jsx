@@ -13,12 +13,10 @@ export const newsSlice = createSlice({
     reducers: {
         salvaListaNews: (state, action) => {
             if(action.payload.reload){
+                state.news = []
                 console.log('primeira condição')
                 if(action.payload.data.content.dados.data.length > 0){
-                    state.news = []
                     state.news = action.payload.data.content.dados.data
-                }else{
-                    // state.news = []
                 }
             }else{
                 console.log('segunda condição')

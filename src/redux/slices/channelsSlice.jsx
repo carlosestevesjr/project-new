@@ -17,11 +17,9 @@ export const channelsSlice = createSlice({
             // console.log('state.channels', state.channels)
             if(action.payload.reload){
                 console.log('primeira condição')
+                state.channels = []
                 if(action.payload.data.content.dados.data.length > 0){
-                    state.channels = []
                     state.channels = action.payload.data.content.dados.data
-                }else{
-                    // state.channels = []
                 }
             }else{
                 console.log('segunda condição')

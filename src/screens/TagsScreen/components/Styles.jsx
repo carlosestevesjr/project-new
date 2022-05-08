@@ -21,9 +21,9 @@ const styles = StyleSheet.create({
 	},
 	newsTagName:{
         borderRadius:5,
-        margin:3,
+        // margin:3,
         // padding:5,
-		fontSize:theme.sizes.extraSmall,
+		fontSize:theme.sizes.small,
 		color:'#a10032'
 	},
 	news:{
@@ -33,24 +33,20 @@ const styles = StyleSheet.create({
     containerChannel:{
         width:'100%',
         flexDirection: "row",
-        marginBottom:5,
+        marginBottom:3,
         borderBottomColor:'#d3d3d3',
 		borderBottomWidth:1,
         // padding:5 ,
     },
-	newsChannelLogo:{
-		width:80,
-        padding:5,
-        height:100,
-	},
+
 	newsChannelImage:{
 		width:'100%',
 		height:'100%'
 	},
     newsChannelLogo:{
-		width:80,
+		width:50,
+        height:50,
         padding:5,
-        height:100,
 	},
     containerChannelName:{
         width:'65%',
@@ -62,7 +58,7 @@ const styles = StyleSheet.create({
         width:'100%',
 		textTransform:'uppercase',
         color:primary500,
-		fontSize:theme.sizes.small,
+		fontSize:theme.sizes.exrtraSmall,
         fontWeight:'bold',
         paddingLeft: 10,
         paddingRight: 10,

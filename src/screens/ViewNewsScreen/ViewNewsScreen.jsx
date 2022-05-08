@@ -5,6 +5,8 @@ import { Image, View, Share, TouchableOpacity, Text, Linking, Alert } from 'reac
 import { Icon } from 'react-native-elements'
 import Components from './../../components'
 
+import MontaAnimationLottie from './../../components/MontaAnimationLottie/MontaAnimationLottie'
+
 import { formataDataBr } from '../../utils/index'
 
 //Config
@@ -15,7 +17,7 @@ import styles from './Styles';
 const Screen = ({ navigation, route }) => {
     const [loader, setLoader] = useState(false);
     useEffect(() => {
-        console.log('dsdsadas', route.params)
+        // console.log('dsdsadas', route.params)
        
             abri_webview()
     
@@ -46,11 +48,12 @@ const Screen = ({ navigation, route }) => {
     const loadShow = () => {
         return (
             <View style={styles.containerLoader}>
-                <Image
+                <MontaAnimationLottie nameLottie={require("../../assets/lottie/animation-1.json")} />
+                {/* <Image
                     style={styles.containerLoaderImage}
                     source={require('../../assets/images/commons/loader.gif')}
                 />
-                <Text style={styles.containerLoaderText} >Carregando...</Text>
+                <Text style={styles.containerLoaderText} >Carregando...</Text> */}
             </View>
         )
     }

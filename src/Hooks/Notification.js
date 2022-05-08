@@ -2,7 +2,7 @@ import { Platform } from 'react-native'
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { useState, useEffect, useRef } from 'react';
-import { Request } from '@services';
+import { API }   from '../services/api'
 
 export default function usePushNotification () {
 
@@ -20,15 +20,16 @@ export default function usePushNotification () {
   const responseListener = useRef();
   
   useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    registerForPushNotificationsAsync()
+    .then(token => setExpoPushToken(token));
 
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
-    });
+        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+        setNotification(notification);
+        });
 
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+        console.log(response);
+        });
 
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);
@@ -71,11 +72,34 @@ export async function registerForPushNotificationsAsync() {
   return token;
 }
 
-function salvarTokenNotificacao(token) {
+async function salvarTokenNotificacao(token) {
+    console.log('token notification', token )
 
-    return Request('post','/notificacao/set-token?t='+token, {os: Platform.OS})
-          .then(res => {
-          }).catch(function(e) {
-              throw e.message;
-          })
+    try {
+        const { setTokenPush } = API
+        
+        params = {
+            "token": token,
+            "platform": Platform.OS
+          
+        }
+        const resp = await setTokenPush(params)
+        console.log('retorno',resp)
+        if(resp.status == 200) {
+          console.log(resp.data);
+        }
+
+    } catch (error) {
+        console.log('errou token insert')
+        console.log(error)
+        // dispatch(loginFailed());
+    }
+
+
+    return false
+    // return Request('post','/notificacao/set-token?t='+token, {os: Platform.OS})
+    //       .then(res => {
+    //       }).catch(function(e) {
+    //           throw e.message;
+    //       })
 }

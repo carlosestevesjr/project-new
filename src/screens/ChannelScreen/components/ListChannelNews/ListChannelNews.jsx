@@ -271,7 +271,7 @@ const Screen = ({ navigation, route, ...props}) => {
                 </Text>
             </View>
             {
-                ( news_channel.length > 0) ?
+                ( news_channel.length > 0) &&
                     
                     <FlatList
                         ListHeaderComponent={HeaderList}
@@ -301,8 +301,7 @@ const Screen = ({ navigation, route, ...props}) => {
                             }
                         }}
                     />
-                    :
-                    <Components.MontaAnimationLottie nameLottie={require("../../../../assets/lottie/camera-cinema.json")} />
+                    
             }
         </View>
         

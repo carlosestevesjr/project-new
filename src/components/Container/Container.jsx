@@ -9,6 +9,8 @@ import { gradientStart, gradientEnd } from '../../theme/index'
 //Dispatchs
 import { useSelector } from 'react-redux';
 
+import MontaAnimationLottie from './../../components/MontaAnimationLottie/MontaAnimationLottie'
+
 const Container = ({ children, title }) => {
 
     const statusLoader = useSelector((state) =>  state.geral.loaderGeral.open.open )
@@ -24,12 +26,14 @@ const Container = ({ children, title }) => {
                 <SafeAreaView  style={[styles.safeArea]}>
                     {children}
                     {
-                        (statusLoader) && <View style={styles.containerLoader}>
-                            <Image
+                        (statusLoader) && 
+                        <View style={styles.containerLoader}>
+                            <MontaAnimationLottie nameLottie={require("../../assets/lottie/animation-1.json")} />
+                            {/* <Image
                                 style={styles.containerLoaderImage}
                                 source={require('../../assets/images/commons/loader.gif')}
-                            />
-                            <Text style={styles.containerLoaderText} >Carregando...</Text>
+                            /> */}
+                            {/* <Text style={styles.containerLoaderText} >Carregando...</Text> */}
                         </View>
                     }   
                 </SafeAreaView>

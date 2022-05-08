@@ -130,7 +130,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                 </Text>
                                 
                                 <Text style={styles.newsDescricao}>
-                                    {
+                                    {/* {
                                         (item.facebook != undefined && item.facebook != "" ) &&
 
                                         <Icon
@@ -176,7 +176,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                             color={light}
                                             size={theme.sizes.extraSmall}  
                                         />
-                                    }
+                                    } */}
                                    
                                    
                                 </Text>

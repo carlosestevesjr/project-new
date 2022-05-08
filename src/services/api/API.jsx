@@ -5,9 +5,7 @@ export const api = {
     get: async (route , payload) => await API.get(route, payload.token, { 
         headers: { Authorization: payload.token } 
     }),
-    post: async (route, payload) => await API.post(route, payload.params, payload.token, { 
-        headers: { Authorization: token, ...additionalHeaders} 
-    }),
+    post: async (route, params) => await API.post(route, params),
     put: async (route, payload) => await API.update(route, payload.params, payload.token, { 
         headers: { Authorization: token, ...additionalHeaders} 
     }),
@@ -44,6 +42,13 @@ const apiRoutes = {
     buscaTags: (payload) => {
         console.log('route' ,"/v1/lista-tags/")
         return api.get("/v1/lista-tags/?page="+ payload.params.v_page, payload) 
+    },
+
+    //User
+    setTokenPush: (params) => {
+        console.log('route' ,params)
+        // return false
+        return api.post("/v1/set-token-push", params ) 
     },
 
     

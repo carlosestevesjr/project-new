@@ -17,8 +17,9 @@ const MontaAnimationLottie = (props) => {
     })
     
     return (
-        <View style={styles.sampleStyle} >
+        <View >
             <LottieView
+                style={styles.sampleStyle}
                 ref={animation}
                 source={props.nameLottie}
                 loop
