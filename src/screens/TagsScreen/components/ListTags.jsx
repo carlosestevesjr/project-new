@@ -166,8 +166,6 @@ const Screen = ({ navigation, route, ...props}) => {
             if (isMounted.current) {
                 clickBuscarRefreshing(true)
             }
-            // The screen is focused
-            // Call any action
         });
 
 	}, []);

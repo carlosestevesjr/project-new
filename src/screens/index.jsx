@@ -6,6 +6,7 @@ import ChannelsScreen from './ChannelsScreen/ChannelsScreen';
 import LoginScreen from './LoginScreen/LoginScreen';
 import PokemonDetailScreen from './PokemonDetailScreen/PokemonDetailScreen';
 import ViewNewsScreen from './ViewNewsScreen/ViewNewsScreen';
+import SearchNewsScreen from './SearchNewsScreen/SearchNewsScreen';
 
 export default {
     HomeScreen,
@@ -15,5 +16,6 @@ export default {
     ChannelsScreen,
     LoginScreen,
     PokemonDetailScreen,
-    ViewNewsScreen
+    ViewNewsScreen,
+    SearchNewsScreen
 }

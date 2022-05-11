@@ -4,6 +4,7 @@ import pokemonSlice from './pokemonSlice';
 import newsSlice from './newsSlice';
 import newsChannelSlice from './newsChannelSlice';
 import newsTagSlice from './newsTagSlice';
+import searchNewsSlice from './searchNewsSlice';
 import channelsSlice from './channelsSlice';
 import tagsSlice from './tagsSlice';
 import geralSlice from './geralSlice';
@@ -16,5 +17,6 @@ export default combineReducers({
     channels: channelsSlice,
     tags: tagsSlice,
     news_tag: newsTagSlice,
+    search_news: searchNewsSlice,
     geral: geralSlice,
 });

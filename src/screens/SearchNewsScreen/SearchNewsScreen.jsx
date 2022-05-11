@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 
-
-
 //Config
 import Config from '../../config'
 
@@ -10,13 +8,9 @@ import _ from 'lodash'
 
 //Dispatchs
 
-
 //Components
 import { View, Image, TouchableOpacity, TextInput } from 'react-native'
-import { Icon } from 'react-native-elements'
-
-import ListNews from '../HomeScreen/components/ListNews/ListNews'
-import theme, { primary500, light, background} from '../../theme/index'
+import ListNews from '../SearchNewsScreen/components/ListNews/ListNews'
 import Components from './../../components'
 
 // import { Appbar, BottomNavigation, Text, Drawer } from 'react-native-paper';
@@ -35,15 +29,8 @@ const Screen = ({ navigation, route, ...props}) => {
 
     // const _handleMore = () => console.log('Shown more');
 
-    const [index, setIndex] = React.useState(0);
-    const [search, setSearch] = useState('')
-
-    const [lista, setLista] = useState([]);
-	const [page, setPage] = useState(1);
-	const [loader, setLoader] = useState(true);
-	const [refreshing, setRefreshing] = useState(false);
-	const [modalVisible, setModalVisible] = useState(false);
-
+   
+   
 
 
     // const [routes] = React.useState([
@@ -63,25 +50,7 @@ const Screen = ({ navigation, route, ...props}) => {
 
     return (
         <Components.Container title="home">
-            <ListNews  navigation={navigation} />
-            <View style={{ position: 'absolute', right: 10, bottom: 10 }}>
-                <TouchableOpacity
-                    style={{ width: 50, height: 50 }}
-                    onPress={() => {
-                        navigation.navigate('Buscar Notícias', {
-                            title: 'Buscar Notícias'
-                        })
-                    }}
-                >
-                    <Icon
-                        iconStyle={{ padding : 15,  borderRadius:50, backgroundColor:'#E8B730', color:"#333"}}
-                        name='search'
-                        type='font-awesome'
-                        color={light}
-                        size={theme.sizes.small}  
-                    />
-                </TouchableOpacity>
-            </View>
+            <ListNews navigation={navigation} />    
         </Components.Container>
     )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { NavigationContainer  } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
@@ -20,20 +20,38 @@ const MainNavigator = () => {
         title: title,
         headerShown: true,
         headerStyle: {
-          backgroundColor: '#6a277b',
-          elevation: 0,
-          borderBottomWidth: 0
+            backgroundColor: '#6a277b',
+            elevation: 0,
+            borderBottomWidth: 0
         },
         headerTintColor: '#FFF',
         headerTitleStyle: {
         },
-      }
+    }
     )
+
+    const horizontalAnimation = {
+        gestureDirection: 'horizontal',
+        cardStyleInterpolator: ({ current, layouts }) => {
+          return {
+            cardStyle: {
+              transform: [
+                {
+                  translateX: current.progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [layouts.screen.width, 0],
+                  }),
+                },
+              ],
+            },
+          };
+        },
+      };
 
     const PokemonComponent = (props, route) => (
         <Screens.PokemonDetailScreen {...props}  {...route} />
     )
-    
+
     const HomeComponent = (props, route) => (
         <Screens.HomeScreen {...props}  {...route} />
     )
@@ -61,40 +79,45 @@ const MainNavigator = () => {
     const ViewNewsComponent = (props, route) => (
         <Screens.ViewNewsScreen {...props} {...route} />
     )
-        
-    const DrawerNavigator = ({navigation, route}) => {
+
+    const SearchNewsComponent = (props, route) => (
+        <Screens.SearchNewsScreen {...props} {...route} />
+    )
+
+    const DrawerNavigator = ({ navigation, route }) => {
         return <MainDrawer.Navigator
-                    initialRouteName="Home"
-                    drawerContent={props => (<Componets.MenuContent  {...props} />) }
-                >
-                    <MainDrawer.Screen
-                        name="Home"
-                        component={HomeComponent}
-                        options={titleOptions('NOTÍCIAS')}
-                    />
+            initialRouteName="Home"
+            drawerContent={props => (<Componets.MenuContent  {...props} />)}
+            
+        >
+            <MainDrawer.Screen
+                name="Home"
+                component={HomeComponent}
+                options={titleOptions('NOTÍCIAS')}
+            />
 
-                    <MainDrawer.Screen
-                        name="Pokemon"
-                        component={PokemonComponent}
-                        options={titleOptions('Pokemon')}
-                    />
+            <MainDrawer.Screen
+                name="Pokemon"
+                component={PokemonComponent}
+                options={titleOptions('Pokemon')}
+            />
 
-                    <MainDrawer.Screen
-                        name="Canais"
-                        component={ChannelsComponent}
-                        options={titleOptions('Canais')}
-                    />
-                    <MainDrawer.Screen
-                        name="Tags"
-                        component={TagsComponent}
-                        options={titleOptions('Tags')}
-                    />
-                    <MainDrawer.Screen
-                        name="Login"
-                        component={LoginComponent}
-                        options={titleOptions('Login')}
-                    />
-                </MainDrawer.Navigator>
+            <MainDrawer.Screen
+                name="Canais"
+                component={ChannelsComponent}
+                options={titleOptions('Canais')}
+            />
+            <MainDrawer.Screen
+                name="Tags"
+                component={TagsComponent}
+                options={titleOptions('Tags')}
+            />
+            <MainDrawer.Screen
+                name="Login"
+                component={LoginComponent}
+                options={titleOptions('Login')}
+            />
+        </MainDrawer.Navigator>
     }
 
     return (
@@ -103,14 +126,21 @@ const MainNavigator = () => {
                 <MainStack.Navigator
                     screenOptions={{ headerShown: false }}
                 >
-                    <MainStack.Screen 
-                        name="Voltar" component={DrawerNavigator} 
+                    <MainStack.Screen
+                        name="Voltar" component={DrawerNavigator}
                     />
 
                     <MainStack.Screen
                         name="Notícia"
                         component={ViewNewsComponent}
                         options={titleOptions('Notícia')}
+                    />
+
+                    <MainStack.Screen
+                        name="Buscar Notícias"
+                        component={SearchNewsComponent}
+                        options={titleOptions('Buscar Notícias')}
+                        
                     />
 
                     <MainStack.Screen

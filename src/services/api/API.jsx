@@ -3,14 +3,16 @@ import { instance as API }  from './AxiosInstance'
 
 export const api = {
     get: async (route , payload) => await API.get(route, payload.token, { 
-        headers: { Authorization: payload.token } 
+        headers: { Authorization: payload.token} 
     }),
-    post: async (route, params) => await API.post(route, params),
+    post: async (route , payload) => await API.post(route, payload.params, payload.token, { 
+        headers: { Authorization: payload.token}  
+    }),
     put: async (route, payload) => await API.update(route, payload.params, payload.token, { 
-        headers: { Authorization: token, ...additionalHeaders} 
+        headers: { Authorization: payload.token} 
     }),
     delete: async (route, payload) => await API.delete(route, payload.params, payload.token, { 
-        headers: { Authorization: token, ...additionalHeaders} 
+        headers: { Authorization: payload.token} 
     }),
 }
 
@@ -18,11 +20,15 @@ const apiRoutes = {
     //Pokemon
     buscaPokemon: (payload) => api.get("/pokemon/"+ payload.params.id +"/" , payload), 
     
-   
     buscaNews: (payload) =>  {
         console.log('route' ,"/v1/lista-news/?page="+ payload.params.v_page)
         return api.get("/v1/lista-news/?page="+ payload.params.v_page , payload) 
     }, 
+
+    buscaSearchNews: (payload) => {
+        console.log('/v1/lista-news-search' , payload)
+        return api.post("/v1/lista-news-search", payload) 
+    },
 
     buscaNewsChannel: (payload) => {
         console.log('route' ,"/v1/lista-news-channel-user/"+payload.params.channel_id+"/false?page="+ payload.params.v_page)
@@ -45,19 +51,11 @@ const apiRoutes = {
     },
 
     //User
-    setTokenPush: (params) => {
-        console.log('route' ,params)
-        // return false
-        return api.post("/v1/set-token-push", params ) 
+    setTokenPush: (payload) => {
+        console.log('route payload' ,payload)
+        return api.post("/v1/set-token-push", payload ) 
     },
 
-    
 }
 
 export { apiRoutes } 
-
-// const apiRoutes = {
-//     login: (payload) => api.get("/login", payload),
-// }
-
-// export default apiRoutes;

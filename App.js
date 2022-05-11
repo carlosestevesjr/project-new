@@ -32,14 +32,12 @@ const Initialize = () => {
 }
 
 const App = () => {
-
-    
     return (
         <>
             <Provider store={store}>
                 <PaperProvider theme={theme}>
                     <PersistGate loading={null} persistor={persistor}>
-                        <StatusBar barStyle="default" />
+                        <StatusBar barStyle="light-content" hidden = {false} translucent = {true} backgroundColor="#390147" />
                         <MainNavigator /> 
                         <Initialize />
                     </PersistGate>

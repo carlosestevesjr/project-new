@@ -81,10 +81,14 @@ async function salvarTokenNotificacao(token) {
         params = {
             "token": token,
             "platform": Platform.OS
-          
         }
-        const resp = await setTokenPush(params)
-        console.log('retorno',resp)
+
+        payload = {
+            token:'',
+            params
+        }
+        const resp = await setTokenPush(payload)
+        // console.log('retorno',resp)
         if(resp.status == 200) {
           console.log(resp.data);
         }
@@ -95,11 +99,5 @@ async function salvarTokenNotificacao(token) {
         // dispatch(loginFailed());
     }
 
-
     return false
-    // return Request('post','/notificacao/set-token?t='+token, {os: Platform.OS})
-    //       .then(res => {
-    //       }).catch(function(e) {
-    //           throw e.message;
-    //       })
 }
