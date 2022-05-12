@@ -101,17 +101,7 @@ const MainNavigator = () => {
                 component={PokemonComponent}
                 options={titleOptions('Pokemon')}
             />
-
-            <MainDrawer.Screen
-                name="Canais"
-                component={ChannelsComponent}
-                options={titleOptions('Canais')}
-            />
-            <MainDrawer.Screen
-                name="Tags"
-                component={TagsComponent}
-                options={titleOptions('Tags')}
-            />
+           
             <MainDrawer.Screen
                 name="Login"
                 component={LoginComponent}
@@ -141,6 +131,18 @@ const MainNavigator = () => {
                         component={SearchNewsComponent}
                         options={titleOptions('Buscar Notícias')}
                         
+                    />
+
+                    <MainStack.Screen
+                        name="Tags"
+                        component={TagsComponent}
+                        options={titleOptions('Tags')}
+                    />
+
+                    <MainStack.Screen
+                        name="Canais"
+                        component={ChannelsComponent}
+                        options={titleOptions('Canais')}
                     />
 
                     <MainStack.Screen

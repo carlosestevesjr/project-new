@@ -110,11 +110,29 @@ const Screen = ({ navigation, route, ...props}) => {
                                     {
                                         data: {
                                             channels_id: item.id,
+                                            channel_type: item.type,
+                                            channel: item.name,
+                                            image: item.image,
+                                           
                                         },
                                         title:'Canal'
                                     }
                                 ))
                                 }
+
+                                // onPress={() => (navigation.push(
+                                //     'Canal',
+                                //     {
+                                //         data: {
+                                //             channels_id: item.new.channels_id,
+                                //             channel_type: item.new.channel_type,
+                                //             channel: item.new.channel,
+                                //             image: item.new.channel_logo,
+                                //             tags: item.tags
+                                //         },
+                                //         title:'Canal'
+                                //     }
+                                // ))
                             >
                                 <Image
                                     style={styles.newsChannelImage}
@@ -129,7 +147,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     {item.name}
                                 </Text>
                                 
-                                <Text style={styles.newsDescricao}>
+                                {/* <Text style={styles.newsDescricao}> */}
                                     {/* {
                                         (item.facebook != undefined && item.facebook != "" ) &&
 
@@ -179,7 +197,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     } */}
                                    
                                    
-                                </Text>
+                                {/* </Text> */}
                             </View>
                         </View>
                       
@@ -220,10 +238,12 @@ const Screen = ({ navigation, route, ...props}) => {
         return state.channels.channels
     })
 
+    const loader = useSelector((state) => state.geral.loaderGeral)
+
     return (
         <>
             {
-                ( channels.length > 0) ?
+                ( channels.length > 0 && loader != true) ?
                     <FlatList
                         ListHeaderComponent={HeaderList}
                         refreshControl={
@@ -253,7 +273,9 @@ const Screen = ({ navigation, route, ...props}) => {
                         }}
                     />
                     :
-                    <Text style={{ color: '#fff' }}></Text>
+                    <View style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
+                        <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há canais</Text>
+                    </View> 
             }
 
         </>

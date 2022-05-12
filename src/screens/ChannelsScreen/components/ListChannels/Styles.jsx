@@ -24,10 +24,9 @@ const styles = StyleSheet.create({
         paddingBottom:3
     },
 	newsChannelLogo:{
-        flexDirection: 'row',
 		width:'30%',
         padding:5,
-        // height:50,
+        height:50,
 	},
 	newsChannelImage:{
 		width:'100%',
@@ -36,8 +35,8 @@ const styles = StyleSheet.create({
     containerChannelName:{
         width:'70%',
         // height: 40,
-        // flexDirection: 'column',
-        // justifyContent: 'center',
+        flexDirection: 'column',
+        justifyContent: 'center',
         // alignItems: 'center',
      
     },

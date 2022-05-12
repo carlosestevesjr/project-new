@@ -257,6 +257,8 @@ const Screen = ({ navigation, route, ...props}) => {
     // Get State
     const news_tag = useSelector((state) => state.news_tag.news_tag)
 
+    const loader = useSelector((state) => state.geral.loaderGeral)
+
     return (
         <>
             <View style={styles.containerTag} >
@@ -266,7 +268,7 @@ const Screen = ({ navigation, route, ...props}) => {
             </View>
 
             {
-                ( news_tag.length > 0) &&
+                ( news_tag.length > 0 && loader != true) ?
                     
                     <FlatList
                         ListHeaderComponent={HeaderList}
@@ -295,7 +297,10 @@ const Screen = ({ navigation, route, ...props}) => {
                             }
                         }}
                     />
-                    
+                    :
+                    <View>
+                        <Text>Não há noticias</Text>
+                    </View>
             }
         
         </>

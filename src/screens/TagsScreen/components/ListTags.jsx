@@ -176,10 +176,12 @@ const Screen = ({ navigation, route, ...props}) => {
         return state.tags.tags
     })
 
+    const loader = useSelector((state) => state.geral.loaderGeral)
+
     return (
         <>
             {
-                ( tags.length > 0) ?
+                ( tags.length > 0 && loader != true) ?
                     <FlatList
                         ListHeaderComponent={HeaderList}
                         refreshControl={
@@ -209,7 +211,9 @@ const Screen = ({ navigation, route, ...props}) => {
                         }}
                     />
                     :
-                    <Text style={{ color: '#fff' }}></Text>
+                    <View style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
+                        <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há tags</Text>
+                    </View>
             }
 
         </>

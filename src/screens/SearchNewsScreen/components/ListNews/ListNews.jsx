@@ -278,11 +278,13 @@ const Screen = ({ navigation, route, ...props}) => {
         // console.log('dasdasdas',state.search_news.search_news)
         return state.search_news.search_news
     } )
+
+    const loader = useSelector((state) => state.geral.loaderGeral)
    
     return (
         <>
             {
-                ( search_news.length > 0) &&
+                ( search_news.length > 0 && loader != true) ?
                     <FlatList
                         ListHeaderComponent={HeaderList}
                         refreshControl={
@@ -309,7 +311,11 @@ const Screen = ({ navigation, route, ...props}) => {
                                 clickBuscarMais()
                             }
                         }}
-                    />              
+                    />  
+                    :
+                    <View style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
+                        <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
+                    </View>             
                 
             }
 
