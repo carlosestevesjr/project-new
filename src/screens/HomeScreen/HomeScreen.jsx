@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect,  useCallback, useRef } from 'react';
 
 
 
@@ -9,19 +9,20 @@ import Config from '../../config'
 import _ from 'lodash'
 
 //Dispatchs
-
+import { useSelector, useDispatch } from 'react-redux';
 
 //Components
-import { View, Image, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Pressable, TextInput, StyleSheet } from 'react-native'
 import { Icon } from 'react-native-elements'
 
 import ListNews from '../HomeScreen/components/ListNews/ListNews'
-import theme, { primary500, light, background} from '../../theme/index'
+
+import theme, { primary500, light, background } from '../../theme/index'
 import Components from './../../components'
 
 // import { Appbar, BottomNavigation, Text, Drawer } from 'react-native-paper';
 
-const Screen = ({ navigation, route, ...props}) => {
+const Screen = ({ navigation, route, ...props }) => {
 
     // const NewsRoute = () => <Text>Noticias</Text>;
 
@@ -35,16 +36,8 @@ const Screen = ({ navigation, route, ...props}) => {
 
     // const _handleMore = () => console.log('Shown more');
 
-    const [index, setIndex] = React.useState(0);
-    const [search, setSearch] = useState('')
-
-    const [lista, setLista] = useState([]);
-	const [page, setPage] = useState(1);
-	const [loader, setLoader] = useState(true);
-	const [refreshing, setRefreshing] = useState(false);
-	const [modalVisible, setModalVisible] = useState(false);
-
-
+    //Variables Default
+    // const dispatch = useDispatch()
 
     // const [routes] = React.useState([
     //     { key: 'news', title: 'Noticias', icon: 'newspaper-variant-outline' },
@@ -60,10 +53,14 @@ const Screen = ({ navigation, route, ...props}) => {
 
     // const [active, setActive] = React.useState('');
 
-
     return (
         <Components.Container title="home">
-            <ListNews  navigation={navigation} />
+            <ListNews navigation={navigation} />
+
+            <Components.ModalsContent title="home">
+              
+            </Components.ModalsContent >
+          
             <View style={{ position: 'absolute', right: 10, bottom: 10 }}>
                 <TouchableOpacity
                     style={{ width: 50, height: 50 }}
@@ -74,11 +71,11 @@ const Screen = ({ navigation, route, ...props}) => {
                     }}
                 >
                     <Icon
-                        iconStyle={{ padding : 15,  borderRadius:50, backgroundColor:'#E8B730', color:"#333"}}
+                        iconStyle={{ padding: 15, borderRadius: 50, backgroundColor: '#E8B730', color: "#333" }}
                         name='search'
                         type='font-awesome'
                         color={light}
-                        size={theme.sizes.small}  
+                        size={theme.sizes.small}
                     />
                 </TouchableOpacity>
             </View>

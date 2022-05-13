@@ -218,6 +218,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                 
                             })
                         }
+                        
                     </View>
                 </View>
             </Components.Card>

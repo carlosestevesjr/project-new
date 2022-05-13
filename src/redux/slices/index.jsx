@@ -8,6 +8,7 @@ import searchNewsSlice from './searchNewsSlice';
 import channelsSlice from './channelsSlice';
 import tagsSlice from './tagsSlice';
 import geralSlice from './geralSlice';
+import geralPersistSlice from './geralPersistSlice';
 
 export default combineReducers({ 
     auth: authSlice,
@@ -19,4 +20,5 @@ export default combineReducers({
     news_tag: newsTagSlice,
     search_news: searchNewsSlice,
     geral: geralSlice,
+    geral_persist: geralPersistSlice,
 });

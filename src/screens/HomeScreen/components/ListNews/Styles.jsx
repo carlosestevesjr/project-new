@@ -12,12 +12,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
     boxNews:{
-        // backgroundColor:primary500,
+        width:'100%',
 	},
     boxNewsTag:{
 		width:'100%',
 	},
 	newsTag:{
+        flexWrap:'wrap',
 		flexDirection: "row",
 	},
 	newsTagName:{

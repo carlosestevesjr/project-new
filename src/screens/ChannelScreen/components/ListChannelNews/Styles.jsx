@@ -50,12 +50,13 @@ const styles = StyleSheet.create({
         height:50,
 	},
     boxNews:{
-        // backgroundColor:primary500,
+        width:'100%',
 	},
     boxNewsTag:{
 		width:'100%',
 	},
 	newsTag:{
+        flexWrap:'wrap',
 		flexDirection: "row",
 	},
 	newsTagName:{
