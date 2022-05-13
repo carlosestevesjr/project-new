@@ -7,7 +7,7 @@ import {
     secundaryA200,
     dark,
     light,
-    primary300
+    primary700
 } from '../../theme/index'
 
 const styles = StyleSheet.create({
@@ -51,15 +51,15 @@ const styles = StyleSheet.create({
 		color:light,
 	},
     cabecalhoTitle: {
+        flexDirection:'column',
+        justifyContent:'center',
+        alignItems:'center',
 		fontSize: theme.sizes.extraSmall,
-        textAlign:'center',
         fontWeight:'bold',
 		color:light,
-        paddingTop:25,
-        paddingBottom:25,
-        paddingLeft:15,
-        paddingRight:15,
-        backgroundColor:primary300 ,
+        width:'100%',
+        height:100,
+        backgroundColor:primary700 ,
 	},
 })
 

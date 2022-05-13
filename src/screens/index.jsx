@@ -7,6 +7,9 @@ import LoginScreen from './LoginScreen/LoginScreen';
 import PokemonDetailScreen from './PokemonDetailScreen/PokemonDetailScreen';
 import ViewNewsScreen from './ViewNewsScreen/ViewNewsScreen';
 import SearchNewsScreen from './SearchNewsScreen/SearchNewsScreen';
+import AboutScreen from './AboutScreen/AboutScreen';
+import DonationScreen from './DonationScreen/DonationScreen';
+import ContactScreen from './ContactScreen/ContactScreen';
 
 export default {
     HomeScreen,
@@ -17,5 +20,8 @@ export default {
     LoginScreen,
     PokemonDetailScreen,
     ViewNewsScreen,
-    SearchNewsScreen
+    SearchNewsScreen,
+    AboutScreen,
+    DonationScreen,
+    ContactScreen,
 }

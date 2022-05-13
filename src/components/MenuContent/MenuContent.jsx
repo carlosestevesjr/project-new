@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Icon } from 'react-native-elements'
 
@@ -27,7 +27,12 @@ const MenuContent = (props) => {
 		<View style={[styles.menuContent]}>
 			<DrawerContentScrollView {...props}>
                 <View style={[styles.cabecalho]}>
-                    <Text style={[styles.cabecalhoTitle]}>MEU HYPE</Text>
+                    <View style={[styles.cabecalhoTitle]}>
+                        <Image
+                            resizeMode={'cover'}
+                            source={require('../../assets/images/commons/logo_clear.png')}
+                        />
+                    </View>
                 </View>
 				<Drawer.Section style={[styles.bottomDrawerSection]}>
 					<DrawerItem
@@ -86,6 +91,55 @@ const MenuContent = (props) => {
 						icon={() =>	<Icon
                                 iconStyle={{ padding : 10, borderRadius:10, backgroundColor:background, color:primary500}}
                                 name='search'
+                                type='font-awesome'
+                                color={light}
+                                size={theme.sizes.extraSmall}  
+                            />
+                        } //home-outline
+						labelStyle={styles.drawerItemLabel}
+						style={styles.drawerItem}
+					/>
+
+                    <DrawerItem
+						label={'Sobre'}                                                                                                                                                                                                                                                                                                                                                                                                            
+						onPress={() => { 
+							navigation.navigate('Sobre') 
+						}}
+						icon={() =>	<Icon
+                                iconStyle={{ padding : 10, borderRadius:10, backgroundColor:background, color:primary500}}
+                                name='info-circle'
+                                type='font-awesome'
+                                color={light}
+                                size={theme.sizes.extraSmall}  
+                            />
+                        } //home-outline
+						labelStyle={styles.drawerItemLabel}
+						style={styles.drawerItem}
+					/>
+                    <DrawerItem
+						label={'Doação'}                                                                                                                                                                                                                                                                                                                                                                                                            
+						onPress={() => { 
+							navigation.navigate('Donation') 
+						}}
+						icon={() =>	<Icon
+                                iconStyle={{ padding : 10, borderRadius:10, backgroundColor:background, color:primary500}}
+                                name='heart'
+                                type='font-awesome'
+                                color={light}
+                                size={theme.sizes.extraSmall}  
+                            />
+                        } //home-outline
+						labelStyle={styles.drawerItemLabel}
+						style={styles.drawerItem}
+					/>
+                     <DrawerItem
+						label={'Contato'}                                                                                                                                                                                                                                                                                                                                                                                                            
+						onPress={() => { 
+							navigation.navigate('Contato') 
+						}}
+						icon={() =>	<Icon
+                                iconStyle={{ padding : 10, borderRadius:10, backgroundColor:background, color:primary500}}
+                                name='envelope'
                                 type='font-awesome'
                                 color={light}
                                 size={theme.sizes.extraSmall}  

@@ -84,11 +84,22 @@ const MainNavigator = () => {
         <Screens.SearchNewsScreen {...props} {...route} />
     )
 
+    const AboutComponent = (props, route) => (
+        <Screens.AboutScreen {...props} {...route} />
+    )
+
+    const DonationComponent = (props, route) => (
+        <Screens.DonationScreen {...props} {...route} />
+    )
+
+    const ContactComponent = (props, route) => (
+        <Screens.ContactScreen {...props} {...route} />
+    )
+
     const DrawerNavigator = ({ navigation, route }) => {
         return <MainDrawer.Navigator
             initialRouteName="Home"
             drawerContent={props => (<Componets.MenuContent  {...props} />)}
-            
         >
             <MainDrawer.Screen
                 name="Home"
@@ -155,6 +166,21 @@ const MainNavigator = () => {
                         name="Tag"
                         component={TagNewsComponent}
                         options={titleOptions('Tag')}
+                    />
+                    <MainStack.Screen
+                        name="Sobre"
+                        component={AboutComponent}
+                        options={titleOptions('Sobre')}
+                    />
+                     <MainStack.Screen
+                        name="Contato"
+                        component={ContactComponent}
+                        options={titleOptions('Contato')}
+                    />
+                    <MainStack.Screen
+                        name="Donation"
+                        component={DonationComponent}
+                        options={titleOptions('Doação')}
                     />
                 </MainStack.Navigator>
             </NavigationContainer>
