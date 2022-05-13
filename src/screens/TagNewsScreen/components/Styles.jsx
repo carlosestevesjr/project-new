@@ -13,21 +13,21 @@ const styles = StyleSheet.create({
 	},
     containerTag:{
         backgroundColor:background,
-        paddingTop:50,
         shadowColor: dark,
         shadowOffset: {
-        width: 0,
-        height: 3,
+            width: 0,
+            height: 3,
         },
         shadowOpacity:  0.17,
         shadowRadius: 3.05,
         elevation: 4,
         borderRadius:3,
-	},
-    headerTag:{
-        width: '98%',
         borderBottomWidth:3,
         borderBottomColor:primary500,
+	},
+    headerTag:{
+        backgroundColor:background,
+        width: '98%',
         marginTop: 2,
         marginLeft: '1%',
         marginRight: '1%',
