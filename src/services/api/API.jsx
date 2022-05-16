@@ -56,6 +56,12 @@ const apiRoutes = {
         return api.post("/v1/set-token-push", payload ) 
     },
 
+    //Contato
+    sendContact: (payload) => {
+        console.log('route contato' ,payload)
+        return  api.post("/v1/contato", payload ) 
+    },
+
 }
 
 export { apiRoutes } 

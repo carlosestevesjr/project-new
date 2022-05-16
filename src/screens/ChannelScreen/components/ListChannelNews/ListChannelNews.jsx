@@ -255,7 +255,7 @@ const Screen = ({ navigation, route, ...props}) => {
 
     // Get State
     const news_channel = useSelector((state) => state.news_channel.news_channel)
-    const loader = useSelector((state) => state.geral.loaderGeral)
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
 
     return (
         <View style={styles.container}>
@@ -272,7 +272,7 @@ const Screen = ({ navigation, route, ...props}) => {
                 </Text>
             </View>
             {
-                ( news_channel.length > 0 && loader != true) ?
+                ( news_channel.length > 0 ) ?
                     
                     <FlatList
                         ListHeaderComponent={HeaderList}
@@ -303,9 +303,15 @@ const Screen = ({ navigation, route, ...props}) => {
                         }}
                     />
                     :
-                    <View style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
-                        <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
-                    </View> 
+                       
+                    <View  style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
+                        {
+                            loader ?
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
+                            :
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
+                        }
+                    </View>
             }
         </View>
         

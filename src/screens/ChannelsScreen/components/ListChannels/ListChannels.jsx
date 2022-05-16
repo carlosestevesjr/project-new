@@ -238,12 +238,12 @@ const Screen = ({ navigation, route, ...props}) => {
         return state.channels.channels
     })
 
-    const loader = useSelector((state) => state.geral.loaderGeral)
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
 
     return (
         <>
             {
-                ( channels.length > 0 && loader != true) ?
+                ( channels.length > 0) ?
                     <FlatList
                         ListHeaderComponent={HeaderList}
                         refreshControl={
@@ -274,8 +274,15 @@ const Screen = ({ navigation, route, ...props}) => {
                     />
                     :
                     <View style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
-                        <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há canais</Text>
-                    </View> 
+                        {
+                            loader ?
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
+                            :
+                        
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há canais</Text>
+                            
+                        }
+                    </View>
             }
 
         </>

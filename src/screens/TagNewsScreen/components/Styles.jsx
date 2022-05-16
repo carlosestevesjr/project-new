@@ -22,23 +22,22 @@ const styles = StyleSheet.create({
         shadowRadius: 3.05,
         elevation: 4,
         borderRadius:3,
-        borderBottomWidth:3,
-        borderBottomColor:primary500,
+        
 	},
     headerTag:{
         backgroundColor:background,
         width: '98%',
-        marginTop: 2,
         marginLeft: '1%',
         marginRight: '1%',
         fontWeight:'bold',
         fontSize:theme.sizes.small,
         color: primary500,
-        padding: 10,
-        position:'absolute',
-        top:1,
-        left:0 ,
+        padding:5,
+       
         zIndex:9999,
+        borderBottomWidth:3,
+        borderBottomColor:primary500,
+       
 	},
     boxNews:{
         width:'100%',

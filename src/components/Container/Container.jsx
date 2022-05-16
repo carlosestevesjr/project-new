@@ -13,7 +13,7 @@ import MontaAnimationLottie from './../../components/MontaAnimationLottie/MontaA
 
 const Container = ({ children, title }) => {
 
-    const statusLoader = useSelector((state) =>  state.geral.loaderGeral.open.open )
+    const statusLoader = useSelector((state) =>  state.geral.loaderGeral.open )
 
     return (
         <>
@@ -29,11 +29,6 @@ const Container = ({ children, title }) => {
                         (statusLoader) && 
                         <View style={styles.containerLoader}>
                             <MontaAnimationLottie nameLottie={require("../../assets/lottie/animation-1.json")} />
-                            {/* <Image
-                                style={styles.containerLoaderImage}
-                                source={require('../../assets/images/commons/loader.gif')}
-                            /> */}
-                            {/* <Text style={styles.containerLoaderText} >Carregando...</Text> */}
                         </View>
                     }   
                 </SafeAreaView>

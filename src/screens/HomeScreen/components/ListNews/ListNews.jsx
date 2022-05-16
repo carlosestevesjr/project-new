@@ -227,34 +227,23 @@ const Screen = ({ navigation, route, ...props}) => {
     const ITEM_HEIGHT = 200
 	const keyExtractor = useCallback((item) => item.new.id.toString(), [])
 
-    //Monta Registros									
-	const useIsMounted = () => {
-		const isMounted = useRef(false);
-		useEffect(() => {
-		  isMounted.current = true;
-		  return () => (isMounted.current = false);
-		}, []);
-		return isMounted;
-	};
-
-    const isMounted = useIsMounted();
     useEffect(() => {
-		if (isMounted.current) {
+		
 			clickBuscar(false)
-		}
-	}, [isMounted]);
+		
+	}, []);
 
     // Get State
     const news = useSelector((state) => {
         // console.log('dasdasdas',state.news.news)
         return state.news.news
     } )
-    const loader = useSelector((state) => state.geral.loaderGeral)
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
 
     return (
         <>
             {
-                ( news.length > 0 && loader != true) ?
+                ( news.length > 0 ) ?
                     <FlatList
                         ListHeaderComponent={HeaderList}
                         refreshControl={
@@ -283,9 +272,18 @@ const Screen = ({ navigation, route, ...props}) => {
                         }}
                     />    
                     :
-                    <View style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
-                        <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
-                    </View>      
+                        <View  style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
+                            {
+                                loader ?
+                                    <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
+                                :
+                               
+                                    <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
+                                  
+                            }
+                        </View>
+
+                      
                 
             }
 

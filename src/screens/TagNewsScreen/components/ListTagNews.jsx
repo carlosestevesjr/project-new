@@ -257,7 +257,7 @@ const Screen = ({ navigation, route, ...props}) => {
     // Get State
     const news_tag = useSelector((state) => state.news_tag.news_tag)
 
-    const loader = useSelector((state) => state.geral.loaderGeral)
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
 
     return (
         <>
@@ -268,7 +268,7 @@ const Screen = ({ navigation, route, ...props}) => {
             </View>
 
             {
-                ( news_tag.length > 0 && loader != true) ?
+                ( news_tag.length > 0) ?
                     
                     <FlatList
                         ListHeaderComponent={HeaderList}
@@ -298,8 +298,13 @@ const Screen = ({ navigation, route, ...props}) => {
                         }}
                     />
                     :
-                    <View>
-                        <Text>Não há noticias</Text>
+                    <View  style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
+                        {
+                            loader ?
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
+                            :
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
+                        }
                     </View>
             }
         

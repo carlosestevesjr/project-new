@@ -4,8 +4,14 @@ import React, { useState, useEffect,  useCallback, useRef } from 'react';
 import _ from 'lodash'
 
 //Components
-import { View, Text, Image, TouchableOpacity, Pressable, TextInput, StyleSheet } from 'react-native'
+import { API }   from '../../services/api'
+import { alteraStatusLoaderGeral } from './../../redux/slices/geralSlice'
+
+import { View, Text, Image, TouchableOpacity, Pressable, ScrollView, TextInput, StyleSheet } from 'react-native'
 import { Icon } from 'react-native-elements'
+
+//Dispatchs
+import { useSelector, useDispatch } from 'react-redux';
 
 import theme, { primary500, light, background } from '../../theme/index'
 import Components from '../../components'
@@ -15,33 +21,110 @@ import styles from './Styles'
 
 const Screen = ({ navigation, route, ...props }) => {
 
-    // const [active, setActive] = React.useState('');
+    //Variables Default
+    const dispatch = useDispatch()
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [message, setMessage] = useState('');
+
+    const [messageValidation, setValidation] = useState('');
+
+    const enviarEmail =  async() => {
+
+        dispatch(alteraStatusLoaderGeral(true))
+
+        try {
+            const { sendContact } = API
+            const resp = await sendContact(
+                {
+                    'params': {
+                        name:name,
+                        email:email,
+                        message:message,
+                    }
+                }
+            )
+            if(resp.status == 200) {
+                console.log('mensagem enviada com sucesso')
+            }
+    
+        } catch (error) {
+            console.log('errou')
+            console.log(error)
+            // dispatch(loginFailed());
+        }
+        dispatch(alteraStatusLoaderGeral(false))
+      
+	}
 
     return (
         <Components.Container title="home">
-            <View style={styles.centeredView}>
-                <View style={styles.centeredView}>
+             
+            <View style={styles.container}>
+                <ScrollView style={styles.scrollView}>
                     <View style={styles.contentView}>
                         <Text style={styles.modalTextDestaque}>
-                            Oi, que legal ver você aqui, antes de começar gostaria de pontuar algumas coisas:
+                           Olá, fique a vontade pra nos mandar uma mensagem
                         </Text>
                     
+                        <Text style={styles.modalText}>
+                            {/* <Text style={styles.modalTextBold}>
+                                Produtor de conteúdo: &nbsp;
+                            </Text> */}
+                            O seu feedback irá nos ajudar muito a aprimorar nossos app.
+                        </Text>
                         <Text style={styles.modalText}>
                             <Text style={styles.modalTextBold}>
                                 Produtor de conteúdo: &nbsp;
                             </Text>
-                            Is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                            Todas as imagens de filmes, séries e etc são marcas registradas dos seus respectivos proprietários.
+                            Caso você tenha um canal e tem vontade de colocá-lo em nosso app mande o link do seu (Canal no youtube); (Site); (Podcast do Spotify); na mensagem abaixo.
+                            Lembrando que não é garantido que conseguiremos colocar, mas faremos todo esforço para conseguir. 
                         </Text>
-                        <Text style={styles.modalText}>
-                            <Text style={styles.modalTextBold}>
-                                Usuário: &nbsp;
-                            </Text>
-                            Is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                        </Text>
+                        <View style={styles.containerBox}>
+                            <View>
+                                <TextInput
+                                    style={styles.inputs}
+                                    placeholder="Name"
+                                    keyboardType='default'
+                                    underlineColorAndroid='transparent'
+                                    onChangeText={(name) => setName(name)}
+                                    value={name}
+                                />
+                                <TextInput
+                                    style={styles.inputs}
+                                    placeholder="Email"
+                                    keyboardType='default'
+                                    underlineColorAndroid='transparent'
+                                    onChangeText={(email) => setEmail(email)}
+                                    value={email}
+                                />
+                                <TextInput
+                                    style={styles.inputsMultline}
+                                    placeholder="Mensagem"
+                                    multiline={true}
+                                    numberOfLines={10}
+                                    onChangeText={(message) => setMessage(message)}
+                                    value={message}
+                                />
+                                <View style={styles.buttonContent}>
+                                    <Pressable
+                                        style={[styles.button, styles.buttonOpen]}
+                                        onPress={() => enviarEmail()}
+                                    >
+                                        <Text style={styles.textStyle}>Enviar</Text>
+                                    </Pressable>
+                                </View>
+                                {
+                                    <Text>
+                                        {messageValidation}
+                                    </Text>
+                                }
+                            </View>
+                        </View>
                     </View>
-                </View>
+                </ScrollView>
             </View>
+
         </Components.Container>
     )
 }

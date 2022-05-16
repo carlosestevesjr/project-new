@@ -181,7 +181,7 @@ const Screen = ({ navigation, route, ...props}) => {
     return (
         <>
             {
-                ( tags.length > 0 && loader != true) ?
+                ( tags.length > 0 ) ?
                     <FlatList
                         ListHeaderComponent={HeaderList}
                         refreshControl={
@@ -212,7 +212,14 @@ const Screen = ({ navigation, route, ...props}) => {
                     />
                     :
                     <View style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
-                        <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há tags</Text>
+                        {
+                            loader ?
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
+                            :
+                        
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
+                            
+                        }
                     </View>
             }
 

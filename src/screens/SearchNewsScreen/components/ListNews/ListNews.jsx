@@ -9,7 +9,7 @@ import { formataDataBr } from '../../../../utils/index'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaNewsSearch } from '../../../../redux/slices/searchNewsSlice'
+import { buscaNewsSearch, salvaSearchListaNews } from '../../../../redux/slices/searchNewsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, TextInput, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -265,7 +265,16 @@ const Screen = ({ navigation, route, ...props}) => {
 
         navigation.addListener('focus', () => {
             if (isMounted.current) {
-                clickBuscarRefreshing(true)
+                dispatch(
+                    salvaSearchListaNews({
+                        'data':"",
+                        'reload': true,
+                        'params': {
+                            busca: "",
+                        }
+                    }),
+                )
+
             }
             // The screen is focused
             // Call any action
@@ -275,16 +284,25 @@ const Screen = ({ navigation, route, ...props}) => {
 
     // Get State
     const search_news = useSelector((state) => {
-        // console.log('dasdasdas',state.search_news.search_news)
+        console.log('news search',state.search_news.search_news)
         return state.search_news.search_news
     } )
 
-    const loader = useSelector((state) => state.geral.loaderGeral)
+    const loader = useSelector((state) =>
+    {
+        console.log('loader search',state.geral.loaderGeral.open)
+        return state.geral.loaderGeral.open
+    })
+
+    const message = useSelector((state) => {
+        console.log('message search',state.search_news.message)
+        return state.search_news.message
+    } )
    
     return (
         <>
             {
-                ( search_news.length > 0 && loader != true) ?
+                ( search_news.length > 0 ) ?
                     <FlatList
                         ListHeaderComponent={HeaderList}
                         refreshControl={
@@ -313,9 +331,14 @@ const Screen = ({ navigation, route, ...props}) => {
                         }}
                     />  
                     :
-                    <View style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
-                        <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
-                    </View>             
+                    <View  style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
+                        {
+                            loader ?
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
+                            :
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>{message}</Text>
+                        }
+                    </View>           
                 
             }
 

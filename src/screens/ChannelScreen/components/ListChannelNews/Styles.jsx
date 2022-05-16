@@ -11,7 +11,6 @@ import  {
 const styles = StyleSheet.create({
     container: {
 		flex: 1,
-        paddingTop:65
 	},
     containerHeaderChannel:{
         width: '100%',
@@ -26,9 +25,6 @@ const styles = StyleSheet.create({
         shadowRadius: 3.05,
         elevation: 4,
         borderRadius:3,
-        position:'absolute',
-        top:1,
-        left:0 ,
         zIndex:9999,
         padding: 5,
         borderBottomWidth:3,
