@@ -29,12 +29,9 @@ export const {
 export const alteraStatusLoaderGeral = payload => async(dispatch) => {
      
     try {
-       
-        // console.log('disparado dispatch teste'),
         dispatch(
             alteraStatusLoaderGeral_(payload)
         )
-
     } catch (error) {
         console.log('erro ao alterar o loader')
         // console.log(error)

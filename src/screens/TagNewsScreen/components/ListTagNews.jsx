@@ -167,8 +167,40 @@ const Screen = ({ navigation, route, ...props}) => {
                                 }
                             </View>
                         </View>
+
+                        {
+                            imageActive &&
+                            <TouchableOpacity
+                                style={styles.newsContainerBanner}
+                                onPress={() => (navigation.push(
+                                    'Notícia',
+                                    {
+                                        idItem: Math.floor(Math.random() * 100),
+                                        url:item.new.link,
+                                        data:item.new,
+                                        title:'Notícia',
+                                        type:item.new.channel_type
+                                    }
+                                ))
+                                }
+                            >
+                                <View style={styles.newsBanner}>
+                                    <Image
+                                        style={styles.newsBannerLoader}
+                                        source={require('../../../assets/images/commons/loader.gif')}
+                                    />
+                                    <Image
+                                        style={styles.newsBannerImage}
+                                        resizeMode={'contain'}
+                                        source={{
+                                            uri: typeImage(item.new.image, item.new.channel_type) ,
+                                        }}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+                        }
                         <TouchableOpacity
-                            style={styles.newsContainerBanner}
+                            
                             onPress={() => (navigation.push(
                                 'Notícia',
                                 {
@@ -181,25 +213,12 @@ const Screen = ({ navigation, route, ...props}) => {
                             ))
                             }
                         >
-                            <View style={styles.newsBanner}>
-                                <Image
-                                    style={styles.newsBannerLoader}
-                                    source={require('../../../assets/images/commons/loader.gif')}
-                                />
-                                <Image
-                                    style={styles.newsBannerImage}
-                                    resizeMode={'contain'}
-                                    source={{
-                                        uri: typeImage(item.new.image, item.new.channel_type) ,
-                                    }}
-                                />
+                            <View style={styles.newsTitle}>
+                                <Text style={styles.newsDescricao}>
+                                    {item.new.title}
+                                </Text>
                             </View>
                         </TouchableOpacity>
-                        <View style={styles.newsTitle}>
-                            <Text style={styles.newsDescricao}>
-                                {item.new.title}
-                            </Text>
-                        </View>
                     </View>
                     <View style={styles.newsTag}> 
                         {
@@ -258,6 +277,9 @@ const Screen = ({ navigation, route, ...props}) => {
     const news_tag = useSelector((state) => state.news_tag.news_tag)
 
     const loader = useSelector((state) => state.geral.loaderGeral.open)
+    const imageActive = useSelector((state) => {
+        return state.geral_persist.image.mostrar
+    })
 
     return (
         <>

@@ -141,7 +141,6 @@ const MainNavigator = () => {
                         name="Buscar Notícias"
                         component={SearchNewsComponent}
                         options={titleOptions('Buscar Notícias')}
-                        
                     />
 
                     <MainStack.Screen

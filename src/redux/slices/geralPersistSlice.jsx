@@ -8,6 +8,9 @@ export const geralPersistSlice = createSlice({
         modalDisclemer: {
             open:true
         },
+        image:{
+            mostrar:true
+        },
         message: "",
     },
     reducers: {
@@ -15,11 +18,17 @@ export const geralPersistSlice = createSlice({
             console.log('modalDisclemer', action.payload.open)
             state.modalDisclemer.open = action.payload.open
         },
+
+        alteraStatusMostraImage_: (state, action) => {
+            console.log('mostraImage', action.payload)
+            state.image.mostrar = action.payload      
+        }
     },
 });
 
 export const { 
     alterModalDisclemer, 
+    alteraStatusMostraImage_
 } = geralPersistSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -40,9 +49,16 @@ export const alteraModalDisclemer = payload => async(dispatch) => {
     }
 };
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-// export const selectCount = state => state.counter.value;
+export const alteraStatusMostraImage = payload => async(dispatch) => {
+    try {
+        dispatch(
+            alteraStatusMostraImage_(payload.mostraImage)
+        )
+    } catch (error) {
+        console.log('erro alterar mostra image')
+        // console.log(error)
+        // dispatch(loginFailed());
+    }
+};
 
 export default geralPersistSlice.reducer;

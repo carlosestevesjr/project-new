@@ -60,23 +60,6 @@ const Screen = ({ navigation, route, ...props}) => {
     return (
         <Components.Container title="home">
             <ListChannelNews route={route} navigation={navigation} />
-            <View style={{ position: 'absolute', right: 10, bottom: 10 }}>
-                <TouchableOpacity
-                    style={{ width: 50, height: 50 }}
-                    onPress={() => {
-                        navigation.push('Feed Config', {
-                            title: 'Feed Config'
-                        })
-                    }}
-                >
-                    <Image
-                        style={{ width: 50, height: 50 }}
-                        source={require('../../assets/images/commons/config.png')}
-                    />
-                </TouchableOpacity>
-            </View>
-
-           
         </Components.Container>
     )
 }

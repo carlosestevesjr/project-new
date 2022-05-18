@@ -18,24 +18,24 @@ export const primaryA400 = '#c01dff';
 export const primaryA700 = '#b903ff';
 
 //Secundary
-export const secundary50 = '#ebfdf7';
-export const secundary100 = '#ccfbea';
-export const secundary200 = '#aaf9dd'; //Cor Secundária
-export const secundary300 = '#88f6cf';
-export const secundary400 = '#6ff4c4';
-export const secundary500 = '#55f2ba';
-export const secundary600 = '#4ef0b3';
-export const secundary700 = '#44eeab';
-export const secundary800 = '#3beca3';
-export const secundary900 = '#2ae894';
+export const secundary50 = '#fcf6e6';
+export const secundary100 = '#f8e9c1';
+export const secundary200 = '#f4db98';
+export const secundary300 = '#efcd6e'; //Cor Secundária
+export const secundary400 = '#ebc24f';
+export const secundary500 = '#e8b730';
+export const secundary600 = '#e5b02b';
+export const secundary700 = '#e2a724';
+export const secundary800 = '#de9f1e';
+export const secundary900 = '#d89013';
 export const secundaryA100 = '#ffffff';
-export const secundaryA200 = '#f4fffa';
-export const secundaryA400 = '#c1ffe2';
-export const secundaryA700 = '#a7ffd6';
+export const secundaryA200 = '#ffeed4';
+export const secundaryA400 = '#ffdaa1';
+export const secundaryA700 = '#ffd088';
 
 //Alerts
 export const textSuccess = '#155724';
-export const textDanger = '#721c24';
+export const textDanger = '#F44336';
 export const textWarning = '#856404';
 export const textInfo = '#0c5460';
 
@@ -49,10 +49,10 @@ export const divider = primary50;
 
 //Sizes
 export const extraSmall = 13;
-export const small = 19;
-export const medium = 25;
-export const large = 31;
-export const extraLarge = 37;
+export const small = 15;
+export const medium = 18;
+export const large = 21;
+export const extraLarge = 25;
 
 //Text
 export const light = '#FFFFFF';

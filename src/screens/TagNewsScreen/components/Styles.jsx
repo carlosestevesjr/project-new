@@ -2,9 +2,12 @@ import { StyleSheet } from 'react-native';
 import  { 
     background, 
     dark, 
+    light, 
     primary500,
+    primary800,
     primary700,
-    light
+    primary400,
+    primary50,
 }  from "../../../theme/index"
 
 const styles = StyleSheet.create({
@@ -33,11 +36,9 @@ const styles = StyleSheet.create({
         fontSize:theme.sizes.small,
         color: primary500,
         padding:5,
-       
         zIndex:9999,
         borderBottomWidth:3,
         borderBottomColor:primary500,
-       
 	},
     boxNews:{
         width:'100%',
@@ -53,7 +54,9 @@ const styles = StyleSheet.create({
         borderRadius:5,
         margin:3,
         padding:5,
-		backgroundColor:primary500,
+        fontWeight:'bold',
+		fontSize:theme.sizes.extraSmall,
+        backgroundColor: primary400,
 		color:light
 	},
 	news:{
@@ -79,24 +82,24 @@ const styles = StyleSheet.create({
     },
     newsBannerImage:{
         width: '100%',
-        height: 130,
+        height: 110,
         position: 'relative',
         zIndex: 1,
-        backgroundColor: '#d3d3d3',
+        // backgroundColor:primary50,
         margin: '0%'
     },
     containerChannel:{
         width:'100%',
         flexDirection: "row",
         marginBottom:5,
-        borderBottomColor:'#d3d3d3',
+        borderBottomColor:primary50,
 		borderBottomWidth:1,
-        padding:5 ,
+        padding:3 ,
     },
 	newsChannelLogo:{
 		width:'20%',
-        padding:5,
-        height:50,
+        padding:1,
+        height:37,
 	},
 	newsChannelImage:{
 		width:'100%',
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
     newsTypeMedia:{
 		position:'absolute',
 		right:0,
-		bottom:5,
+		top:2,
 		zIndex:9,
 		backgroundColor :'#fff',
 		borderColor:primary500,
@@ -134,19 +137,20 @@ const styles = StyleSheet.create({
 		padding:3,
 		borderRadius:50,
 	},
-	
     newsDescricao:{
 		width:'100%',
         fontWeight:'bold',
         fontStyle: 'italic',
 		lineHeight:18,
 		textTransform:'uppercase',
-        // backgroundColor:primary500,
+        textAlign:"center",
+        backgroundColor:primary50,
 		padding:8,
-		color:primary500,
-		fontSize:theme.sizes.extraSmall,
-        borderBottomColor:'#d3d3d3',
-		borderBottomWidth:1,
+		color:primary800,
+		fontSize:theme.sizes.small,
+        borderRadius:5,
+        // borderBottomColor:'#d3d3d3',
+		// borderBottomWidth:1,
 	},
 });
 

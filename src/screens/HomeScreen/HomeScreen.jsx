@@ -1,7 +1,5 @@
 import React, { useState, useEffect,  useCallback, useRef } from 'react';
 
-
-
 //Config
 import Config from '../../config'
 
@@ -16,8 +14,9 @@ import { View, Text, Image, TouchableOpacity, Pressable, TextInput, StyleSheet }
 import { Icon } from 'react-native-elements'
 
 import ListNews from '../HomeScreen/components/ListNews/ListNews'
+import { alteraStatusMostraImage } from '../../redux/slices/geralPersistSlice'
 
-import theme, { primary500, light, background } from '../../theme/index'
+import theme, { secundary500, textDanger, light} from '../../theme/index'
 import Components from './../../components'
 
 // import { Appbar, BottomNavigation, Text, Drawer } from 'react-native-paper';
@@ -50,20 +49,44 @@ const Screen = ({ navigation, route, ...props }) => {
     //     albums: AlbumsRoute,
     //     recents: RecentsRoute,
     // });
+    //Variables Default
+    const dispatch = useDispatch()
+    const alteraImage = (status) => {
+        dispatch(
+            alteraStatusMostraImage(
+                {
+                    mostraImage:status,
+                }
+            ),
+        )
+    }
 
-    // const [active, setActive] = React.useState('');
+    const imageActive = useSelector((state) => {
+        return state.geral_persist.image.mostrar
+    })
 
     return (
         <Components.Container title="home">
-            <ListNews navigation={navigation} />
+            <ListNews navigation={navigation} imageActive={imageActive} />
 
             <Components.ModalsContent title="home">
               
             </Components.ModalsContent >
-          
-            <View style={{ position: 'absolute', right: 10, bottom: 10 }}>
+            <View style={{ position:'absolute', bottom:0, width:'100%', flexDirection:'row', flexWrap:'wrap', justifyContent:'flex-end'}}>
                 <TouchableOpacity
-                    style={{ width: 50, height: 50 }}
+                    style={{ marginLeft:2, marginRight:2, width: 50, height: 50 }}
+                    onPress={() => (alteraImage(!imageActive))}
+                >
+                    <Icon
+                        iconStyle={{ padding: 15, borderRadius: 50, backgroundColor: (imageActive) ? secundary500  : textDanger , color: "#333" }}
+                        name='picture-o'
+                        type='font-awesome'
+                        color={light}
+                        size={theme.sizes.small}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={{ marginLeft:5, marginRight:5, width: 50, height: 50 }}
                     onPress={() => {
                         navigation.navigate('Buscar Notícias', {
                             title: 'Buscar Notícias'
@@ -79,6 +102,7 @@ const Screen = ({ navigation, route, ...props }) => {
                     />
                 </TouchableOpacity>
             </View>
+          
         </Components.Container>
     )
 }

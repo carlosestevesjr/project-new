@@ -119,20 +119,6 @@ const Screen = ({ navigation, route, ...props}) => {
                                     }
                                 ))
                                 }
-
-                                // onPress={() => (navigation.push(
-                                //     'Canal',
-                                //     {
-                                //         data: {
-                                //             channels_id: item.new.channels_id,
-                                //             channel_type: item.new.channel_type,
-                                //             channel: item.new.channel,
-                                //             image: item.new.channel_logo,
-                                //             tags: item.tags
-                                //         },
-                                //         title:'Canal'
-                                //     }
-                                // ))
                             >
                                 <Image
                                     style={styles.newsChannelImage}
@@ -143,9 +129,27 @@ const Screen = ({ navigation, route, ...props}) => {
                                 />
                             </TouchableOpacity>
                             <View style={styles.containerChannelName} >
+                                <TouchableOpacity
+                                    onPress={() => (navigation.push(
+                                        'Canal',
+                                        {
+                                            data: {
+                                                channels_id: item.id,
+                                                channel_type: item.type,
+                                                channel: item.name,
+                                                image: item.image,
+                                            
+                                            },
+                                            title:'Canal'
+                                        }
+                                    ))
+                                    }
+                                >
                                 <Text style={styles.ChannelName}>
                                     {item.name}
                                 </Text>
+                                    
+                                </TouchableOpacity>
                                 
                                 {/* <Text style={styles.newsDescricao}> */}
                                     {/* {
