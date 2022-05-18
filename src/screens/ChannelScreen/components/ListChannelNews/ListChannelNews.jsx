@@ -166,10 +166,40 @@ const Screen = ({ navigation, route, ...props}) => {
                                 }
                             </View>
                         </View>
-                        {
-                            imageActive &&
+                        <View style={styles.containerNews}>
+                            {
+                                imageActive &&
+                                <TouchableOpacity
+                                    style={styles.newsContainerBanner}
+                                    onPress={() => (navigation.push(
+                                        'Notícia',
+                                        {
+                                            idItem: Math.floor(Math.random() * 100),
+                                            url:item.new.link,
+                                            data:item.new,
+                                            title:'Notícia',
+                                            type:item.new.channel_type
+                                        }
+                                    ))
+                                    }
+                                >
+                                    <View style={styles.newsBanner}>
+                                        <Image
+                                            style={styles.newsBannerLoader}
+                                            source={require('../../../../assets/images/commons/loader.gif')}
+                                        />
+                                        <Image
+                                            style={styles.newsBannerImage}
+                                            resizeMode={'contain'}
+                                            source={{
+                                                uri: typeImage(item.new.image, item.new.channel_type) ,
+                                            }}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+                            }
                             <TouchableOpacity
-                                style={styles.newsContainerBanner}
+                                style={styles.newsTitle}
                                 onPress={() => (navigation.push(
                                     'Notícia',
                                     {
@@ -182,40 +212,13 @@ const Screen = ({ navigation, route, ...props}) => {
                                 ))
                                 }
                             >
-                                <View style={styles.newsBanner}>
-                                    <Image
-                                        style={styles.newsBannerLoader}
-                                        source={require('../../../../assets/images/commons/loader.gif')}
-                                    />
-                                    <Image
-                                        style={styles.newsBannerImage}
-                                        resizeMode={'contain'}
-                                        source={{
-                                            uri: typeImage(item.new.image, item.new.channel_type) ,
-                                        }}
-                                    />
+                                <View >
+                                    <Text style={styles.newsDescricao}>
+                                        {item.new.title}
+                                    </Text>
                                 </View>
                             </TouchableOpacity>
-                        }
-                         <TouchableOpacity
-                            onPress={() => (navigation.push(
-                                'Notícia',
-                                {
-                                    idItem: Math.floor(Math.random() * 100),
-                                    url:item.new.link,
-                                    data:item.new,
-                                    title:'Notícia',
-                                    type:item.new.channel_type
-                                }
-                            ))
-                            }
-                        >
-                            <View style={styles.newsTitle}>
-                                <Text style={styles.newsDescricao}>
-                                    {item.new.title}
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
+                        </View>
                     </View>
                     <View style={styles.newsTag}> 
                         {

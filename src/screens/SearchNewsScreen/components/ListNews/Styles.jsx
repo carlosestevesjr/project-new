@@ -36,31 +36,6 @@ const styles = StyleSheet.create({
 		width:'100%',
         position:'relative' ,
 	},
-    newsContainerBanner:{
-        marginTop: 5,
-        marginBottom: 5,
-	},
-	newsBanner:{
-		width:'100%',
-	},
-    newsBannerLoader:{
-        zIndex:0,
-        width:35,
-        height:35,
-        position:'absolute',
-        marginTop:-17.5,
-        marginLeft:-17.5,
-        left:'50%',
-        top:'50%'
-    },
-    newsBannerImage:{
-        width: '100%',
-        height: 110,
-        position: 'relative',
-        zIndex: 1,
-        // backgroundColor:primary50,
-        margin: '0%'
-    },
     containerChannel:{
         width:'100%',
         flexDirection: "row",
@@ -74,6 +49,39 @@ const styles = StyleSheet.create({
         padding:1,
         height:37,
 	},
+    containerNews:{
+        width:'100%',
+        flexDirection:'row',
+        flexWrap:'wrap',
+        textAlign:'center',
+        // justifyContent:'space-between'
+    },
+    newsContainerBanner:{
+        width:'25%',
+	},
+    newsTitle:{
+        width:'75%',  
+    },
+	newsBanner:{
+		// width:'100%',
+        backgroundColor:primary50,
+	},
+    newsBannerLoader:{
+        zIndex:0,
+        width:35,
+        height:35,
+        position:'absolute',
+        marginTop:-17.5,
+        marginLeft:-17.5,
+        left:'50%',
+        top:'50%'
+    },
+    newsBannerImage:{
+        width: '100%',
+        height: 63,
+        // position: 'relative',
+        // zIndex: 1,
+    },
 	newsChannelImage:{
 		width:'100%',
 		height:'100%'
@@ -82,7 +90,7 @@ const styles = StyleSheet.create({
         width:'80%',
     },
 	ChannelName:{
-        width:'100%',
+        // width:'100%',
 		textTransform:'uppercase',
         color:primary500,
 		fontSize:theme.sizes.extraSmall,
@@ -91,7 +99,7 @@ const styles = StyleSheet.create({
         paddingRight: 10,
 	},
     newsData:{
-        width:'100%',
+        // width:'100%',
 		color:primary700,
 		fontSize:theme.sizes.extraSmall,
         // fontWeight: 'bold',
@@ -111,17 +119,19 @@ const styles = StyleSheet.create({
 		borderRadius:50,
 	},
     newsDescricao:{
-		width:'100%',
+		// width:'100%',
         fontWeight:'bold',
         fontStyle: 'italic',
-		lineHeight:18,
+		lineHeight:16,
 		textTransform:'uppercase',
-        textAlign:"center",
+        // textAlign:"center",
         backgroundColor:primary50,
 		padding:8,
 		color:primary800,
-		fontSize:theme.sizes.small,
-        borderRadius:5,
+		fontSize:theme.sizes.extraSmall,
+        // borderRadius:5,
+        marginLeft:'1%',
+        // marginRight:'1%',
         // borderBottomColor:'#d3d3d3',
 		// borderBottomWidth:1,
 	},
