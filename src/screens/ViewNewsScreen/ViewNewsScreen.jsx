@@ -24,17 +24,13 @@ const Screen = ({ navigation, route }) => {
     }, [])
 
     const typeImage = (image, channel_type) => {
-        if (channel_type === "podcast") {
-            return Config.LOCAL_HOST_NOCINEMA + image
-        } else {
-            return Config.LOCAL_HOST_NOCINEMA + image
-        }
+        return Config.LOCAL_HOST_NOCINEMA + image
     }
 
     const createButtonAlert = () =>
         Alert.alert(
             "Alerta Podcast",
-            "Não foi possivel abrir este conteúdo detro do Meu Hype, vamos direciona-lo até o site original.",
+            "Não foi possivel abrir este conteúdo dentro do Meu Hype, vamos direcioná-lo ao site original.",
             [
                 {
                     text: "Cancelar",
@@ -60,11 +56,11 @@ const Screen = ({ navigation, route }) => {
 
     const abri_webview = () => {
         navigation.addListener('focus', () => {
-            if (route.params.type === "podcast") {
-                return (
-                    conteudoCard()
-                )
-            } else {
+            // if (route.params.type === "podcast") {
+            //     return (
+            //         conteudoCard()
+            //     )
+            // } else {
                 return <WebView
                     style={styles.web}
                     javaScriptEnabled={true}
@@ -75,14 +71,14 @@ const Screen = ({ navigation, route }) => {
                     showDialog={false}
                     useWebKit={true}
                 />
-            }
+            // }
         });
 
 
-        if (route.params.type === "podcast") {
-            createButtonAlert()
-            return (conteudoCard())
-        } else {
+        // if (route.params.type === "podcast") {
+        //     createButtonAlert()
+        //     return (conteudoCard())
+        // } else {
             return (<WebView
                 style={styles.web}
                 javaScriptEnabled={true}
@@ -94,7 +90,7 @@ const Screen = ({ navigation, route }) => {
                 useWebKit={true}
             />
             )
-        }
+        // }
     }
 
     const conteudoCard = () => {
