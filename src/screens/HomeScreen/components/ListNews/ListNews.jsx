@@ -27,11 +27,8 @@ const Screen = ({ navigation, route, ...props}) => {
 	const [refreshing, setRefreshing] = useState(false);
 
     const typeImage = (image, channel_type) => {
-		if(channel_type === "podcast"){
-			return image
-		}else{
-			return Config.LOCAL_HOST_NOCINEMA+image
-		}
+		
+        return Config.LOCAL_HOST_NOCINEMA+image
 	}
 
     const clickBuscarRefreshing = (reload = true) => {
