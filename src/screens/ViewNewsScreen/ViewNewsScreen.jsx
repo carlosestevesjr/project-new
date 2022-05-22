@@ -25,6 +25,7 @@ const Screen = ({ navigation, route }) => {
 
     const typeImage = (image, channel_type) => {
         return Config.LOCAL_HOST_NOCINEMA + image
+       
     }
 
     const createButtonAlert = () =>
@@ -56,11 +57,11 @@ const Screen = ({ navigation, route }) => {
 
     const abri_webview = () => {
         navigation.addListener('focus', () => {
-            // if (route.params.type === "podcast") {
-            //     return (
-            //         conteudoCard()
-            //     )
-            // } else {
+            if (route.params.type === "podcast") {
+                return (
+                    conteudoCard()
+                )
+            } else {
                 return <WebView
                     style={styles.web}
                     javaScriptEnabled={true}
@@ -71,14 +72,14 @@ const Screen = ({ navigation, route }) => {
                     showDialog={false}
                     useWebKit={true}
                 />
-            // }
+            }
         });
 
 
-        // if (route.params.type === "podcast") {
-        //     createButtonAlert()
-        //     return (conteudoCard())
-        // } else {
+        if (route.params.type === "podcast") {
+            createButtonAlert()
+            return (conteudoCard())
+        } else {
             return (<WebView
                 style={styles.web}
                 javaScriptEnabled={true}
@@ -90,7 +91,7 @@ const Screen = ({ navigation, route }) => {
                 useWebKit={true}
             />
             )
-        // }
+        }
     }
 
     const conteudoCard = () => {
