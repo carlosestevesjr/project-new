@@ -48,6 +48,7 @@ export const bgInfo = '#d1ecf1';
 export const divider = primary50;
 
 //Sizes
+export const ultraSmall = 11;
 export const extraSmall = 13;
 export const small = 15;
 export const medium = 18;
@@ -90,6 +91,7 @@ export default theme = {
         },
     },
     sizes: {
+        ultraSmall,
         extraSmall,
         small,
         medium,

@@ -86,8 +86,7 @@ const Screen = ({ navigation, route, ...props}) => {
     }
 
     const HeaderList = ({ }) => (
-        <>
-        </>
+        <Components.TagsRecents  navigation={navigation} props={props}  route={route} />
     )
 
     const renderItem = useCallback(
@@ -246,9 +245,7 @@ const Screen = ({ navigation, route, ...props}) => {
 	const keyExtractor = useCallback((item) => item.new.id.toString(), [])
 
     useEffect(() => {
-		
-			clickBuscar(false)
-		
+        clickBuscar(false)
 	}, []);
 
     // Get State

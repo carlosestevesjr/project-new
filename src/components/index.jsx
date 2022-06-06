@@ -4,6 +4,7 @@ import Header from './Header/Header'
 import MenuContent from './MenuContent/MenuContent'
 import Container from './Container/Container'
 import Card  from './Card/Card'
+import TagsRecents  from './TagsRecents/TagsRecents'
 import ModalsContent  from './Modals/Modals'
 export default {
     MontaAnimationLottie,
@@ -11,5 +12,6 @@ export default {
     MenuContent,
     Container,
     Card,
+    TagsRecents,
     ModalsContent
 }
