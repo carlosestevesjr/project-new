@@ -21,6 +21,9 @@ import Components from './../../components'
 
 // import { Appbar, BottomNavigation, Text, Drawer } from 'react-native-paper';
 
+//Styles
+import styles from './Styles'
+
 const Screen = ({ navigation, route, ...props }) => {
 
     // const NewsRoute = () => <Text>Noticias</Text>;
@@ -61,49 +64,34 @@ const Screen = ({ navigation, route, ...props }) => {
         )
     }
 
-    const imageActive = useSelector((state) => {
-        return state.geral_persist.image.mostrar
-    })
-
     return (
         <>
             <Components.Container title="home">
-            
-                <ListNews navigation={navigation} imageActive={imageActive} />
+                <View style={{ width:'100%'}}>
+                    <Components.TagsRecents  navigation={navigation} props={props} route={route} />                  
+                </View>
+                <ListNews navigation={navigation} />
 
                 <Components.ModalsContent title="home">
                 
                 </Components.ModalsContent >
-                <View style={{ position:'absolute', bottom:0, width:'100%', flexDirection:'row', flexWrap:'wrap', justifyContent:'flex-end'}}>
-                    <TouchableOpacity
-                        style={{ marginLeft:2, marginRight:2, width: 50, height: 50 }}
-                        onPress={() => (alteraImage(!imageActive))}
-                    >
-                        <Icon
-                            iconStyle={{ padding: 15, borderRadius: 50, backgroundColor: (imageActive) ? secundary500  : textDanger , color: "#333" }}
-                            name='picture-o'
-                            type='font-awesome'
-                            color={light}
-                            size={theme.sizes.small}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={{ marginLeft:5, marginRight:5, width: 50, height: 50 }}
-                        onPress={() => {
-                            navigation.navigate('Buscar Notícias', {
-                                title: 'Buscar Notícias'
-                            })
-                        }}
-                    >
-                        <Icon
-                            iconStyle={{ padding: 15, borderRadius: 50, backgroundColor: '#E8B730', color: "#333" }}
-                            name='search'
-                            type='font-awesome'
-                            color={light}
-                            size={theme.sizes.small}
-                        />
-                    </TouchableOpacity>
-                </View>
+
+                <TouchableOpacity
+                    style={{ position:'absolute', right:5, bottom:5,  width: 50, height: 50 }}
+                    onPress={() => {
+                        navigation.navigate('Buscar Notícias', {
+                            title: 'Buscar Notícias'
+                        })
+                    }}
+                >
+                    <Icon
+                        iconStyle={{ padding: 15, borderRadius: 50, backgroundColor: '#E8B730', color: "#333" }}
+                        name='search'
+                        type='font-awesome'
+                        color={light}
+                        size={theme.sizes.small}
+                    />
+                </TouchableOpacity>
             
             </Components.Container>
         </>

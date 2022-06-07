@@ -25,9 +25,11 @@ const Screen = ({ navigation, route, ...props}) => {
 
 	const [page, setPage] = useState(1);
 	const [refreshing, setRefreshing] = useState(false);
+    const qtd = 20
+    const dateInitial = ''
+    const dateFinal = ''
 
     const typeImage = (image, channel_type) => {
-		
         return Config.LOCAL_HOST_NOCINEMA+image
 	}
 
@@ -42,6 +44,9 @@ const Screen = ({ navigation, route, ...props}) => {
                 {
                     params:{
                         v_page: "",
+                        qtd: qtd,
+                        dateInitial:dateInitial,
+                        dateFinal:dateFinal,
                         reload: reload
                     }
                 }
@@ -60,6 +65,9 @@ const Screen = ({ navigation, route, ...props}) => {
                 {
                     params:{
                         v_page: "",
+                        qtd: qtd,
+                        dateInitial:dateInitial,
+                        dateFinal:dateFinal,
                         reload: reload
                     }
                 }
@@ -77,6 +85,9 @@ const Screen = ({ navigation, route, ...props}) => {
                 {
                     params:{
                         v_page: v_page,
+                        qtd: qtd,
+                        dateInitial:dateInitial,
+                        dateFinal:dateFinal,
                         reload: reload,
                     }
                 }
@@ -86,7 +97,9 @@ const Screen = ({ navigation, route, ...props}) => {
     }
 
     const HeaderList = ({ }) => (
-        <Components.TagsRecents  navigation={navigation} props={props}  route={route} />
+        <>
+            
+        </>
     )
 
     const renderItem = useCallback(
@@ -123,10 +136,10 @@ const Screen = ({ navigation, route, ...props}) => {
                             <View style={styles.containerChannelName} >
                                 <Text style={styles.ChannelName}>
                                     {item.new.channel}
-                                    - {item.new.id}
+                                    - {item.new.news_id}
                                 </Text>
                                 <Text style={styles.newsData} >
-                                    {formataDataBr(item.new.data)}
+                                    {formataDataBr(item.new.news_data)}
                                 </Text>
                                 {
                                    item.new.channel_type == "podcast" &&
@@ -158,37 +171,35 @@ const Screen = ({ navigation, route, ...props}) => {
                             </View>
                         </View>
                         <View style={styles.containerNews}>
-                            {
-                                props.imageActive &&
-                                <TouchableOpacity
-                                    style={styles.newsContainerBanner}
-                                    onPress={() => (navigation.push(
-                                        'Notícia',
-                                        {
-                                            idItem: Math.floor(Math.random() * 100),
-                                            url:item.new.link,
-                                            data:item.new,
-                                            title:'Notícia',
-                                            type:item.new.channel_type
-                                        }
-                                    ))
+                        
+                            <TouchableOpacity
+                                style={styles.newsContainerBanner}
+                                onPress={() => (navigation.push(
+                                    'Notícia',
+                                    {
+                                        idItem: Math.floor(Math.random() * 100),
+                                        url:item.new.news_link,
+                                        data:item.new,
+                                        title:'Notícia',
+                                        type:item.new.channel_type
                                     }
-                                >
-                                    <View style={styles.newsBanner}>
-                                        <Image
-                                            style={styles.newsBannerLoader}
-                                            source={require('../../../../assets/images/commons/loader.gif')}
-                                        />
-                                        <Image
-                                            style={styles.newsBannerImage}
-                                            resizeMode={'contain'}
-                                            source={{
-                                                uri: typeImage(item.new.image, item.new.channel_type) ,
-                                            }}
-                                        />
-                                    </View>
-                                </TouchableOpacity>
-                            }
+                                ))
+                                }
+                            >
+                                <View style={styles.newsBanner}>
+                                    <Image
+                                        style={styles.newsBannerLoader}
+                                        source={require('../../../../assets/images/commons/loader.gif')}
+                                    />
+                                    <Image
+                                        style={styles.newsBannerImage}
+                                        resizeMode={'contain'}
+                                        source={{
+                                            uri: typeImage(item.new.news_image, item.new.channel_type) ,
+                                        }}
+                                    />
+                                </View>
+                            </TouchableOpacity>
 
                             <TouchableOpacity
                                 style={styles.newsTitle}
@@ -196,7 +207,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     'Notícia',
                                     {
                                         idItem: Math.floor(Math.random() * 100),
-                                        url:item.new.link,
+                                        url:item.new.news_link,
                                         data:item.new,
                                         title:'Notícia',
                                         type:item.new.channel_type
@@ -206,7 +217,7 @@ const Screen = ({ navigation, route, ...props}) => {
                             >
                                 <View >
                                     <Text style={styles.newsDescricao}>
-                                        {item.new.title}
+                                        {item.new.news_title}
                                     </Text>
                                 </View>
 
@@ -229,7 +240,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                             }
                                         >
                                             <Text style={styles.newsTagName}>
-                                                #{tag.title}
+                                                #{tag.tag_name}
                                             </Text>
                                         </TouchableOpacity>
                                 
@@ -242,7 +253,7 @@ const Screen = ({ navigation, route, ...props}) => {
     )
 
     const ITEM_HEIGHT = 200
-	const keyExtractor = useCallback((item) => item.new.id.toString(), [])
+	const keyExtractor = useCallback((item) => item.new.news_id.toString(), [])
 
     useEffect(() => {
         clickBuscar(false)
@@ -257,6 +268,7 @@ const Screen = ({ navigation, route, ...props}) => {
 
     return (
         <>
+           
             {
                 ( news.length > 0 ) ?
                     <FlatList
@@ -298,6 +310,7 @@ const Screen = ({ navigation, route, ...props}) => {
                             }
                         </View>
             }
+          
 
         </>
     )

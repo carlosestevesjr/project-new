@@ -8,9 +8,6 @@ export const geralPersistSlice = createSlice({
         modalDisclemer: {
             open:true
         },
-        image:{
-            mostrar:true
-        },
         message: "",
     },
     reducers: {
@@ -18,11 +15,7 @@ export const geralPersistSlice = createSlice({
             console.log('modalDisclemer', action.payload.open)
             state.modalDisclemer.open = action.payload.open
         },
-
-        alteraStatusMostraImage_: (state, action) => {
-            console.log('mostraImage', action.payload)
-            state.image.mostrar = action.payload      
-        }
+       
     },
 });
 
@@ -44,18 +37,6 @@ export const alteraModalDisclemer = payload => async(dispatch) => {
 
     } catch (error) {
         console.log('erro ao alterar o disclemer')
-        // console.log(error)
-        // dispatch(loginFailed());
-    }
-};
-
-export const alteraStatusMostraImage = payload => async(dispatch) => {
-    try {
-        dispatch(
-            alteraStatusMostraImage_(payload.mostraImage)
-        )
-    } catch (error) {
-        console.log('erro alterar mostra image')
         // console.log(error)
         // dispatch(loginFailed());
     }

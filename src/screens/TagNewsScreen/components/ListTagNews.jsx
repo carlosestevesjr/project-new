@@ -42,7 +42,7 @@ const Screen = ({ navigation, route, ...props}) => {
                     params:{
                         v_page: "",
                         reload: reload,
-                        tag_id: route.params.data.id
+                        tag_id: route.params.data.tag_id
                     }
                 }
             ),
@@ -61,7 +61,7 @@ const Screen = ({ navigation, route, ...props}) => {
                     params:{
                         v_page: "",
                         reload: reload,
-                        tag_id: route.params.data.id
+                        tag_id: route.params.data.tag_id
                     }
                 }
             ),
@@ -79,7 +79,7 @@ const Screen = ({ navigation, route, ...props}) => {
                     params:{
                         v_page: v_page,
                         reload: reload,
-                        tag_id: route.params.data.id
+                        tag_id: route.params.data.tag_id
                     }
                 }
             ),
@@ -164,37 +164,36 @@ const Screen = ({ navigation, route, ...props}) => {
                             </View>
                         </View>
                         <View style={styles.containerNews}>
-                            {
-                                imageActive &&
-                                <TouchableOpacity
-                                    style={styles.newsContainerBanner}
-                                    onPress={() => (navigation.push(
-                                        'Notícia',
-                                        {
-                                            idItem: Math.floor(Math.random() * 100),
-                                            url:item.new.link,
-                                            data:item.new,
-                                            title:'Notícia',
-                                            type:item.new.channel_type
-                                        }
-                                    ))
+                            
+                            <TouchableOpacity
+                                style={styles.newsContainerBanner}
+                                onPress={() => (navigation.push(
+                                    'Notícia',
+                                    {
+                                        idItem: Math.floor(Math.random() * 100),
+                                        url:item.new.link,
+                                        data:item.new,
+                                        title:'Notícia',
+                                        type:item.new.channel_type
                                     }
-                                >
-                                    <View style={styles.newsBanner}>
-                                        <Image
-                                            style={styles.newsBannerLoader}
-                                            source={require('../../../assets/images/commons/loader.gif')}
-                                        />
-                                        <Image
-                                            style={styles.newsBannerImage}
-                                            resizeMode={'contain'}
-                                            source={{
-                                                uri: typeImage(item.new.image, item.new.channel_type) ,
-                                            }}
-                                        />
-                                    </View>
-                                </TouchableOpacity>
-                            }
+                                ))
+                                }
+                            >
+                                <View style={styles.newsBanner}>
+                                    <Image
+                                        style={styles.newsBannerLoader}
+                                        source={require('../../../assets/images/commons/loader.gif')}
+                                    />
+                                    <Image
+                                        style={styles.newsBannerImage}
+                                        resizeMode={'contain'}
+                                        source={{
+                                            uri: typeImage(item.new.image, item.new.channel_type) ,
+                                        }}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+                            
                             <TouchableOpacity
                                 style={styles.newsTitle}
                                 onPress={() => (navigation.push(
@@ -282,7 +281,7 @@ const Screen = ({ navigation, route, ...props}) => {
         <>
             <View style={styles.containerTag} >
                 <Text style={styles.headerTag}>
-                #{route.params.data.title}
+                #{route.params.data.tag_name}
                 </Text>
             </View>
 

@@ -163,37 +163,36 @@ const Screen = ({ navigation, route, ...props}) => {
                             </View>
                         </View>
                         <View style={styles.containerNews}>
-                            {
-                                imageActive &&
-                                <TouchableOpacity
-                                    style={styles.newsContainerBanner}
-                                    onPress={() => (navigation.push(
-                                        'Notícia',
-                                        {
-                                            idItem: Math.floor(Math.random() * 100),
-                                            url:item.new.link,
-                                            data:item.new,
-                                            title:'Notícia',
-                                            type:item.new.channel_type
-                                        }
-                                    ))
+                            
+                            <TouchableOpacity
+                                style={styles.newsContainerBanner}
+                                onPress={() => (navigation.push(
+                                    'Notícia',
+                                    {
+                                        idItem: Math.floor(Math.random() * 100),
+                                        url:item.new.link,
+                                        data:item.new,
+                                        title:'Notícia',
+                                        type:item.new.channel_type
                                     }
-                                >
-                                    <View style={styles.newsBanner}>
-                                        <Image
-                                            style={styles.newsBannerLoader}
-                                            source={require('../../../../assets/images/commons/loader.gif')}
-                                        />
-                                        <Image
-                                            style={styles.newsBannerImage}
-                                            resizeMode={'contain'}
-                                            source={{
-                                                uri: typeImage(item.new.image, item.new.channel_type) ,
-                                            }}
-                                        />
-                                    </View>
-                                </TouchableOpacity>
-                            }
+                                ))
+                                }
+                            >
+                                <View style={styles.newsBanner}>
+                                    <Image
+                                        style={styles.newsBannerLoader}
+                                        source={require('../../../../assets/images/commons/loader.gif')}
+                                    />
+                                    <Image
+                                        style={styles.newsBannerImage}
+                                        resizeMode={'contain'}
+                                        source={{
+                                            uri: typeImage(item.new.image, item.new.channel_type) ,
+                                        }}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+                           
                             <TouchableOpacity
                                 style={styles.newsTitle}
                                 onPress={() => (navigation.push(
@@ -273,10 +272,6 @@ const Screen = ({ navigation, route, ...props}) => {
     const news_channel = useSelector((state) => state.news_channel.news_channel)
     const loader = useSelector((state) => state.geral.loaderGeral.open)
 
-    const imageActive = useSelector((state) => {
-        return state.geral_persist.image.mostrar
-    })
-
     return (
         <View style={styles.container}>
             <View style={styles.containerHeaderChannel} >
@@ -317,7 +312,7 @@ const Screen = ({ navigation, route, ...props}) => {
                         onEndReachedThreshold={0.5}
                         onEndReached={({ distanceFromEnd }) => {
                             if (distanceFromEnd >= 0) {
-                                console.log('distanceFromEnd', distanceFromEnd)
+                                // console.log('distanceFromEnd', distanceFromEnd)
                                 clickBuscarMais()
                             }
                         }}

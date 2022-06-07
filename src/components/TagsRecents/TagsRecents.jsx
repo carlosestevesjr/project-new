@@ -2,6 +2,12 @@ import React, { useEffect, useCallback, useRef, useState } from 'react';
 
 import _ from 'lodash'
 import { View, Text, Dimensions, RefreshControl, FlatList, Image, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements'
+import theme, { primary500} from '../../theme/index'
+
+//Dispatchs
+import { useSelector, useDispatch } from 'react-redux';
+import { buscaTagsRecents } from '../../redux/slices/tagsSlice'
 
 //Config
 import Config from './../../config'
@@ -9,97 +15,82 @@ import Config from './../../config'
 //Styles
 import styles from './Styles';
 
-
-const SECTIONS = [
-      
-    {
-        "tag_id": 11,
-        "tag_title": "Doutor Estranho",
-        "tag_image": "/uploads/fotos/20210523072909_DoutorEstranho.jpg",
-        "tag_status": "active",
-        "news_id": 1143,
-        "news_title": "Roteirista confirma conversas sobre trazer Deadpool em Doutor Estranho 2",
-        "news_qtd": 79
-    },
-    {
-        "tag_id": 25,
-        "tag_title": "Doutor Estranho no Multiverso da Loucura",
-        "tag_image": "/uploads/fotos/20220511101010_Doutorestranho2.jpg",
-        "tag_status": "active",
-        "news_id": 996,
-        "news_title": "Doutor Estranho no Multiverso da Loucura bate US$ 500 milhões em bilheteria",
-        "news_qtd": 51
-    },
-    {
-        "tag_id": 21,
-        "tag_title": "Cavaleiro da Lua",
-        "tag_image": "/uploads/fotos/20220511090614_Cavaleirodalua.jpg",
-        "tag_status": "active",
-        "news_id": 579,
-        "news_title": "Cavaleiro da Lua | May Calamawy torce por crossover com Blade e Doutor Estranho",
-        "news_qtd": 48
-    },
-    {
-        "tag_id": 27,
-        "tag_title": "Stranger Things",
-        "tag_image": "",
-        "tag_status": "active",
-        "news_id": 1680,
-        "news_title": "Stranger Things | O que você precisa lembrar antes da 4ª temporada",
-        "news_qtd": 33
-    },
-    {
-        "tag_id": 16,
-        "tag_title": "Thor Amor e Trovão",
-        "tag_image": "/uploads/fotos/20220511092921_Thoramoretrovao.jpg",
-        "tag_status": "active",
-        "news_id": 242,
-        "news_title": "Thor: Amor e Trovão será como filme sobre crise de meia-idade, diz Taika Waititi",
-        "news_qtd": 10
-    },
-    {
-        "tag_id": 18,
-        "tag_title": "Morbius",
-        "tag_image": "/uploads/fotos/20220511091611_Morbius.jpg",
-        "tag_status": "active",
-        "news_id": 423,
-        "news_title": "Bilheterias de Morbius e Animais Fantásticos devem fechar no vermelho",
-        "news_qtd": 7
-    },
-    {
-        "tag_id": 9,
-        "tag_title": "Cobra Kai",
-        "tag_image": "/uploads/fotos/20210523070329_KobraKai.jpg",
-        "tag_status": "active",
-        "news_id": 125,
-        "news_title": "Cobra Kai | 5ª temporada ganha data e teaser cheio de ação; veja",
-        "news_qtd": 4
-    },
-    {
-        "tag_id": 23,
-        "tag_title": "Avatar: O Caminho da Água",
-        "tag_image": "/uploads/fotos/20220511090002_Avatar2.jpg",
-        "tag_status": "active",
-        "news_id": 819,
-        "news_title": "Avatar: O Caminho da Água | Novo teaser leva o público de volta a Pandora",
-        "news_qtd": 3
-    }
-        
-];
-
 const TagsRecents = ({ navigation, route, ...props}) => {
-    const [refreshing, setRefreshing] = useState(false);
-    const clickBuscarRefreshing = (reload = true) => {
-       
 
+    //Variables Default
+    const dispatch = useDispatch()
+    const [page, setPage] = useState(1);
+    const [refreshing, setRefreshing] = useState(false);
+    const qtd = 20
+    const dateInitial = ''
+    const dateFinal = ''
+
+    const typeImage = (image, channel_type) => {
+		
+        return Config.LOCAL_HOST_NOCINEMA+image
+	}
+
+    const clickBuscarRefreshing = (reload = true) => {
+        setPage(1)
+        const v_page = page
+
+        // setRefreshing(true);
+       
+        dispatch(
+            buscaTagsRecents(
+                {
+                    params:{
+                        v_page: "",
+                        qtd: qtd,
+                        dateInitial:dateInitial,
+                        dateFinal:dateFinal,
+                        reload: reload
+                    }
+                }
+            ),
+        )
+        // setRefreshing(false);
     }
 
     const clickBuscar = (reload = false) => {
-        
+        setPage(1)
+        const v_page = page
+        // setRefreshing(true);
+    
+        dispatch(
+            buscaTagsRecents(
+                {
+                    params:{
+                        v_page: "",
+                        qtd: qtd,
+                        dateInitial:dateInitial,
+                        dateFinal:dateFinal,
+                        reload: reload
+                    }
+                }
+            ),
+        )
+        // setPage(1);
+        // setRefreshing(false);
     }
 
     const clickBuscarMais = (reload = false) => {
-       
+        const v_page = page+1
+      
+        dispatch(
+            buscaTagsRecents(
+                {
+                    params:{
+                        v_page: v_page,
+                        qtd: qtd,
+                        dateInitial:dateInitial,
+                        dateFinal:dateFinal,
+                        reload: reload,
+                    }
+                }
+            ),
+        )
+        setPage(v_page)
     }
 
     const HeaderList = ({ }) => (
@@ -125,7 +116,7 @@ const TagsRecents = ({ navigation, route, ...props}) => {
                 <View key={index} style={styles.item}>
                     <Image
                         style={styles.itemImage}
-                        resizeMode={ 'center'}
+                        resizeMode={'center'}
                         source={{
                             uri:Config.LOCAL_HOST_NOCINEMA+item.tag_image,
                         }}
@@ -141,35 +132,77 @@ const TagsRecents = ({ navigation, route, ...props}) => {
 
     useEffect(() => {
         clickBuscar(false)
-    }, []);
+    }, []); 
+    
+    // Get State
+    const tags_recents = useSelector((state) => {
+        // console.log('dasdasdas',state.news.news)
+        return state.tags.tags_recents
+    } )
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
 
     return (
         <View style={styles.sampleStyle}>
+            {/* <Text style={styles.title}>Tags Atualizadas Recentemente</Text> */}
             <View style={styles.tagsListas}>
-                <Text style={styles.title}>Tags Atualizadas Recentemente</Text>
-                <FlatList
-                    refreshControl={
-                        <RefreshControl refreshing={refreshing} onRefresh={clickBuscarRefreshing} />
+                <View style={{width:"90%"}}>
+
+                    {
+                        ( tags_recents.length > 0 ) ?
+                        <FlatList
+                            // refreshControl={
+                            //     <RefreshControl refreshing={refreshing} onRefresh={clickBuscarRefreshing} />
+                            // }
+                            initialNumToRender={5}
+                            scrollEnabled={true}
+                            horizontal={true}
+                            windowSize={Dimensions.get('window').width}
+                            // inverted={true}	
+                            // maxHeight={'100%'}
+                            // refreshing={true}
+                            showsHorizontalScrollIndicator={true}
+                            data={tags_recents}
+                            renderItem={renderItem}
+                            keyExtractor={keyExtractor}
+                            onEndReachedThreshold={0.5}
+                            // onEndReached={({ distanceFromEnd }) => {
+                            //     if (distanceFromEnd >= 0) {
+                            //         console.log('distanceFromEnd', distanceFromEnd)
+                            //         clickBuscarMais()
+                            //     }
+                            // }}
+                        />
+                        :
+                            <View  style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
+                                {
+                                    loader ?
+                                        <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
+                                    :
+                                
+                                        <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há tags</Text>
+                                    
+                                }
+                            </View>
                     }
-                    initialNumToRender={5}
-                    scrollEnabled={true}
-                    horizontal={true}
-                    windowSize={Dimensions.get('window').width}
-                    // inverted={true}	
-                    // maxHeight={'100%'}
-                    // refreshing={true}
-                    showsHorizontalScrollIndicator={true}
-                    data={SECTIONS}
-                    renderItem={renderItem}
-                    keyExtractor={keyExtractor}
-                    onEndReachedThreshold={0.5}
-                    onEndReached={({ distanceFromEnd }) => {
-                        if (distanceFromEnd >= 0) {
-                            console.log('distanceFromEnd', distanceFromEnd)
-                            clickBuscarMais()
-                        }
-                    }}
-                />
+                </View>
+                <View style={{width:"10%",  flexDirection:'column', flexWrap:'wrap', justifyContent:'center', alignContent:'center' }}>
+                    <TouchableOpacity
+                        style={{ width:'100%' }}
+                        onPress={() => {
+                            navigation.navigate('Tags', {
+                                title: 'Tags'
+                            })
+                        }}
+                    >
+                        <Icon
+                            iconStyle={{ padding: 1, borderRadius: 3,  color: primary500 }}
+                            name='plus'
+                            type='font-awesome'
+                            color={primary500}
+                            size={25}
+                        />
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )

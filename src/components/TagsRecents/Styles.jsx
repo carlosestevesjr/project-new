@@ -4,6 +4,7 @@ import  {
     background, 
     primary300,
     primary500,
+    primary900,
     secundary700,
     primary700,
     secundary200,
@@ -16,7 +17,7 @@ import  {
 
 const styles =  StyleSheet.create({
     sampleStyle: {
-        width:'100%',
+       
     },
     title: {
         // height:75,
@@ -26,6 +27,8 @@ const styles =  StyleSheet.create({
         fontStyle: 'italic',
     },
     tagsListas:{
+        flexDirection:'row',
+        justifyContent:'space-around',
         backgroundColor:surface,
         margin:5,
 		paddingLeft:'2%',
@@ -50,14 +53,14 @@ const styles =  StyleSheet.create({
         marginRight:2,
         paddingTop:2,
         paddingBottom:2,
-        backgroundColor:dark,
-        width:100,
+        backgroundColor:primary900,
+        width:90,
         borderRadius:3,
         borderColor:primary700,
         borderWidth:1,
     },
     itemImage:{
-        height:130,
+        height:90,
         width:'100%',
     },
     itemText:{

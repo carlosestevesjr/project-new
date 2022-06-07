@@ -8,6 +8,7 @@ export const tagsSlice = createSlice({
     name: 'tags',
     initialState: {
         tags: [],
+        tags_recents: [],
         message: "",
     },
     reducers: {
@@ -28,11 +29,29 @@ export const tagsSlice = createSlice({
                 }
             }
         },
+        salvaListaTagsRecents: (state, action) => {
+          
+            console.log('payload salvaListaTagsRecents ', action.payload.data.content.dados)
+            // console.log('state.tags', state.tags)
+            if(action.payload.reload){
+                state.tags_recents = []
+                console.log('primeira condição')
+                if(action.payload.data.content.dados.length > 0){
+                    state.tags_recents = action.payload.data.content.dados
+                }
+            }else{
+                console.log('segunda condição')
+                if(action.payload.data.content.dados.length > 0){
+                    state.tags_recents = state.tags_recents.concat(action.payload.data.content.dados)
+                }
+            }
+        },
     },
 });
 
 export const { 
-    salvaListaTags, 
+    salvaListaTags,
+    salvaListaTagsRecents 
 } = tagsSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -48,6 +67,30 @@ export const buscaTags = payload => async(dispatch) => {
         if(resp.status == 200) {
             dispatch(
                 salvaListaTags({
+                    'data':resp.data,
+                    'reload': payload.params.reload
+                }),
+            )
+        }
+
+    } catch (error) {
+        console.log('errou')
+        console.log(error)
+        // dispatch(loginFailed());
+    }
+    dispatch(alteraStatusLoaderGeral(false))
+    
+};
+
+export const buscaTagsRecents = payload => async(dispatch) => {
+    dispatch(alteraStatusLoaderGeral(true))
+    try {
+        const { buscaTagsRecents } = API
+        const resp = await buscaTagsRecents(payload)
+       
+        if(resp.status == 200) {
+            dispatch(
+                salvaListaTagsRecents({
                     'data':resp.data,
                     'reload': payload.params.reload
                 }),
