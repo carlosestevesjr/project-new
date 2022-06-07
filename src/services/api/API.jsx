@@ -20,9 +20,9 @@ const apiRoutes = {
     //Pokemon
     buscaPokemon: (payload) => api.get("/pokemon/"+ payload.params.id +"/" , payload), 
     
-    buscaNews: (payload) =>  {
-        console.log('route' ,"/v1/lista-news/?page="+ payload.params.v_page)
-        return api.get("/v1/lista-news?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"", payload)  
+    buscaNews: (payload) => {
+        // console.log('route' ,"/v1/lista-news/?page="+ payload.params.v_page)
+        return api.get("/v1/lista-news?qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"", payload)  
     }, 
 
     buscaSearchNews: (payload) => {

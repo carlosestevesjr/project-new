@@ -19,49 +19,17 @@ const TagsRecents = ({ navigation, route, ...props}) => {
 
     //Variables Default
     const dispatch = useDispatch()
-    const [page, setPage] = useState(1);
-    const [refreshing, setRefreshing] = useState(false);
-    const qtd = 20
+   
+    const qtd = 1000
     const dateInitial = ''
     const dateFinal = ''
 
-    const typeImage = (image, channel_type) => {
-		
-        return Config.LOCAL_HOST_NOCINEMA+image
-	}
-
-    const clickBuscarRefreshing = (reload = true) => {
-        setPage(1)
-        const v_page = page
-
-        // setRefreshing(true);
-       
-        dispatch(
-            buscaTagsRecents(
-                {
-                    params:{
-                        v_page: "",
-                        qtd: qtd,
-                        dateInitial:dateInitial,
-                        dateFinal:dateFinal,
-                        reload: reload
-                    }
-                }
-            ),
-        )
-        // setRefreshing(false);
-    }
-
     const clickBuscar = (reload = false) => {
-        setPage(1)
-        const v_page = page
-        // setRefreshing(true);
-    
+     
         dispatch(
             buscaTagsRecents(
                 {
                     params:{
-                        v_page: "",
                         qtd: qtd,
                         dateInitial:dateInitial,
                         dateFinal:dateFinal,
@@ -70,27 +38,6 @@ const TagsRecents = ({ navigation, route, ...props}) => {
                 }
             ),
         )
-        // setPage(1);
-        // setRefreshing(false);
-    }
-
-    const clickBuscarMais = (reload = false) => {
-        const v_page = page+1
-      
-        dispatch(
-            buscaTagsRecents(
-                {
-                    params:{
-                        v_page: v_page,
-                        qtd: qtd,
-                        dateInitial:dateInitial,
-                        dateFinal:dateFinal,
-                        reload: reload,
-                    }
-                }
-            ),
-        )
-        setPage(v_page)
     }
 
     const HeaderList = ({ }) => (
@@ -101,13 +48,11 @@ const TagsRecents = ({ navigation, route, ...props}) => {
         ({ item, index }) =>
             <TouchableOpacity 
                 key={index}
-                onPress={() => (navigation.push(
+                onPress={
+                    () => (navigation.push(
                         'Tag',
                         {
-                            data:{
-                                "id": item.tag_id,
-                                "title": item.tag_title,
-                            },
+                            data:item,
                             title:'Tag',
                         }
                     ))
@@ -121,7 +66,7 @@ const TagsRecents = ({ navigation, route, ...props}) => {
                             uri:Config.LOCAL_HOST_NOCINEMA+item.tag_image,
                         }}
                     />
-                    <Text style={styles.itemText} >#{item.tag_title}</Text>
+                    <Text style={styles.itemText} >#{item.tag_name}</Text>
                 </View>
             </TouchableOpacity>
            
@@ -132,7 +77,7 @@ const TagsRecents = ({ navigation, route, ...props}) => {
 
     useEffect(() => {
         clickBuscar(false)
-    }, []); 
+	}, []);
     
     // Get State
     const tags_recents = useSelector((state) => {
@@ -150,9 +95,6 @@ const TagsRecents = ({ navigation, route, ...props}) => {
                     {
                         ( tags_recents.length > 0 ) ?
                         <FlatList
-                            // refreshControl={
-                            //     <RefreshControl refreshing={refreshing} onRefresh={clickBuscarRefreshing} />
-                            // }
                             initialNumToRender={5}
                             scrollEnabled={true}
                             horizontal={true}
@@ -165,12 +107,6 @@ const TagsRecents = ({ navigation, route, ...props}) => {
                             renderItem={renderItem}
                             keyExtractor={keyExtractor}
                             onEndReachedThreshold={0.5}
-                            // onEndReached={({ distanceFromEnd }) => {
-                            //     if (distanceFromEnd >= 0) {
-                            //         console.log('distanceFromEnd', distanceFromEnd)
-                            //         clickBuscarMais()
-                            //     }
-                            // }}
                         />
                         :
                             <View  style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
