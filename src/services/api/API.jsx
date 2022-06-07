@@ -22,7 +22,7 @@ const apiRoutes = {
     
     buscaNews: (payload) => {
         // console.log('route' ,"/v1/lista-news/?page="+ payload.params.v_page)
-        return api.get("/v1/lista-news?qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"", payload)  
+        return api.get("/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd, payload)  
     }, 
 
     buscaSearchNews: (payload) => {
@@ -50,9 +50,10 @@ const apiRoutes = {
         return api.get("/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"", payload) 
     },
 
+    //Tags -------------------------------------------------------------------
     buscaTags: (payload) => {
         // console.log('route' ,"/v1/lista-tags/")
-        return api.get("/v1/lista-tags/?page="+ payload.params.v_page, payload) 
+        return api.get("/v1/lista-tags/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd, payload) 
     },
 
     //User

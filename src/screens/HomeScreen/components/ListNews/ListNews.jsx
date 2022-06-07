@@ -26,8 +26,6 @@ const Screen = ({ navigation, route, ...props}) => {
 	const [page, setPage] = useState(1);
 	const [refreshing, setRefreshing] = useState(false);
     const qtd = 20
-    const dateInitial = ''
-    const dateFinal = ''
 
     const typeImage = (image, channel_type) => {
         return Config.LOCAL_HOST_NOCINEMA+image
@@ -45,8 +43,6 @@ const Screen = ({ navigation, route, ...props}) => {
                     params:{
                         v_page: "",
                         qtd: qtd,
-                        dateInitial:dateInitial,
-                        dateFinal:dateFinal,
                         reload: reload
                     }
                 }
@@ -66,8 +62,6 @@ const Screen = ({ navigation, route, ...props}) => {
                     params:{
                         v_page: "",
                         qtd: qtd,
-                        dateInitial:dateInitial,
-                        dateFinal:dateFinal,
                         reload: reload
                     }
                 }
@@ -86,8 +80,6 @@ const Screen = ({ navigation, route, ...props}) => {
                     params:{
                         v_page: v_page,
                         qtd: qtd,
-                        dateInitial:dateInitial,
-                        dateFinal:dateFinal,
                         reload: reload,
                     }
                 }

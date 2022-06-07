@@ -19,13 +19,13 @@ export const tagsSlice = createSlice({
             if(action.payload.reload){
                 state.tags = []
                 console.log('primeira condição')
-                if(action.payload.data.content.dados.data.length > 0){
-                    state.tags = action.payload.data.content.dados.data
+                if(action.payload.data.content.dados.length > 0){
+                    state.tags = action.payload.data.content.dados
                 }
             }else{
                 console.log('segunda condição')
-                if(action.payload.data.content.dados.data.length > 0){
-                    state.tags = state.tags.concat(action.payload.data.content.dados.data)
+                if(action.payload.data.content.dados.length > 0){
+                    state.tags = state.tags.concat(action.payload.data.content.dados)
                 }
             }
         },

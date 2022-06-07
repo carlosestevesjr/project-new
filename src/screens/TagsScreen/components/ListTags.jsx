@@ -30,6 +30,8 @@ const Screen = ({ navigation, route, ...props}) => {
 	const [page, setPage] = useState(1);
 	const [refreshing, setRefreshing] = useState(false);
 
+    const qtd = 15
+
     const typeImage = (image, channel_type) => {
 		if(channel_type === "podcast"){
 			return image
@@ -42,38 +44,36 @@ const Screen = ({ navigation, route, ...props}) => {
         setPage(1)
         const v_page = page
 
-        // setRefreshing(true);
-       
         dispatch(
             buscaTags(
                 {
                    params:{
                         v_page: "",
+                        qtd: qtd,
                         reload: reload,
                     }
                 }
             ),
         )
-        // setRefreshing(false);
+       
     }
 
     const clickBuscar = (reload = false) => {
         setPage(1)
         const v_page = page
-        // setRefreshing(true);
        
         dispatch(
             buscaTags(
                 {
                    params:{
                         v_page: "",
+                        qtd: qtd,
                         reload: reload,
                     }
                 }
             ),
         )
-        // setPage(1);
-        // setRefreshing(false);
+       
     }
 
     const clickBuscarMais = (reload = false) => {
@@ -84,6 +84,7 @@ const Screen = ({ navigation, route, ...props}) => {
                 {
                    params:{
                         v_page: v_page,
+                        qtd: qtd,
                         reload: reload,
                     }
                 }
@@ -118,7 +119,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     style={styles.newsChannelImage}
                                     resizeMode={'contain'}
                                     source={{
-                                        uri:Config.LOCAL_HOST_NOCINEMA+item.image,
+                                        uri:Config.LOCAL_HOST_NOCINEMA+item.tag_image,
                                     }}
                                 />
                             </TouchableOpacity>
@@ -135,7 +136,7 @@ const Screen = ({ navigation, route, ...props}) => {
                             >
                                 <View >
                                     <Text style={styles.ChannelName}>
-                                    #{item.title}
+                                    #{item.tag_name}
                                     </Text>
                                 </View>
                             </TouchableOpacity>
@@ -147,7 +148,7 @@ const Screen = ({ navigation, route, ...props}) => {
     )
 
     const ITEM_HEIGHT = 200
-	const keyExtractor = useCallback((item) => item.id.toString(), [])
+	const keyExtractor = useCallback((item) => item.tag_id.toString(), [])
 
     //Monta Registros									
 	const useIsMounted = () => {
@@ -172,7 +173,7 @@ const Screen = ({ navigation, route, ...props}) => {
 
     // Get State
     const tags = useSelector((state) => {
-        // console.log(state.tags.tags)
+        console.log(state.tags.tags)
         return state.tags.tags
     })
 
