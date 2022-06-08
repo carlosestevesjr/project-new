@@ -35,8 +35,6 @@ const Screen = ({ navigation, route, ...props}) => {
         setPage(1)
         const v_page = page
 
-        // setRefreshing(true);
-       
         dispatch(
             buscaNews(
                 {
@@ -48,13 +46,12 @@ const Screen = ({ navigation, route, ...props}) => {
                 }
             ),
         )
-        // setRefreshing(false);
+        
     }
 
     const clickBuscar = (reload = false) => {
         setPage(1)
         const v_page = page
-        // setRefreshing(true);
     
         dispatch(
             buscaNews(
@@ -67,8 +64,7 @@ const Screen = ({ navigation, route, ...props}) => {
                 }
             ),
         )
-        // setPage(1);
-        // setRefreshing(false);
+        
     }
 
     const clickBuscarMais = (reload = false) => {
@@ -285,7 +281,7 @@ const Screen = ({ navigation, route, ...props}) => {
                         onEndReachedThreshold={0.5}
                         onEndReached={({ distanceFromEnd }) => {
                             if (distanceFromEnd >= 0) {
-                                console.log('distanceFromEnd', distanceFromEnd)
+                                // console.log('distanceFromEnd', distanceFromEnd)
                                 clickBuscarMais()
                             }
                         }}

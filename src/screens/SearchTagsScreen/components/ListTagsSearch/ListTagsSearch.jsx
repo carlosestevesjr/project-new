@@ -1,23 +1,21 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 //Config
-import Config from '../../../config'
+import Config from '../../../../config'
 
 //Utils
 import _ from 'lodash'
-import { stripHtml } from '../../../utils/index'
-
-import theme, { primary500, light, background} from '../../../theme/index'
-// import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { Icon } from 'react-native-elements'
+import { formataDataBr } from '../../../../utils/index'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaTags } from '../../../redux/slices/tagsSlice'
+import { buscaTagsSearch,  salvaListaTagsSearch } from '../../../../redux/slices/tagsSlice'
 
 //Components
-import { Dimensions, View, RefreshControl, Text, FlatList, Image, TouchableOpacity } from 'react-native'
-import Components from './../../../components'
+import { Dimensions, View, RefreshControl, Text, TextInput, FlatList, Image, TouchableOpacity } from 'react-native'
+import { Icon } from 'react-native-elements'
+import theme, { primary500, light, background} from '../../../../theme/index'
+import Components from './../../../../components'
 
 //Styles
 import styles from './Styles'
@@ -29,8 +27,8 @@ const Screen = ({ navigation, route, ...props}) => {
 
 	const [page, setPage] = useState(1);
 	const [refreshing, setRefreshing] = useState(false);
-
-    const qtd = 50
+    const [search, setSearch] = useState("")
+    const qtd = 15
 
     const typeImage = (image, channel_type) => {
 		if(channel_type === "podcast"){
@@ -41,56 +39,75 @@ const Screen = ({ navigation, route, ...props}) => {
 	}
 
     const clickBuscarRefreshing = (reload = true) => {
+       
         setPage(1)
         const v_page = page
 
+        // setRefreshing(true);
+    
         dispatch(
-            buscaTags(
+            buscaTagsSearch(
                 {
-                   params:{
-                        v_page: "",
-                        qtd: qtd,
-                        reload: reload,
+                    params:{
+                        v_page: v_page,
+                        qtd:qtd,
+                        busca:(search != "" )? search : "",
+                        reload: reload
                     }
                 }
             ),
         )
-       
+        // setRefreshing(false);
+      
     }
 
     const clickBuscar = (reload = false) => {
+       
         setPage(1)
         const v_page = page
-       
+        // setRefreshing(true);
+    
         dispatch(
-            buscaTags(
+            buscaTagsSearch(
                 {
-                   params:{
-                        v_page: "",
-                        qtd: qtd,
-                        reload: reload,
+                    params:{
+                        v_page: v_page,
+                        qtd:qtd,
+                        busca:(search != "")? search : "",
+                        reload: reload
                     }
                 }
             ),
         )
-       
+        // setPage(1);
+        // setRefreshing(false);
+        
     }
 
     const clickBuscarMais = (reload = false) => {
+       
         const v_page = page+1
-      
+        
         dispatch(
-            buscaTags(
+            buscaTagsSearch(
                 {
-                   params:{
+                    params:{
                         v_page: v_page,
-                        qtd: qtd,
+                        qtd:qtd,
+                        busca:(search != "")? search : "",
                         reload: reload,
                     }
                 }
             ),
         )
         setPage(v_page)
+        
+    }
+
+    const searchText = (text) => {
+        if(text.length > 0){
+            clickBuscarRefreshing(true)
+        }
     }
 
     const HeaderList = ({ }) => (
@@ -159,36 +176,62 @@ const Screen = ({ navigation, route, ...props}) => {
 		}, []);
 		return isMounted;
 	};
-
     const isMounted = useIsMounted();
+
+    const inputElement = useRef(null);
+
     useEffect(() => {
+
+        if (inputElement.current) {
+            inputElement.current.focus();
+        }
 
         navigation.addListener('focus', () => {
             if (isMounted.current) {
-                clickBuscarRefreshing(true)
+                dispatch(
+                    salvaListaTagsSearch({
+                        'data':"",
+                        'reload': true,
+                        'params': {
+                            busca: "",
+                        }
+                    }),
+                )
+
             }
+            // The screen is focused
+            // Call any action
         });
 
 	}, []);
 
     // Get State
-    const tags = useSelector((state) => {
-        // console.log(state.tags.tags)
-        return state.tags.tags
+    const tags_search = useSelector((state) => {
+        // console.log('tags search', state.tags)
+        return state.tags.tags_search
     })
 
-    const loader = useSelector((state) => state.geral.loaderGeral)
+    const message_tags_search = useSelector((state) => {
+        // console.log('message search',state.tags.message_tags_search)
+        return state.tags.message_tags_search
+    } )
 
+    const loader = useSelector((state) =>
+    {
+        // console.log('loader search',state.geral.loaderGeral.open)
+        return state.geral.loaderGeral.open
+    })
+
+   
     return (
         <>
             {
-                ( tags.length > 0 ) ?
+                ( tags_search.length > 0 ) ?
                     <FlatList
                         ListHeaderComponent={HeaderList}
                         refreshControl={
                             <RefreshControl refreshing={refreshing} onRefresh={clickBuscarRefreshing} />
                         }
-
                         initialNumToRender={8}
                         scrollEnabled={true}
                         // horizontal={true}
@@ -200,7 +243,7 @@ const Screen = ({ navigation, route, ...props}) => {
                         removeClippedSubviews={true}
                         // windowSize={21}
                         // getItemLayout={getItemLayout}
-                        data={tags}
+                        data={tags_search}
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
                         onEndReachedThreshold={0.5}
@@ -210,19 +253,71 @@ const Screen = ({ navigation, route, ...props}) => {
                                 clickBuscarMais()
                             }
                         }}
-                    />
+                    />  
                     :
-                    <View style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
+                    <View  style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
                         {
                             loader ?
                                 <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
                             :
-                        
-                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
-                            
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>{message_tags_search}</Text>
                         }
-                    </View>
+                    </View>           
+                
             }
+
+            <View
+                 style={{ 
+                    flexDirection:'row',
+                    alignItems:'center',
+                    position: 'relative',
+                    backgroundColor: '#6a277b',
+                    bottom:5,
+                    width: '100%',
+                    paddingTop:5,
+                    paddingBottom:5,
+                    paddingLeft:15,
+                    paddingRight:15,
+                    // height: 40,
+                }}
+            >
+                <TextInput
+                    style={{ 
+                        color:'#000',
+                        alignContent:'space-between',
+                        backgroundColor: '#FFFFFF',
+                        paddingLeft:15,
+                        paddingRight:15,
+                        borderColor: '#FFFFFF',
+                        borderWidth:2,
+                        width: '88%',
+                        fontWeight:'bold',
+                        height: 40,
+                        borderRadius:5,
+                    }}
+                    ref={inputElement} 
+                    autoFocus={true}
+                    placeholder="Buscar"
+                    keyboardType="default"
+                    underlineColorAndroid='transparent'
+                    onChangeText={(search) => setSearch(search)}
+                    onSubmitEditing={() =>  searchText(search)}
+                    
+                />
+
+                <TouchableOpacity
+                    onPress={() => searchText(search) }
+                >
+                    <Icon
+                        iconStyle={{ padding :10, borderRadius:50, marginLeft:5, marginRight:5, backgroundColor:'#E8B730', color:"#333"}}
+                        name='search'
+                        type='font-awesome'
+                        color={light}
+                        size={theme.sizes.small}  
+                    />
+                </TouchableOpacity>
+
+            </View>
 
         </>
     )

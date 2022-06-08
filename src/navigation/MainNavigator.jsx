@@ -72,6 +72,10 @@ const MainNavigator = () => {
         <Screens.TagsScreen {...props} {...route} />
     )
 
+    const SearchTagsComponent = (props, route) => (
+        <Screens.SearchTagsScreen {...props} {...route} />
+    )
+
     const LoginComponent = (props, route) => (
         <Screens.LoginScreen  {...props} {...route} />
     )
@@ -147,6 +151,12 @@ const MainNavigator = () => {
                         name="Tags"
                         component={TagsComponent}
                         options={titleOptions('Tags')}
+                    />
+
+                    <MainStack.Screen
+                        name="Buscar Tags"
+                        component={SearchTagsComponent}
+                        options={titleOptions('Buscar Tags')}
                     />
 
                     <MainStack.Screen

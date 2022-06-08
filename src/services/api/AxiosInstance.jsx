@@ -28,7 +28,7 @@ instance.interceptors.response.use(
         return resolve(res)
     },
     (response) => response, ({ message, response: { data, status } }) => {
-        console.log('promisse')
+        // console.log('promisse')
         return handleError({ message, data, status })
     },
 )

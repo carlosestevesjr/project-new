@@ -12,7 +12,7 @@ export const geralPersistSlice = createSlice({
     },
     reducers: {
         alterModalDisclemer: (state, action) => {
-            console.log('modalDisclemer', action.payload.open)
+            // console.log('modalDisclemer', action.payload.open)
             state.modalDisclemer.open = action.payload.open
         },
        

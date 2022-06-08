@@ -53,16 +53,6 @@ const Screen = ({ navigation, route, ...props }) => {
     //     recents: RecentsRoute,
     // });
     //Variables Default
-    const dispatch = useDispatch()
-    const alteraImage = (status) => {
-        dispatch(
-            alteraStatusMostraImage(
-                {
-                    mostraImage:status,
-                }
-            ),
-        )
-    }
 
     return (
         <>

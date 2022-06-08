@@ -14,12 +14,12 @@ export const newsTagSlice = createSlice({
         salvaListaTagNews: (state, action) => {
             if(action.payload.reload){
                 state.news_tag = []
-                console.log('primeira condição esse')
+                // console.log('primeira condição esse')
                 if(action.payload.data.content.dados.data.length > 0){
                     state.news_tag = action.payload.data.content.dados.data
                 }
             }else{
-                console.log('segunda condição esse ')
+                // console.log('segunda condição esse ')
                 if(action.payload.data.content.dados.data.length > 0){
                     state.news_tag = state.news_tag.concat(action.payload.data.content.dados.data)
                 }else{

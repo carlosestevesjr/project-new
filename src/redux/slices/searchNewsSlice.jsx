@@ -12,19 +12,19 @@ export const searchNewsSlice = createSlice({
     },
     reducers: {
         salvaSearchListaNews: (state, action) => {
-            console.log('b',action.payload.params.busca)
+            // console.log('b',action.payload.params.busca)
             if(action.payload.params.busca == ""){
                 state.search_news = []
                 state.message= "Faça sua busca no campo abaixo"
               
             }else if(action.payload.reload){
-                console.log('primeira condição')
+                // console.log('primeira condição')
                 if(action.payload.data.content.dados.data.length != undefined){
                     state.search_news = action.payload.data.content.dados.data
                 }
                 state.message= "Não há notícias"
             }else{
-                console.log('segunda condição')
+                // console.log('segunda condição')
                 if(action.payload.data.content.dados.data.length > 0){
                     state.search_news = state.search_news.concat(action.payload.data.content.dados.data)
                 }

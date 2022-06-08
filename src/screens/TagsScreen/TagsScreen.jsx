@@ -11,6 +11,9 @@ import _ from 'lodash'
 
 //Components
 import { View, Image, TouchableOpacity } from 'react-native'
+import { Icon } from 'react-native-elements'
+
+import theme, { secundary500, textDanger, light} from '../../theme/index'
 
 import ListTags from '../TagsScreen/components/ListTags'
 import Components from './../../components'
@@ -58,6 +61,22 @@ const Screen = ({ navigation, route, ...props}) => {
     return (
         <Components.Container title="home">
             <ListTags route={route} navigation={navigation} />
+            <TouchableOpacity
+                style={{ position:'absolute', right:5, bottom:5,  width: 50, height: 50 }}
+                onPress={() => {
+                    navigation.navigate('Buscar Tags', {
+                        title: 'Buscar Tags'
+                    })
+                }}
+            >
+                <Icon
+                    iconStyle={{ padding: 15, borderRadius: 50, backgroundColor: '#E8B730', color: "#333" }}
+                    name='search'
+                    type='font-awesome'
+                    color={light}
+                    size={theme.sizes.small}
+                />
+            </TouchableOpacity>
         </Components.Container>
     )
 }

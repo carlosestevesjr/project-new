@@ -271,7 +271,7 @@ const Screen = ({ navigation, route, ...props}) => {
                         onEndReachedThreshold={0.5}
                         onEndReached={({ distanceFromEnd }) => {
                             if (distanceFromEnd >= 0) {
-                                console.log('distanceFromEnd', distanceFromEnd)
+                                // console.log('distanceFromEnd', distanceFromEnd)
                                 clickBuscarMais()
                             }
                         }}

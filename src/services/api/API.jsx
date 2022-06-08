@@ -46,14 +46,20 @@ const apiRoutes = {
     },
 
     buscaTagsRecents: (payload) => {
-        console.log('route' ,"/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"")
+        // console.log('route' ,"/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"")
         return api.get("/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"", payload) 
     },
 
     //Tags -------------------------------------------------------------------
+    
     buscaTags: (payload) => {
         // console.log('route' ,"/v1/lista-tags/")
         return api.get("/v1/lista-tags/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd, payload) 
+    },
+
+    buscaTagsSearch: (payload) => {
+        // console.log('route' ,"/v1/lista-tags-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca)
+        return api.get("/v1/lista-tags-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca, payload) 
     },
 
     //User

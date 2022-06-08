@@ -10,6 +10,8 @@ export const tagsSlice = createSlice({
         tags: [],
         tags_recents: [],
         message: "",
+        tags_search: [],
+        message_tags_search: "Faça sua busca no campo abaixo",
     },
     reducers: {
         salvaListaTags: (state, action) => {
@@ -18,12 +20,12 @@ export const tagsSlice = createSlice({
             // console.log('state.tags', state.tags)
             if(action.payload.reload){
                 state.tags = []
-                console.log('primeira condição')
+                // console.log('primeira condição')
                 if(action.payload.data.content.dados.length > 0){
                     state.tags = action.payload.data.content.dados
                 }
             }else{
-                console.log('segunda condição')
+                // console.log('segunda condição')
                 if(action.payload.data.content.dados.length > 0){
                     state.tags = state.tags.concat(action.payload.data.content.dados)
                 }
@@ -31,27 +33,49 @@ export const tagsSlice = createSlice({
         },
         salvaListaTagsRecents: (state, action) => {
           
-            console.log('payload salvaListaTagsRecents ', action.payload.data.content.dados)
             // console.log('state.tags', state.tags)
             if(action.payload.reload){
                 state.tags_recents = []
-                console.log('primeira condição')
+                // console.log('primeira condição')
                 if(action.payload.data.content.dados.length > 0){
                     state.tags_recents = action.payload.data.content.dados
                 }
             }else{
-                console.log('segunda condição')
+                // console.log('segunda condição')
                 if(action.payload.data.content.dados.length > 0){
                     state.tags_recents = state.tags_recents.concat(action.payload.data.content.dados)
                 }
             }
+        },
+        salvaListaTagsSearch: (state, action) => {
+
+            // console.log('t',action.payload.params)
+            if(action.payload.params.busca == ""){
+                state.tags_search = []
+                state.message_tags_search= "Faça sua busca no campo abaixo"
+              
+            }else if(action.payload.reload){
+                // console.log('primeira condição')
+                if(action.payload.data.content.dados.length != undefined){
+                    state.tags_search = action.payload.data.content.dados
+                }
+                state.message_tags_search= "Não há tags"
+            }else{
+                // console.log('segunda condição')
+                if(action.payload.data.content.dados.length > 0){
+                    state.tags_search = state.tags_search.concat(action.payload.data.content.dados)
+                }
+                state.message_tags_search= ""
+            }
+          
         },
     },
 });
 
 export const { 
     salvaListaTags,
-    salvaListaTagsRecents 
+    salvaListaTagsRecents,
+    salvaListaTagsSearch 
 } = tagsSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -106,9 +130,29 @@ export const buscaTagsRecents = payload => async(dispatch) => {
     
 };
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-// export const selectCount = state => state.counter.value;
+export const buscaTagsSearch = payload => async(dispatch) => {
+   
+    dispatch(alteraStatusLoaderGeral(true))
+    try {
+        const { buscaTagsSearch } = API
+        const resp = await buscaTagsSearch(payload)
+        if(resp.status == 200) {
+            dispatch(
+                salvaListaTagsSearch({
+                    'data':resp.data,
+                    'reload': payload.params.reload,
+                    'params': payload.params
+                }),
+            )
+        }
+
+    } catch (error) {
+        console.log('errou')
+        console.log(error)
+        // dispatch(loginFailed());
+    }
+    dispatch(alteraStatusLoaderGeral(false))
+    
+};
 
 export default tagsSlice.reducer;
