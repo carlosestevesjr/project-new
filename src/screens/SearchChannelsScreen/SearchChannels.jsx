@@ -8,17 +8,13 @@ import _ from 'lodash'
 
 //Dispatchs
 
-
 //Components
-import { View, Image, TouchableOpacity } from 'react-native'
-import { Icon } from 'react-native-elements'
-import theme, { secundary500, textDanger, light} from '../../theme/index'
+import { View, Image, TouchableOpacity, TextInput } from 'react-native'
+import ListChannelsSearch from '../SearchChannelsScreen/components/ListChannelsSearch'
 
-import ListChannels from '../ChannelsScreen/components/ListChannels/ListChannels'
 import Components from './../../components'
 
-//Styles
-import styles from './Styles';
+// import { Appbar, BottomNavigation, Text, Drawer } from 'react-native-paper';
 
 const Screen = ({ navigation, route, ...props}) => {
 
@@ -33,6 +29,10 @@ const Screen = ({ navigation, route, ...props}) => {
     // const _handleSearch = () => console.log('Searching');
 
     // const _handleMore = () => console.log('Shown more');
+
+   
+   
+
 
     // const [routes] = React.useState([
     //     { key: 'news', title: 'Noticias', icon: 'newspaper-variant-outline' },
@@ -51,23 +51,7 @@ const Screen = ({ navigation, route, ...props}) => {
 
     return (
         <Components.Container title="home">
-            <ListChannels route={route} navigation={navigation} />
-            <TouchableOpacity
-                style={{ position:'absolute', right:5, bottom:5,  width: 50, height: 50 }}
-                onPress={() => {
-                    navigation.navigate('Buscar Canais', {
-                        title: 'Buscar Canais'
-                    })
-                }}
-            >
-                <Icon
-                    iconStyle={{ padding: 15, borderRadius: 50, backgroundColor: '#E8B730', color: "#333" }}
-                    name='search'
-                    type='font-awesome'
-                    color={light}
-                    size={theme.sizes.small}
-                />
-            </TouchableOpacity>
+            <ListChannelsSearch navigation={navigation} />    
         </Components.Container>
     )
 }

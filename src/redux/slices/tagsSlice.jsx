@@ -67,7 +67,6 @@ export const tagsSlice = createSlice({
                 }
                 state.message_tags_search= ""
             }
-          
         },
     },
 });

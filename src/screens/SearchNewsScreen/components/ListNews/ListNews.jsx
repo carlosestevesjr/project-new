@@ -28,6 +28,7 @@ const Screen = ({ navigation, route, ...props}) => {
 	const [page, setPage] = useState(1);
 	const [refreshing, setRefreshing] = useState(false);
     const [search, setSearch] = useState("")
+    const qtd = 20
 
     const typeImage = (image, channel_type) => {
 		if(channel_type === "podcast"){
@@ -40,7 +41,7 @@ const Screen = ({ navigation, route, ...props}) => {
     const clickBuscarRefreshing = (reload = true) => {
        
         setPage(1)
-        const v_page = page
+        const v_page = 1
 
         // setRefreshing(true);
     
@@ -48,7 +49,8 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaNewsSearch(
                 {
                     params:{
-                        page: "",
+                        v_page: v_page,
+                        qtd:qtd,
                         busca:(search != "" )? search : "",
                         reload: reload
                     }
@@ -69,8 +71,9 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaNewsSearch(
                 {
                     params:{
-                        page: "",
-                        busca:(search != "")? search : "",
+                        v_page: v_page,
+                        qtd:qtd,
+                        busca:(search != "" )? search : "",
                         reload: reload
                     }
                 }
@@ -89,8 +92,9 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaNewsSearch(
                 {
                     params:{
-                        page: v_page,
-                        busca:(search != "")? search : "",
+                        v_page: v_page,
+                        qtd:qtd,
+                        busca:(search != "" )? search : "",
                         reload: reload,
                     }
                 }
@@ -117,7 +121,6 @@ const Screen = ({ navigation, route, ...props}) => {
                 <View key={index} style={styles.boxNews}>
                     <View style={styles.news}>
                         <View style={styles.containerChannel}>
-
                             <TouchableOpacity
                                 style={styles.newsChannelLogo}
                                 onPress={() => (navigation.push(
@@ -146,10 +149,10 @@ const Screen = ({ navigation, route, ...props}) => {
                             <View style={styles.containerChannelName} >
                                 <Text style={styles.ChannelName}>
                                     {item.new.channel}
-                                    -{item.new.id}
+                                    - {item.new.news_id}
                                 </Text>
                                 <Text style={styles.newsData} >
-                                    {formataDataBr(item.new.data)}
+                                    {formataDataBr(item.new.news_data)}
                                 </Text>
                                 {
                                    item.new.channel_type == "podcast" &&
@@ -181,14 +184,14 @@ const Screen = ({ navigation, route, ...props}) => {
                             </View>
                         </View>
                         <View style={styles.containerNews}>
-                            
+                        
                             <TouchableOpacity
                                 style={styles.newsContainerBanner}
                                 onPress={() => (navigation.push(
                                     'Notícia',
                                     {
                                         idItem: Math.floor(Math.random() * 100),
-                                        url:item.new.link,
+                                        url:item.new.news_link,
                                         data:item.new,
                                         title:'Notícia',
                                         type:item.new.channel_type
@@ -205,19 +208,19 @@ const Screen = ({ navigation, route, ...props}) => {
                                         style={styles.newsBannerImage}
                                         resizeMode={'contain'}
                                         source={{
-                                            uri: typeImage(item.new.image, item.new.channel_type) ,
+                                            uri: typeImage(item.new.news_image, item.new.channel_type) ,
                                         }}
                                     />
                                 </View>
                             </TouchableOpacity>
-                        
+
                             <TouchableOpacity
                                 style={styles.newsTitle}
                                 onPress={() => (navigation.push(
                                     'Notícia',
                                     {
                                         idItem: Math.floor(Math.random() * 100),
-                                        url:item.new.link,
+                                        url:item.new.news_link,
                                         data:item.new,
                                         title:'Notícia',
                                         type:item.new.channel_type
@@ -225,12 +228,12 @@ const Screen = ({ navigation, route, ...props}) => {
                                 ))
                                 }
                             >
-                                <View>
+                                <View >
                                     <Text style={styles.newsDescricao}>
-                                        {item.new.title}
+                                        {item.new.news_title}
                                     </Text>
                                 </View>
-                                
+
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -250,19 +253,20 @@ const Screen = ({ navigation, route, ...props}) => {
                                             }
                                         >
                                             <Text style={styles.newsTagName}>
-                                                #{tag.title}
+                                                #{tag.tag_name}
                                             </Text>
                                         </TouchableOpacity>
                                 
                             })
                         }
+                        
                     </View>
                 </View>
             </Components.Card>
     )
 
     const ITEM_HEIGHT = 200
-	const keyExtractor = useCallback((item) => item.new.id.toString(), [])
+	const keyExtractor = useCallback((item) => item.new.news_id.toString(), [])
 
     //Monta Registros									
 	const useIsMounted = () => {

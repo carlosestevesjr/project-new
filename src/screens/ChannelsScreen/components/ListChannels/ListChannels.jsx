@@ -29,6 +29,7 @@ const Screen = ({ navigation, route, ...props}) => {
 
 	const [page, setPage] = useState(1);
 	const [refreshing, setRefreshing] = useState(false);
+    const qtd = 20
 
     const typeImage = (image, channel_type) => {
 		if(channel_type === "podcast"){
@@ -48,7 +49,8 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaChannels(
                 {
                     params:{
-                        v_page: "",
+                        v_page: v_page,
+                        qtd: qtd,
                         reload: reload,
                     }
                 }
@@ -66,7 +68,8 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaChannels(
                 {
                     params:{
-                        v_page: "",
+                        v_page: v_page,
+                        qtd: qtd,
                         reload: reload,
                     }
                 }
@@ -84,6 +87,7 @@ const Screen = ({ navigation, route, ...props}) => {
                 {
                     params:{
                         v_page: v_page,
+                        qtd: qtd,
                         reload: reload,
                     }
                 }
@@ -109,10 +113,10 @@ const Screen = ({ navigation, route, ...props}) => {
                                     'Canal',
                                     {
                                         data: {
-                                            channels_id: item.id,
-                                            channel_type: item.type,
-                                            channel: item.name,
-                                            image: item.image,
+                                            channels_id: item.channels_id,
+                                            channel_type: item.channel_type,
+                                            channel: item.channel,
+                                            image: item.channel_logo,
                                            
                                         },
                                         title:'Canal'
@@ -124,7 +128,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     style={styles.newsChannelImage}
                                     resizeMode={'contain'}
                                     source={{
-                                        uri:Config.LOCAL_HOST_NOCINEMA+item.image,
+                                        uri:Config.LOCAL_HOST_NOCINEMA+item.channel_logo,
                                     }}
                                 />
                             </TouchableOpacity>
@@ -134,10 +138,10 @@ const Screen = ({ navigation, route, ...props}) => {
                                         'Canal',
                                         {
                                             data: {
-                                                channels_id: item.id,
-                                                channel_type: item.type,
-                                                channel: item.name,
-                                                image: item.image,
+                                                channels_id: item.channels_id,
+                                                channel_type: item.channel_type,
+                                                channel: item.channel,
+                                                image: item.channel_logo,
                                             
                                             },
                                             title:'Canal'
@@ -146,7 +150,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     }
                                 >
                                 <Text style={styles.ChannelName}>
-                                    {item.name}
+                                    {item.channel}
                                 </Text>
                                     
                                 </TouchableOpacity>
@@ -211,7 +215,7 @@ const Screen = ({ navigation, route, ...props}) => {
     )
 
     const ITEM_HEIGHT = 200
-	const keyExtractor = useCallback((item) => item.id.toString(), [])
+	const keyExtractor = useCallback((item) => item.channels_id.toString(), [])
 
     //Monta Registros									
 	const useIsMounted = () => {
@@ -230,8 +234,6 @@ const Screen = ({ navigation, route, ...props}) => {
             if (isMounted.current) {
                 clickBuscarRefreshing(true)
             }
-            // The screen is focused
-            // Call any action
         });
 
 	}, []);

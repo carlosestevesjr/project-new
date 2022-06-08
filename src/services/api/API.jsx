@@ -19,7 +19,20 @@ export const api = {
 const apiRoutes = {
     //Pokemon
     buscaPokemon: (payload) => api.get("/pokemon/"+ payload.params.id +"/" , payload), 
-    
+
+    //Channels -------------------------------------------------------------------
+    buscaChannels: (payload) => {
+        // console.log('route' ,"/v1/lista-channels/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd)
+        return api.get("/v1/lista-channels/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd, payload) 
+    },
+
+    buscaChannelsSearch: (payload) => {
+        // console.log('route' ,"/v1/lista-channels-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca)
+        return api.get("/v1/lista-channels-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca, payload) 
+    },
+
+    //News -------------------------------------------------------------------
+
     buscaNews: (payload) => {
         // console.log('route' ,"/v1/lista-news/?page="+ payload.params.v_page)
         return api.get("/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd, payload)  
@@ -27,31 +40,26 @@ const apiRoutes = {
 
     buscaSearchNews: (payload) => {
         // console.log('/v1/lista-news-search' , payload)
-        return api.post("/v1/lista-news-search", payload) 
-    },
-
-    buscaNewsChannel: (payload) => {
-        // console.log('route' ,"/v1/lista-news-channel-user/"+payload.params.channel_id+"/false?page="+ payload.params.v_page)
-        return api.get("/v1/lista-news-channel-user/"+payload.params.channel_id+"/false?page="+ payload.params.v_page , payload) 
-    },
-
-    buscaChannels: (payload) => {
-        // console.log('route' ,"/v1/lista-canais/")
-        return api.get("/v1/lista-canais/?page="+ payload.params.v_page, payload) 
+        return api.get("/v1/lista-news-search?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca, payload) 
     },
 
     buscaNewsTag: (payload) => {
-        // console.log('route' ,"/v1/lista-news-tag-user/"+payload.params.tag_id+"/false?page="+ payload.params.v_page)
-        return api.get("/v1/lista-news-tag-user/"+payload.params.tag_id+"/false?page="+ payload.params.v_page , payload) 
+        // console.log('route' ,"/v1/lista-news-tag/"+payload.params.tag_id+"?page="+ payload.params.v_page+"&qtd="+ payload.params.qtd )
+        return api.get("/v1/lista-news-tag/"+payload.params.tag_id+"?page="+ payload.params.v_page+"&qtd="+ payload.params.qtd , payload) 
     },
 
+    buscaNewsChannel: (payload) => {
+        // console.log('route' ,"/v1/lista-news-channel/"+payload.params.channel_id+"?page="+ payload.params.v_page+"&qtd="+ payload.params.qtd)
+        return api.get("/v1/lista-news-channel/"+payload.params.channel_id+"?page="+ payload.params.v_page+"&qtd="+ payload.params.qtd, payload) 
+    },
+
+    //Tags -------------------------------------------------------------------
+    
     buscaTagsRecents: (payload) => {
         // console.log('route' ,"/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"")
         return api.get("/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"", payload) 
     },
 
-    //Tags -------------------------------------------------------------------
-    
     buscaTags: (payload) => {
         // console.log('route' ,"/v1/lista-tags/")
         return api.get("/v1/lista-tags/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd, payload) 
@@ -62,13 +70,13 @@ const apiRoutes = {
         return api.get("/v1/lista-tags-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca, payload) 
     },
 
-    //User
+    //User -------------------------------------------------------------------
     setTokenPush: (payload) => {
         // console.log('route payload' ,payload)
         return api.post("/v1/set-token-push", payload ) 
     },
 
-    //Contato
+    //Contato -------------------------------------------------------------------
     sendContact: (payload) => {
         // console.log('route contato' ,payload)
         return  api.post("/v1/contato", payload ) 

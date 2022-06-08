@@ -9,6 +9,8 @@ export const channelsSlice = createSlice({
     initialState: {
         channels: [],
         message: "",
+        channels_search: [],
+        message_channels_search: "",
     },
     reducers: {
         salvaListaChannels: (state, action) => {
@@ -16,25 +18,48 @@ export const channelsSlice = createSlice({
             // console.log('status reload', action.payload.reload)
             // console.log('state.channels', state.channels)
             if(action.payload.reload){
-                console.log('primeira condição')
+                // console.log('primeira condição')
                 state.channels = []
-                if(action.payload.data.content.dados.data.length > 0){
-                    state.channels = action.payload.data.content.dados.data
+                if(action.payload.data.content.dados.length > 0){
+                    state.channels = action.payload.data.content.dados
                 }
             }else{
-                console.log('segunda condição')
-                if(action.payload.data.content.dados.data.length > 0){
-                    state.channels = state.channels.concat(action.payload.data.content.dados.data)
+                // console.log('segunda condição')
+                if(action.payload.data.content.dados.length > 0){
+                    state.channels = state.channels.concat(action.payload.data.content.dados)
                 }else{
                     // state.channels = []
                 }
             }
         },
+        salvaListaChannelsSearch: (state, action) => {
+
+            // console.log('t',action.payload.params)
+            if(action.payload.params.busca == ""){
+                state.channels_search = []
+                state.message_channels_search= "Faça sua busca no campo abaixo"
+              
+            }else if(action.payload.reload){
+                // console.log('primeira condição')
+                if(action.payload.data.content.dados.length != undefined){
+                    state.channels_search = action.payload.data.content.dados
+                }
+                state.message_channels_search= "Não há canais"
+            }else{
+                // console.log('segunda condição')
+                if(action.payload.data.content.dados.length > 0){
+                    state.channels_search = state.channels_search.concat(action.payload.data.content.dados)
+                }
+                state.message_channels_search= ""
+            }
+          
+        },
     },
 });
 
 export const { 
-    salvaListaChannels, 
+    salvaListaChannels,
+    salvaListaChannelsSearch 
 } = channelsSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -65,9 +90,29 @@ export const buscaChannels = payload => async(dispatch) => {
     
 };
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-// export const selectCount = state => state.counter.value;
+export const buscaChannelsSearch = payload => async(dispatch) => {
+   
+    dispatch(alteraStatusLoaderGeral(true))
+    try {
+        const { buscaChannelsSearch } = API
+        const resp = await buscaChannelsSearch(payload)
+        if(resp.status == 200) {
+            dispatch(
+                salvaListaChannelsSearch({
+                    'data':resp.data,
+                    'reload': payload.params.reload,
+                    'params': payload.params
+                }),
+            )
+        }
+
+    } catch (error) {
+        console.log('errou')
+        console.log(error)
+        // dispatch(loginFailed());
+    }
+    dispatch(alteraStatusLoaderGeral(false))
+    
+};
 
 export default channelsSlice.reducer;

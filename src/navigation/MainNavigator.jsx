@@ -88,6 +88,10 @@ const MainNavigator = () => {
         <Screens.SearchNewsScreen {...props} {...route} />
     )
 
+    const SearchChannelsComponent = (props, route) => (
+        <Screens.SearchChannelsScreen {...props} {...route} />
+    )
+
     const AboutComponent = (props, route) => (
         <Screens.AboutScreen {...props} {...route} />
     )
@@ -163,6 +167,12 @@ const MainNavigator = () => {
                         name="Canais"
                         component={ChannelsComponent}
                         options={titleOptions('Canais')}
+                    />
+
+                    <MainStack.Screen
+                        name="Buscar Canais"
+                        component={SearchChannelsComponent}
+                        options={titleOptions('Buscar Canais')}
                     />
 
                     <MainStack.Screen

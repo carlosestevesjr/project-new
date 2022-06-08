@@ -16,13 +16,13 @@ export const newsChannelSlice = createSlice({
             if(action.payload.reload){
                 state.news_channel = []
                 // console.log('primeira condição')
-                if(action.payload.data.content.dados.data.length > 0){
-                    state.news_channel = action.payload.data.content.dados.data
+                if(action.payload.data.content.dados.length > 0){
+                    state.news_channel = action.payload.data.content.dados
                 }
             }else{
                 // console.log('segunda condição')
-                if(action.payload.data.content.dados.data.length > 0){
-                    state.news_channel = state.news_channel.concat(action.payload.data.content.dados.data)
+                if(action.payload.data.content.dados.length > 0){
+                    state.news_channel = state.news_channel.concat(action.payload.data.content.dados)
                 }else{
                     // state.news_channel = []
                 }

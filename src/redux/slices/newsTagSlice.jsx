@@ -15,13 +15,13 @@ export const newsTagSlice = createSlice({
             if(action.payload.reload){
                 state.news_tag = []
                 // console.log('primeira condição esse')
-                if(action.payload.data.content.dados.data.length > 0){
-                    state.news_tag = action.payload.data.content.dados.data
+                if(action.payload.data.content.dados.length > 0){
+                    state.news_tag = action.payload.data.content.dados
                 }
             }else{
                 // console.log('segunda condição esse ')
-                if(action.payload.data.content.dados.data.length > 0){
-                    state.news_tag = state.news_tag.concat(action.payload.data.content.dados.data)
+                if(action.payload.data.content.dados.length > 0){
+                    state.news_tag = state.news_tag.concat(action.payload.data.content.dados)
                 }else{
                     // state.news_tag = []
                 }

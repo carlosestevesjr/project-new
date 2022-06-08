@@ -19,14 +19,14 @@ export const searchNewsSlice = createSlice({
               
             }else if(action.payload.reload){
                 // console.log('primeira condição')
-                if(action.payload.data.content.dados.data.length != undefined){
-                    state.search_news = action.payload.data.content.dados.data
+                if(action.payload.data.content.dados.length != undefined){
+                    state.search_news = action.payload.data.content.dados
                 }
                 state.message= "Não há notícias"
             }else{
                 // console.log('segunda condição')
-                if(action.payload.data.content.dados.data.length > 0){
-                    state.search_news = state.search_news.concat(action.payload.data.content.dados.data)
+                if(action.payload.data.content.dados.length > 0){
+                    state.search_news = state.search_news.concat(action.payload.data.content.dados)
                 }
                 state.message= ""
             }
