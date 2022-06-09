@@ -201,6 +201,11 @@ const MainNavigator = () => {
                         component={DonationComponent}
                         options={titleOptions('Doação')}
                     />
+                    <MainStack.Screen
+                        name="Login"
+                        component={LoginComponent}
+                        options={titleOptions('Login')}
+                    />
                 </MainStack.Navigator>
             </NavigationContainer>
         </>

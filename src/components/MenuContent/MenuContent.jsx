@@ -100,22 +100,7 @@ const MenuContent = (props) => {
 						style={styles.drawerItem}
 					/>
 
-                    <DrawerItem
-						label={'Sobre'}                                                                                                                                                                                                                                                                                                                                                                                                            
-						onPress={() => { 
-							navigation.navigate('Sobre') 
-						}}
-						icon={() =>	<Icon
-                                iconStyle={{ padding : 10, borderRadius:10, backgroundColor:background, color:primary500}}
-                                name='info-circle'
-                                type='font-awesome'
-                                color={light}
-                                size={theme.sizes.extraSmall}  
-                            />
-                        } //home-outline
-						labelStyle={styles.drawerItemLabel}
-						style={styles.drawerItem}
-					/>
+                    
                     <DrawerItem
 						label={'Doação'}                                                                                                                                                                                                                                                                                                                                                                                                            
 						onPress={() => { 
@@ -148,7 +133,23 @@ const MenuContent = (props) => {
 						labelStyle={styles.drawerItemLabel}
 						style={styles.drawerItem}
 					/>
-                    {/* <DrawerItem
+                    <DrawerItem
+						label={'Sobre'}                                                                                                                                                                                                                                                                                                                                                                                                            
+						onPress={() => { 
+							navigation.navigate('Sobre') 
+						}}
+						icon={() =>	<Icon
+                                iconStyle={{ padding : 10, borderRadius:10, backgroundColor:background, color:primary500}}
+                                name='info-circle'
+                                type='font-awesome'
+                                color={light}
+                                size={theme.sizes.extraSmall}  
+                            />
+                        } //home-outline
+						labelStyle={styles.drawerItemLabel}
+						style={styles.drawerItem}
+					/>
+                    <DrawerItem
 						label={"Login"}
 						onPress={() => { 
 							navigation.navigate('Login') 
@@ -163,7 +164,7 @@ const MenuContent = (props) => {
                         } //home-outline
 						labelStyle={styles.drawerItemLabel}
 						style={styles.drawerItem}
-					/> */}
+					/> 
 				</Drawer.Section>
 			</DrawerContentScrollView>
 		</View>

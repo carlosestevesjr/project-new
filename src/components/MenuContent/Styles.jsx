@@ -61,6 +61,10 @@ const styles = StyleSheet.create({
         height:100,
         backgroundColor:primary700 ,
 	},
+    cabecalhoLogo: {
+        width:150,
+        height:100,
+	},
 })
 
 export default styles
