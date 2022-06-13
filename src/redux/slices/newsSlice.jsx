@@ -43,6 +43,8 @@ export const buscaNews = payload => async(dispatch) => {
     try {
         const { buscaNews } = API
         const resp = await buscaNews(payload)
+        console.log('resp',resp)
+        console.log('payload',payload)
         if(resp.status == 200) {
             dispatch(
                 salvaListaNews({

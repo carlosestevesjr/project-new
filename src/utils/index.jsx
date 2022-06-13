@@ -1,4 +1,3 @@
-
 export function stripHtml(html){
     if(html){
         const regex = /(<([^>]+)>)/ig;
@@ -17,4 +16,15 @@ export function formataDataBr(data) {
   
     return ano + '/' + ("0"+mes).slice(-2) + '/' + ("0"+dia).slice(1);
     // Utilizo o .slice(-2) para garantir o formato com 2 digitos.
+}
+
+export function verifyApiAutorization(user){
+    const tokenApi = ""
+    if(user.api_token != undefined && user.api_token != "" ){
+        return user.api_token 
+    }else{
+        return tokenApi 
+  
+    }
+   
 }

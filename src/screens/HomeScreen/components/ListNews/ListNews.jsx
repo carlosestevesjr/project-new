@@ -5,7 +5,7 @@ import Config from '../../../../config'
 
 //Utils
 import _ from 'lodash'
-import { formataDataBr } from '../../../../utils/index'
+import { formataDataBr, verifyApiAutorization } from '../../../../utils/index'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
@@ -27,6 +27,15 @@ const Screen = ({ navigation, route, ...props}) => {
 	const [refreshing, setRefreshing] = useState(false);
     const qtd = 20
 
+    // Get State
+    const user = useSelector((state) => state.geral_persist.user)
+    const apiToken = verifyApiAutorization(user)
+    const news = useSelector((state) => {
+        // console.log('dasdasdas',state.news.news)
+        return state.news.news
+    })
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
+
     const typeImage = (image, channel_type) => {
         return Config.LOCAL_HOST_NOCINEMA+image
 	}
@@ -39,6 +48,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaNews(
                 {
                     params:{
+                        apiToken,
                         v_page: "",
                         qtd: qtd,
                         reload: reload
@@ -57,6 +67,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaNews(
                 {
                     params:{
+                        apiToken,
                         v_page: "",
                         qtd: qtd,
                         reload: reload
@@ -74,6 +85,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaNews(
                 {
                     params:{
+                        apiToken,
                         v_page: v_page,
                         qtd: qtd,
                         reload: reload,
@@ -246,13 +258,6 @@ const Screen = ({ navigation, route, ...props}) => {
     useEffect(() => {
         clickBuscar(false)
 	}, []);
-
-    // Get State
-    const news = useSelector((state) => {
-        // console.log('dasdasdas',state.news.news)
-        return state.news.news
-    } )
-    const loader = useSelector((state) => state.geral.loaderGeral.open)
 
     return (
         <>

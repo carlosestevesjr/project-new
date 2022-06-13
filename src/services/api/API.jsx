@@ -2,21 +2,30 @@
 import { instance as API }  from './AxiosInstance'
 
 export const api = {
-    get: async (route , payload) => await API.get(route, payload.token, { 
-        headers: { Authorization: payload.token} 
+    get: async (route , payload) => await API.get(route, "", { 
+        // headers: {
+        //     'AuthorizationApi': payload.params.apiToken
+        // } 
     }),
-    post: async (route , payload) => await API.post(route, payload.params, payload.token, { 
-        headers: { Authorization: payload.token}  
+    post: async (route , payload) => await API.post(route, payload.params, { 
+        // headers: {
+        //     'AuthorizationApi':  payload.params.apiToken
+        // }  
     }),
-    put: async (route, payload) => await API.update(route, payload.params, payload.token, { 
-        headers: { Authorization: payload.token} 
+    put: async (route, payload) => await API.update(route, payload.params, { 
+        // headers: {
+        //     'AuthorizationApi':  payload.params.apiToken
+        // } 
     }),
-    delete: async (route, payload) => await API.delete(route, payload.params, payload.token, { 
-        headers: { Authorization: payload.token} 
+    delete: async (route, payload) => await API.delete(route, payload.params, { 
+        // headers: {
+        //     'AuthorizationApi':  payload.params.apiToken
+        // } 
     }),
 }
 
 const apiRoutes = {
+  
     //Pokemon
     buscaPokemon: (payload) => api.get("/pokemon/"+ payload.params.id +"/" , payload), 
 
@@ -28,14 +37,13 @@ const apiRoutes = {
 
     buscaChannelsSearch: (payload) => {
         // console.log('route' ,"/v1/lista-channels-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca)
-        return api.get("/v1/lista-channels-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca, payload) 
+        return api.get(
+            "/v1/lista-channels-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca, payload) 
     },
 
     //News -------------------------------------------------------------------
-
     buscaNews: (payload) => {
-        // console.log('route' ,"/v1/lista-news/?page="+ payload.params.v_page)
-        return api.get("/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd, payload)  
+        return api.get("/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken, payload)  
     }, 
 
     buscaSearchNews: (payload) => {
@@ -54,7 +62,6 @@ const apiRoutes = {
     },
 
     //Tags -------------------------------------------------------------------
-    
     buscaTagsRecents: (payload) => {
         // console.log('route' ,"/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"")
         return api.get("/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"", payload) 
@@ -71,6 +78,16 @@ const apiRoutes = {
     },
 
     //User -------------------------------------------------------------------
+    buscaLogin: (payload) => {
+        // console.log('route', "/v1/login")
+        return api.post("/v1/login", payload) 
+    },
+
+    buscaLoginOut: (payload) => {
+        console.log('route', "/v1/logout")
+        return api.post("/v1/logout", payload) 
+    },
+
     setTokenPush: (payload) => {
         // console.log('route payload' ,payload)
         return api.post("/v1/set-token-push", payload ) 

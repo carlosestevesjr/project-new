@@ -53,6 +53,7 @@ const Screen = ({ navigation, route, ...props }) => {
     //     recents: RecentsRoute,
     // });
     //Variables Default
+   
 
     return (
         <>

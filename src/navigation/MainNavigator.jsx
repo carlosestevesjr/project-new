@@ -3,21 +3,81 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useSelector, useDispatch } from 'react-redux';
+import { Icon } from "react-native-elements";
 
 //Components
 import Componets from '../components'
+
+import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 
 import Screens from '../screens'
 
 import theme from "../theme/index"
 
-const MainNavigator = () => {
 
+
+const styles = StyleSheet.create({
+
+    icon: {
+        color: '#fff'
+    },
+    iconContainer: {
+        paddingTop: 5,
+        paddingRight: 10,
+        flexDirection: "row",
+        justifyContent: 'flex-end',
+        width: 120,
+    }
+});
+
+const MainNavigator = ({ navigation, route, ...props }) => {
+    
     const MainStack = createNativeStackNavigator();
     const MainDrawer = createDrawerNavigator();
-
-    const titleOptions = (title) => ({
+    
+    const user = useSelector((state) => state.geral_persist.user)
+    
+    const titleOptions = (title, navigation = null) => ({
         title: title,
+        'headerTitle': (props) => (
+            <View style={{ paddingTop: 5, width: Dimensions.get('window').width, }}>
+
+                {
+                    (title != "NOTÍCIAS") ?
+                        <View >
+                            <Text style={{ padding: 5, color: '#FFF', fontSize: 18 }}>{title}</Text>
+                        </View>
+                        :
+                        <View style={{}}>
+                            <Image
+                                style={{}}
+                                resizeMode={'cover'}
+                                source={require('../assets/images/commons/logo_clear.png')}
+                            />
+                        </View>
+                }
+            </View>
+        ),
+        'headerRight': () => (
+            <>
+                
+                <View style={styles.iconContainer}>
+                    <TouchableOpacity
+                        style={styles.newsChannelLogo}
+                        onPress={() => (
+                            ( user.api_token != undefined && user.api_token != "" ) ?
+                                navigation.navigate('Login') 
+                            :
+                                navigation.navigate('Login') 
+                        )
+                        }
+                    >
+                        <Icon color='#FFF' name='user-circle' type='font-awesome' />
+                    </TouchableOpacity>
+                </View>
+            </>
+        ),
         headerShown: true,
         headerStyle: {
             backgroundColor: '#6a277b',
@@ -27,26 +87,25 @@ const MainNavigator = () => {
         headerTintColor: '#FFF',
         headerTitleStyle: {
         },
-    }
-    )
+    })
 
     const horizontalAnimation = {
         gestureDirection: 'horizontal',
         cardStyleInterpolator: ({ current, layouts }) => {
-          return {
-            cardStyle: {
-              transform: [
-                {
-                  translateX: current.progress.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [layouts.screen.width, 0],
-                  }),
+            return {
+                cardStyle: {
+                    transform: [
+                        {
+                            translateX: current.progress.interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [layouts.screen.width, 0],
+                            }),
+                        },
+                    ],
                 },
-              ],
-            },
-          };
+            };
         },
-      };
+    };
 
     const PokemonComponent = (props, route) => (
         <Screens.PokemonDetailScreen {...props}  {...route} />
@@ -110,9 +169,10 @@ const MainNavigator = () => {
             drawerContent={props => (<Componets.MenuContent  {...props} />)}
         >
             <MainDrawer.Screen
+               
                 name="Home"
                 component={HomeComponent}
-                options={titleOptions('NOTÍCIAS')}
+                options={() => titleOptions('NOTÍCIAS', navigation)}
             />
 
             <MainDrawer.Screen
@@ -120,7 +180,7 @@ const MainNavigator = () => {
                 component={PokemonComponent}
                 options={titleOptions('Pokemon')}
             />
-           
+
             <MainDrawer.Screen
                 name="Login"
                 component={LoginComponent}
@@ -191,7 +251,7 @@ const MainNavigator = () => {
                         component={AboutComponent}
                         options={titleOptions('Sobre')}
                     />
-                     <MainStack.Screen
+                    <MainStack.Screen
                         name="Contato"
                         component={ContactComponent}
                         options={titleOptions('Contato')}

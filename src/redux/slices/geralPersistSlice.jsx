@@ -1,16 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-// import { API }   from '../../services/api'
+import { API }   from '../../services/api'
+
+import { alteraStatusLoaderGeral } from './geralSlice'
 
 export const geralPersistSlice = createSlice({
     name: 'geral_persist',
     initialState: {
+        user:{},
         modalDisclemer: {
             open:true
         },
         message: "",
     },
     reducers: {
+        
+        salvaUser: (state, action) => {
+            // console.log('segunda condição')
+            if(action.payload.data.content.dados){
+                state.user = action.payload.data.content.dados
+            }
+          
+        },
+        limpaUser: (state, action) => {
+            state.user = {}
+        },
         alterModalDisclemer: (state, action) => {
             // console.log('modalDisclemer', action.payload.open)
             state.modalDisclemer.open = action.payload.open
@@ -21,7 +35,8 @@ export const geralPersistSlice = createSlice({
 
 export const { 
     alterModalDisclemer, 
-    alteraStatusMostraImage_
+    salvaUser,
+    limpaUser
 } = geralPersistSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -40,6 +55,49 @@ export const alteraModalDisclemer = payload => async(dispatch) => {
         // console.log(error)
         // dispatch(loginFailed());
     }
+};
+
+export const Login = payload => async(dispatch) => {
+    dispatch(alteraStatusLoaderGeral(true))
+    try {
+        const { buscaLogin } = API
+        const resp = await buscaLogin(payload)
+        if(resp.status == 200) {
+            dispatch(
+                salvaUser({
+                    'data':resp.data,
+                    'reload': payload.params.reload
+                }),
+            )
+        }
+
+    } catch (error) {
+        console.log('errou')
+        console.log(error)
+        // dispatch(loginFailed());
+    }
+    dispatch(alteraStatusLoaderGeral(false))
+    
+};
+
+export const LoginOut = payload => async(dispatch) => {
+    dispatch(alteraStatusLoaderGeral(true))
+    try {
+        const { buscaLoginOut } = API
+        const resp = await buscaLoginOut(payload)
+        if(resp.status == 200) {
+            dispatch(
+                limpaUser(),
+            )
+        }
+
+    } catch (error) {
+        console.log('errou')
+        console.log(error)
+        // dispatch(loginFailed());
+    }
+    dispatch(alteraStatusLoaderGeral(false))
+    
 };
 
 export default geralPersistSlice.reducer;

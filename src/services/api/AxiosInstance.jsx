@@ -5,7 +5,7 @@ import Config from '../../config';
 const instance = axios.create({
     baseURL: Config.LOCAL_API_NOCINEMA,
     timeout: 30000,
-    // headers: {'X-Custom-Header': 'foobar'}
+    // headers: {'AuthorizationApi': ''}
 })
 
 export const handleError = ({ message, data, status }) => {
@@ -18,7 +18,7 @@ export const resolve = (res) => {
 
 instance.interceptors.request.use(function(config) {
 
-    // console.log('passou', config.baseURL)
+    // console.log('config', config)
     // config.headers.Authorization = `Bearer ${token}`;
     return config;
 });
