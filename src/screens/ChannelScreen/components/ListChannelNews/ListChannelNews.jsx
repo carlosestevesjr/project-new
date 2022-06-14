@@ -5,11 +5,11 @@ import Config from '../../../../config'
 
 //Utils
 import _ from 'lodash'
-import { formataDataBr } from '../../../../utils/index'
+import { formataDataBr, verifyApiAutorization } from '../../../../utils/index'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaNewsChannel } from '../../../../redux/slices/newsChannelSlice'
+import { buscaNewsChannel, limpaListaNewsChannel } from '../../../../redux/slices/newsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -27,13 +27,20 @@ const Screen = ({ navigation, route, ...props}) => {
 	const [refreshing, setRefreshing] = useState(false);
     const qtd = 20
 
+    // Get State
+    const user = useSelector((state) => state.geral_persist.user)
+    const apiToken = verifyApiAutorization(user)
+
+    const news_channel = useSelector((state) => state.news.news_channel)
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
+
     const typeImage = (image, channel_type) => {
         return Config.LOCAL_HOST_NOCINEMA+image
 	}
 
     const clickBuscarRefreshing = (reload = true) => {
         setPage(1)
-        const v_page = page
+        const v_page = 1
 
         // setRefreshing(true);
        
@@ -41,6 +48,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaNewsChannel(
                 {
                     params:{
+                        apiToken,
                         v_page: v_page,
                         qtd: qtd,
                         reload: reload,
@@ -49,27 +57,6 @@ const Screen = ({ navigation, route, ...props}) => {
                 }
             ),
         )
-        // setRefreshing(false);
-    }
-
-    const clickBuscar = (reload = false) => {
-        setPage(1)
-        const v_page = page
-        // setRefreshing(true);
-       
-        dispatch(
-            buscaNewsChannel(
-                {
-                    params:{
-                        v_page: v_page,
-                        qtd: qtd,
-                        reload: reload,
-                        channel_id: route.params.data.channels_id
-                    }
-                }
-            ),
-        )
-        // setPage(1);
         // setRefreshing(false);
     }
 
@@ -80,6 +67,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaNewsChannel(
                 {
                     params:{
+                        apiToken,
                         v_page: v_page,
                         qtd: qtd,
                         reload: reload,
@@ -250,32 +238,19 @@ const Screen = ({ navigation, route, ...props}) => {
     const ITEM_HEIGHT = 200
 	const keyExtractor = useCallback((item) => item.new.news_id.toString(), [])
 
-    //Monta Registros									
-	const useIsMounted = () => {
-		const isMounted = useRef(false);
-		useEffect(() => {
-		  isMounted.current = true;
-		  return () => (isMounted.current = false);
-		}, []);
-		return isMounted;
-	};
-
-    const isMounted = useIsMounted();
     useEffect(() => {
+        clickBuscarRefreshing(true)
+        console.log('Montou') 
+    }, []);
 
-        navigation.addListener('focus', () => {
-            if (isMounted.current) {
-                clickBuscarRefreshing(true)
-            }
-            // The screen is focused
-            // Call any action
-        });
-
-	}, []);
-
-    // Get State
-    const news_channel = useSelector((state) => state.news_channel.news_channel)
-    const loader = useSelector((state) => state.geral.loaderGeral.open)
+    useEffect(() => {
+        return () => { 
+            dispatch(
+                limpaListaNewsChannel()
+            )
+            console.log('Desmontou') 
+        }
+    }, []);
 
     return (
         <View style={styles.container}>

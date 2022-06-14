@@ -13,7 +13,7 @@ import { Icon } from 'react-native-elements'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaChannels } from '../../../../redux/slices/channelsSlice'
+import { buscaChannels, limpaChannels } from '../../../../redux/slices/channelsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -31,6 +31,14 @@ const Screen = ({ navigation, route, ...props}) => {
 	const [refreshing, setRefreshing] = useState(false);
     const qtd = 20
 
+    // Get State
+    const channels = useSelector((state) => {
+        // console.log(state.channels.channels)
+        return state.channels.channels
+    })
+
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
+
     const typeImage = (image, channel_type) => {
 		if(channel_type === "podcast"){
 			return image
@@ -41,10 +49,8 @@ const Screen = ({ navigation, route, ...props}) => {
 
     const clickBuscarRefreshing = (reload = true) => {
         setPage(1)
-        const v_page = page
+        const v_page = 1
 
-        // setRefreshing(true);
-       
         dispatch(
             buscaChannels(
                 {
@@ -56,27 +62,7 @@ const Screen = ({ navigation, route, ...props}) => {
                 }
             ),
         )
-        // setRefreshing(false);
-    }
-
-    const clickBuscar = (reload = false) => {
-        setPage(1)
-        const v_page = page
-        // setRefreshing(true);
        
-        dispatch(
-            buscaChannels(
-                {
-                    params:{
-                        v_page: v_page,
-                        qtd: qtd,
-                        reload: reload,
-                    }
-                }
-            ),
-        )
-        // setPage(1);
-        // setRefreshing(false);
     }
 
     const clickBuscarMais = (reload = false) => {
@@ -217,34 +203,19 @@ const Screen = ({ navigation, route, ...props}) => {
     const ITEM_HEIGHT = 200
 	const keyExtractor = useCallback((item) => item.channels_id.toString(), [])
 
-    //Monta Registros									
-	const useIsMounted = () => {
-		const isMounted = useRef(false);
-		useEffect(() => {
-		  isMounted.current = true;
-		  return () => (isMounted.current = false);
-		}, []);
-		return isMounted;
-	};
-
-    const isMounted = useIsMounted();
     useEffect(() => {
+        clickBuscarRefreshing(true)
+        console.log('Montou') 
+    }, []);
 
-        navigation.addListener('focus', () => {
-            if (isMounted.current) {
-                clickBuscarRefreshing(true)
-            }
-        });
-
-	}, []);
-
-    // Get State
-    const channels = useSelector((state) => {
-        // console.log(state.channels.channels)
-        return state.channels.channels
-    })
-
-    const loader = useSelector((state) => state.geral.loaderGeral.open)
+    useEffect(() => {
+        return () => { 
+            dispatch(
+                limpaChannels()
+            )
+            console.log('Desmontou') 
+        }
+    }, []);
 
     return (
         <>

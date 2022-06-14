@@ -31,6 +31,10 @@ export const tagsSlice = createSlice({
                 }
             }
         },
+        limpaListaTags: (state, action) => {
+            state.tags = []
+        },
+       
         salvaListaTagsRecents: (state, action) => {
           
             // console.log('state.tags', state.tags)
@@ -68,13 +72,19 @@ export const tagsSlice = createSlice({
                 state.message_tags_search= ""
             }
         },
+        limpaListaTagsSearch: (state, action) => {
+            state.tags_search = []
+        },
+       
     },
 });
 
 export const { 
     salvaListaTags,
+    limpaListaTags,
     salvaListaTagsRecents,
-    salvaListaTagsSearch 
+    salvaListaTagsSearch,
+    limpaListaTagsSearch 
 } = tagsSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -104,6 +114,12 @@ export const buscaTags = payload => async(dispatch) => {
     dispatch(alteraStatusLoaderGeral(false))
     
 };
+
+export const limpaTags = payload => async(dispatch) => {
+    dispatch(
+        limpaListaTags()
+    )
+}
 
 export const buscaTagsRecents = payload => async(dispatch) => {
     dispatch(alteraStatusLoaderGeral(true))
@@ -153,5 +169,11 @@ export const buscaTagsSearch = payload => async(dispatch) => {
     dispatch(alteraStatusLoaderGeral(false))
     
 };
+
+export const limpaTagsSearch = payload => async(dispatch) => {
+    dispatch(
+        limpaListaTagsSearch()
+    )
+}
 
 export default tagsSlice.reducer;

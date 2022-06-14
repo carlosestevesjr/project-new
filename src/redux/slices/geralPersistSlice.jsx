@@ -66,7 +66,6 @@ export const Login = payload => async(dispatch) => {
             dispatch(
                 salvaUser({
                     'data':resp.data,
-                    'reload': payload.params.reload
                 }),
             )
         }

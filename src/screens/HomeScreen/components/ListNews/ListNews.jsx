@@ -9,7 +9,7 @@ import { formataDataBr, verifyApiAutorization } from '../../../../utils/index'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaNews } from '../../../../redux/slices/newsSlice'
+import { buscaNews, limpaNews } from '../../../../redux/slices/newsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -42,33 +42,14 @@ const Screen = ({ navigation, route, ...props}) => {
 
     const clickBuscarRefreshing = (reload = true) => {
         setPage(1)
-        const v_page = page
+        const v_page = 1
 
         dispatch(
             buscaNews(
                 {
                     params:{
                         apiToken,
-                        v_page: "",
-                        qtd: qtd,
-                        reload: reload
-                    }
-                }
-            ),
-        )
-        
-    }
-
-    const clickBuscar = (reload = false) => {
-        setPage(1)
-        const v_page = page
-    
-        dispatch(
-            buscaNews(
-                {
-                    params:{
-                        apiToken,
-                        v_page: "",
+                        v_page: v_page,
                         qtd: qtd,
                         reload: reload
                     }
@@ -256,8 +237,30 @@ const Screen = ({ navigation, route, ...props}) => {
 	const keyExtractor = useCallback((item) => item.new.news_id.toString(), [])
 
     useEffect(() => {
-        clickBuscar(false)
-	}, []);
+        clickBuscarRefreshing(true)
+        console.log('Montou') 
+    }, []);
+
+    useEffect(() => {
+        return () => { 
+            dispatch(
+                limpaNews()
+            )
+            console.log('Desmontou') 
+        }
+    }, []);
+
+
+    // useEffect(() => {
+    //     clickBuscarRefreshing(true)
+    //     console.log('Montou') 
+    // }, []);
+    // if(user.api_token != undefined && user.api_token != "" ){
+    //     return user.api_token 
+    // }else{
+    //     return tokenApi 
+  
+    // }
 
     return (
         <>

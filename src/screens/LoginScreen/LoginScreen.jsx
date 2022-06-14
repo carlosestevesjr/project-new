@@ -35,9 +35,9 @@ const Screen = ({ navigation, route, ...props }) => {
                 }
             ),
         )
+        return false
     }
 
-    const user = useSelector((state) => state.geral_persist.user)
     const loader = useSelector((state) => state.geral.loaderGeral.open)
     return (
         <Components.Container title="home">
@@ -101,23 +101,16 @@ const Screen = ({ navigation, route, ...props }) => {
                         </View>
                     </View>
                     {
-                        ( user.api_token != undefined && user.api_token != "" ) ?
-                                <>
-                                    <Text>{user.api_token}</Text> 
-                                    <Text>{user.email}</Text> 
-                                    <Text>{user.name}</Text> 
-                                </>
+                        <View  style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
+                        {
+                            loader ?
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
                             :
-                                <View  style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
-                                    {
-                                        loader ?
-                                            <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
-                                        :
-                                    
-                                            <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
-                                        
-                                    }
-                                </View>
+                        
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
+                            
+                        }
+                    </View>
                     }
                 </ScrollView>
             </View>

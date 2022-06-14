@@ -2,7 +2,7 @@
 import { instance as API }  from './AxiosInstance'
 
 export const api = {
-    get: async (route , payload) => await API.get(route, "", { 
+    get: async (route , payload) => await API.get(route, { 
         // headers: {
         //     'AuthorizationApi': payload.params.apiToken
         // } 
@@ -43,22 +43,23 @@ const apiRoutes = {
 
     //News -------------------------------------------------------------------
     buscaNews: (payload) => {
+        console.log('route' ,"/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken)
         return api.get("/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken, payload)  
     }, 
 
     buscaSearchNews: (payload) => {
-        // console.log('/v1/lista-news-search' , payload)
-        return api.get("/v1/lista-news-search?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca, payload) 
+        console.log("/v1/lista-news-search?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca+"&apiToken="+payload.params.apiToken)
+        return api.get("/v1/lista-news-search?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca+"&apiToken="+payload.params.apiToken, payload) 
     },
 
     buscaNewsTag: (payload) => {
         // console.log('route' ,"/v1/lista-news-tag/"+payload.params.tag_id+"?page="+ payload.params.v_page+"&qtd="+ payload.params.qtd )
-        return api.get("/v1/lista-news-tag/"+payload.params.tag_id+"?page="+ payload.params.v_page+"&qtd="+ payload.params.qtd , payload) 
+        return api.get("/v1/lista-news-tag/"+payload.params.tag_id+"?page="+ payload.params.v_page+"&qtd="+ payload.params.qtd+"&apiToken="+payload.params.apiToken , payload) 
     },
 
     buscaNewsChannel: (payload) => {
         // console.log('route' ,"/v1/lista-news-channel/"+payload.params.channel_id+"?page="+ payload.params.v_page+"&qtd="+ payload.params.qtd)
-        return api.get("/v1/lista-news-channel/"+payload.params.channel_id+"?page="+ payload.params.v_page+"&qtd="+ payload.params.qtd, payload) 
+        return api.get("/v1/lista-news-channel/"+payload.params.channel_id+"?page="+ payload.params.v_page+"&qtd="+ payload.params.qtd+"&apiToken="+payload.params.apiToken, payload) 
     },
 
     //Tags -------------------------------------------------------------------

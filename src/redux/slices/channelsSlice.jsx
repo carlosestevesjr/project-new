@@ -8,9 +8,9 @@ export const channelsSlice = createSlice({
     name: 'channels',
     initialState: {
         channels: [],
-        message: "",
+        message_channels: "",
         channels_search: [],
-        message_channels_search: "",
+        message_channels_search: "Faça sua busca no campo abaixo",
     },
     reducers: {
         salvaListaChannels: (state, action) => {
@@ -31,6 +31,9 @@ export const channelsSlice = createSlice({
                     // state.channels = []
                 }
             }
+        },
+        limpaListaChannels: (state, action) => {
+            state.channels = []
         },
         salvaListaChannelsSearch: (state, action) => {
 
@@ -54,12 +57,18 @@ export const channelsSlice = createSlice({
             }
           
         },
+        limpaListaChannelsSearch: (state, action) => {
+            state.channels_search = []
+        },
+       
     },
 });
 
 export const { 
     salvaListaChannels,
-    salvaListaChannelsSearch 
+    limpaListaChannels,
+    salvaListaChannelsSearch,
+    limpaListaChannelsSearch 
 } = channelsSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -90,6 +99,12 @@ export const buscaChannels = payload => async(dispatch) => {
     
 };
 
+export const limpaChannels = payload => async(dispatch) => {
+    dispatch(
+        limpaListaChannels()
+    )
+}
+
 export const buscaChannelsSearch = payload => async(dispatch) => {
    
     dispatch(alteraStatusLoaderGeral(true))
@@ -114,5 +129,12 @@ export const buscaChannelsSearch = payload => async(dispatch) => {
     dispatch(alteraStatusLoaderGeral(false))
     
 };
+
+export const limpaChannelsSearch = payload => async(dispatch) => {
+    dispatch(
+        limpaListaChannelsSearch()
+    )
+}
+
 
 export default channelsSlice.reducer;

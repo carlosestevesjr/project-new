@@ -24,7 +24,6 @@ export function verifyApiAutorization(user){
         return user.api_token 
     }else{
         return tokenApi 
-  
     }
    
 }

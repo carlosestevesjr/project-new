@@ -5,11 +5,11 @@ import Config from '../../../config'
 
 //Utils
 import _ from 'lodash'
-import { formataDataBr } from '../../../utils/index'
+import { formataDataBr, verifyApiAutorization } from '../../../utils/index'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaNewsTag } from '../../../redux/slices/newsTagSlice'
+import { buscaNewsTag, limpaListaTagNews } from '../../../redux/slices/newsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -18,29 +18,34 @@ import Components from './../../../components'
 //Styles
 import styles from './Styles'
 
-const Screen = ({ navigation, route, ...props}) => {
+const Screen = ({ navigation, route, ...props }) => {
 
     //Variables Default
     const dispatch = useDispatch()
 
-	const [page, setPage] = useState(1);
-	const [refreshing, setRefreshing] = useState(false);
+    const [page, setPage] = useState(1);
+    const [refreshing, setRefreshing] = useState(false);
     const qtd = 20
 
+    // Get State
+    const user = useSelector((state) => state.geral_persist.user)
+    const apiToken = verifyApiAutorization(user)
+    const news_tag = useSelector((state) => state.news.news_tag)
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
+
     const typeImage = (image, channel_type) => {
-        return Config.LOCAL_HOST_NOCINEMA+image
-	}
+        return Config.LOCAL_HOST_NOCINEMA + image
+    }
 
     const clickBuscarRefreshing = (reload = true) => {
         setPage(1)
         const v_page = 1
 
-        // setRefreshing(true);
-       
         dispatch(
             buscaNewsTag(
                 {
-                    params:{
+                    params: {
+                        apiToken,
                         v_page: v_page,
                         qtd: qtd,
                         reload: reload,
@@ -49,37 +54,17 @@ const Screen = ({ navigation, route, ...props}) => {
                 }
             ),
         )
-        // setRefreshing(false);
-    }
-
-    const clickBuscar = (reload = false) => {
-        setPage(1)
-        const v_page = page
-        // setRefreshing(true);
-       
-        dispatch(
-            buscaNewsTag(
-                {
-                    params:{
-                        v_page: v_page,
-                        qtd: qtd,
-                        reload: reload,
-                        tag_id: route.params.data.tag_id
-                    }
-                }
-            ),
-        )
-        // setPage(1);
-        // setRefreshing(false);
+        
     }
 
     const clickBuscarMais = (reload = false) => {
-        const v_page = page+1
-      
+        const v_page = page + 1
+
         dispatch(
             buscaNewsTag(
                 {
-                    params:{
+                    params: {
+                        apiToken,
                         v_page: v_page,
                         qtd: qtd,
                         reload: reload,
@@ -87,14 +72,14 @@ const Screen = ({ navigation, route, ...props}) => {
                     }
                 }
             ),
-            
+
         )
         setPage(v_page)
     }
 
     const HeaderList = ({ }) => (
         <>
-          
+
         </>
     )
 
@@ -116,7 +101,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                             image: item.new.channel_logo,
                                             tags: item.tags
                                         },
-                                        title:'Canal'
+                                        title: 'Canal'
                                     }
                                 ))
                                 }
@@ -125,7 +110,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     style={styles.newsChannelImage}
                                     resizeMode={'contain'}
                                     source={{
-                                        uri:Config.LOCAL_HOST_NOCINEMA+item.new.channel_logo,
+                                        uri: Config.LOCAL_HOST_NOCINEMA + item.new.channel_logo,
                                     }}
                                 />
                             </TouchableOpacity>
@@ -138,7 +123,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     {formataDataBr(item.new.news_data)}
                                 </Text>
                                 {
-                                   item.new.channel_type == "podcast" &&
+                                    item.new.channel_type == "podcast" &&
                                     <View style={styles.newsTypeMedia} >
                                         <Image
                                             style={{ width: 25, height: 25 }}
@@ -147,7 +132,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     </View>
                                 }
                                 {
-                                   item.new.channel_type == "site" &&
+                                    item.new.channel_type == "site" &&
                                     <View style={styles.newsTypeMedia} >
                                         <Image
                                             style={{ width: 25, height: 25 }}
@@ -156,7 +141,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                     </View>
                                 }
                                 {
-                                   item.new.channel_type == "youtube" &&
+                                    item.new.channel_type == "youtube" &&
                                     <View style={styles.newsTypeMedia} >
                                         <Image
                                             style={{ width: 25, height: 25 }}
@@ -167,17 +152,17 @@ const Screen = ({ navigation, route, ...props}) => {
                             </View>
                         </View>
                         <View style={styles.containerNews}>
-                        
+
                             <TouchableOpacity
                                 style={styles.newsContainerBanner}
                                 onPress={() => (navigation.push(
                                     'Notícia',
                                     {
                                         idItem: Math.floor(Math.random() * 100),
-                                        url:item.new.news_link,
-                                        data:item.new,
-                                        title:'Notícia',
-                                        type:item.new.channel_type
+                                        url: item.new.news_link,
+                                        data: item.new,
+                                        title: 'Notícia',
+                                        type: item.new.channel_type
                                     }
                                 ))
                                 }
@@ -191,7 +176,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                         style={styles.newsBannerImage}
                                         resizeMode={'contain'}
                                         source={{
-                                            uri: typeImage(item.new.news_image, item.new.channel_type) ,
+                                            uri: typeImage(item.new.news_image, item.new.channel_type),
                                         }}
                                     />
                                 </View>
@@ -203,10 +188,10 @@ const Screen = ({ navigation, route, ...props}) => {
                                     'Notícia',
                                     {
                                         idItem: Math.floor(Math.random() * 100),
-                                        url:item.new.news_link,
-                                        data:item.new,
-                                        title:'Notícia',
-                                        type:item.new.channel_type
+                                        url: item.new.news_link,
+                                        data: item.new,
+                                        title: 'Notícia',
+                                        type: item.new.channel_type
                                     }
                                 ))
                                 }
@@ -220,76 +205,62 @@ const Screen = ({ navigation, route, ...props}) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={styles.newsTag}> 
+                    <View style={styles.newsTag}>
                         {
-                            item.tags && item.tags.map(function(tag, i){
-                                return  <TouchableOpacity 
-                                            key={i}
-                                            style={styles.newsTag}
-                                            onPress={() => (navigation.push(
-                                                    'Tag',
-                                                    {
-                                                        data:tag,
-                                                        title:'Tag',
-                                                    }
-                                                ))
-                                            }
-                                        >
-                                            <Text style={styles.newsTagName}>
-                                                #{tag.tag_name}
-                                            </Text>
-                                        </TouchableOpacity>
-                                
+                            item.tags && item.tags.map(function (tag, i) {
+                                return <TouchableOpacity
+                                    key={i}
+                                    style={styles.newsTag}
+                                    onPress={() => (navigation.push(
+                                        'Tag',
+                                        {
+                                            data: tag,
+                                            title: 'Tag',
+                                        }
+                                    ))
+                                    }
+                                >
+                                    <Text style={styles.newsTagName}>
+                                        #{tag.tag_name}
+                                    </Text>
+                                </TouchableOpacity>
+
                             })
                         }
-                        
+
                     </View>
                 </View>
             </Components.Card>
     )
 
     const ITEM_HEIGHT = 200
-	const keyExtractor = useCallback((item) => item.new.news_id.toString(), [])
+    const keyExtractor = useCallback((item) => item.new.news_id.toString(), [])
 
-    //Monta Registros									
-	const useIsMounted = () => {
-		const isMounted = useRef(false);
-		useEffect(() => {
-		  isMounted.current = true;
-		  return () => (isMounted.current = false);
-		}, []);
-		return isMounted;
-	};
-
-    const isMounted = useIsMounted();
     useEffect(() => {
+        clickBuscarRefreshing(true)
+        console.log('Montou') 
+    }, []);
 
-        navigation.addListener('focus', () => {
-            if (isMounted.current) {
-                clickBuscarRefreshing(true)
-            }
-            // The screen is focused
-            // Call any action
-        });
-
-	}, []);
-
-    // Get State
-    const news_tag = useSelector((state) => state.news_tag.news_tag)
-
-    const loader = useSelector((state) => state.geral.loaderGeral.open)
+    useEffect(() => {
+        return () => { 
+            dispatch(
+                limpaListaTagNews()
+            )
+            console.log('Desmontou') 
+        }
+    }, []);
 
     return (
         <>
             <View style={styles.containerTag} >
                 <Text style={styles.headerTag}>
-                #{route.params.data.tag_name}
+                    #{route.params.data.tag_name}
                 </Text>
             </View>
 
             {
-                ( news_tag.length > 0) ?
-                    
+                (news_tag.length > 0) ?
+
                     <FlatList
                         ListHeaderComponent={HeaderList}
                         refreshControl={
@@ -318,16 +289,16 @@ const Screen = ({ navigation, route, ...props}) => {
                         }}
                     />
                     :
-                    <View  style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
+                    <View style={{ width: "100%", flex: 1, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
                         {
                             loader ?
-                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
-                            :
-                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
+                                <Text style={{ color: '#333', fontSize: 18, fontWeight: 'bold', flex: 1, textAlign: 'center', }}>Carregando...</Text>
+                                :
+                                <Text style={{ color: '#333', fontSize: 18, fontWeight: 'bold', flex: 1, textAlign: 'center', }}>Não há notícias</Text>
                         }
                     </View>
             }
-        
+
         </>
     )
 }

@@ -3,19 +3,22 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { useSelector, useDispatch } from 'react-redux';
+
 import { Icon } from "react-native-elements";
 
 //Components
 import Componets from '../components'
-
+import {  verifyApiAutorization } from '../utils/index'
 import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+
+import { LoginOut } from '../redux/slices/geralPersistSlice'
+
+//Dispatchs
+import { useSelector, useDispatch } from 'react-redux';
 
 import Screens from '../screens'
 
 import theme from "../theme/index"
-
-
 
 const styles = StyleSheet.create({
 
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         flexDirection: "row",
         justifyContent: 'flex-end',
-        width: 120,
+       
     }
 });
 
@@ -35,8 +38,66 @@ const MainNavigator = ({ navigation, route, ...props }) => {
     
     const MainStack = createNativeStackNavigator();
     const MainDrawer = createDrawerNavigator();
-    
+
+    // Get State
     const user = useSelector((state) => state.geral_persist.user)
+    const apiToken = verifyApiAutorization(user)
+
+    //Variables Default
+    const dispatch = useDispatch()
+
+    const logOut = () => {
+
+        dispatch(
+            LoginOut(
+                {
+                    params:{
+                        apiToken
+                    }
+                }
+            ),
+        )
+        console.log('sair')
+        
+    }
+
+    const [count, setCount] = React.useState(0);
+    const HeaderLeft = ({title, navigation }) => (
+        <>
+            <View style={{ flexDirection:'row' }}>
+                {/* {
+                    (title == "NOTÍCIAS") ?
+                    <View style={styles.iconContainer}>
+                        <TouchableOpacity
+                            style={styles.newsChannelLogo}
+                            onPress={() => (
+                                navigation.navigate('Login')
+                            )
+                            }
+                        >
+                            <Icon color='#FFF' name='user-circle' type='font-awesome' />
+                        </TouchableOpacity>
+                    </View>
+                    :false
+                }
+                {
+                    (title == "NOTÍCIAS") ?
+                    <View style={styles.iconContainer}>
+                        <TouchableOpacity
+                            style={styles.newsChannelLogo}
+                            onPress={() => (
+                                logOut()
+                            )
+                            }
+                        >
+                            <Icon color='#FFF' name='sign-out' type='font-awesome' />
+                        </TouchableOpacity>
+                    </View>
+                    :false
+                } */}
+            </View>
+        </>
+    )
     
     const titleOptions = (title, navigation = null) => ({
         title: title,
@@ -61,21 +122,7 @@ const MainNavigator = ({ navigation, route, ...props }) => {
         ),
         'headerRight': () => (
             <>
-                
-                <View style={styles.iconContainer}>
-                    <TouchableOpacity
-                        style={styles.newsChannelLogo}
-                        onPress={() => (
-                            ( user.api_token != undefined && user.api_token != "" ) ?
-                                navigation.navigate('Login') 
-                            :
-                                navigation.navigate('Login') 
-                        )
-                        }
-                    >
-                        <Icon color='#FFF' name='user-circle' type='font-awesome' />
-                    </TouchableOpacity>
-                </View>
+                <HeaderLeft title={title} navigation={navigation}></HeaderLeft>
             </>
         ),
         headerShown: true,
@@ -181,11 +228,6 @@ const MainNavigator = ({ navigation, route, ...props }) => {
                 options={titleOptions('Pokemon')}
             />
 
-            <MainDrawer.Screen
-                name="Login"
-                component={LoginComponent}
-                options={titleOptions('Login')}
-            />
         </MainDrawer.Navigator>
     }
 
@@ -193,6 +235,7 @@ const MainNavigator = ({ navigation, route, ...props }) => {
         <>
             <NavigationContainer>
                 <MainStack.Navigator
+                    
                     screenOptions={{ headerShown: false }}
                 >
                     <MainStack.Screen
@@ -261,11 +304,13 @@ const MainNavigator = ({ navigation, route, ...props }) => {
                         component={DonationComponent}
                         options={titleOptions('Doação')}
                     />
-                    <MainStack.Screen
+
+                    <MainDrawer.Screen
                         name="Login"
                         component={LoginComponent}
                         options={titleOptions('Login')}
                     />
+                  
                 </MainStack.Navigator>
             </NavigationContainer>
         </>

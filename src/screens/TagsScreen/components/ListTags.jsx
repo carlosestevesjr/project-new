@@ -13,7 +13,7 @@ import { Icon } from 'react-native-elements'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaTags } from '../../../redux/slices/tagsSlice'
+import { buscaTags, limpaTags } from '../../../redux/slices/tagsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -32,6 +32,14 @@ const Screen = ({ navigation, route, ...props}) => {
 
     const qtd = 50
 
+    // Get State
+    const tags = useSelector((state) => {
+        // console.log(state.tags.tags)
+        return state.tags.tags
+    })
+
+    const loader = useSelector((state) => state.geral.loaderGeral)
+
     const typeImage = (image, channel_type) => {
 		if(channel_type === "podcast"){
 			return image
@@ -42,31 +50,13 @@ const Screen = ({ navigation, route, ...props}) => {
 
     const clickBuscarRefreshing = (reload = true) => {
         setPage(1)
-        const v_page = page
+        const v_page = 1
 
         dispatch(
             buscaTags(
                 {
                    params:{
-                        v_page: "",
-                        qtd: qtd,
-                        reload: reload,
-                    }
-                }
-            ),
-        )
-       
-    }
-
-    const clickBuscar = (reload = false) => {
-        setPage(1)
-        const v_page = page
-       
-        dispatch(
-            buscaTags(
-                {
-                   params:{
-                        v_page: "",
+                        v_page:v_page,
                         qtd: qtd,
                         reload: reload,
                     }
@@ -150,34 +140,19 @@ const Screen = ({ navigation, route, ...props}) => {
     const ITEM_HEIGHT = 200
 	const keyExtractor = useCallback((item) => item.tag_id.toString(), [])
 
-    //Monta Registros									
-	const useIsMounted = () => {
-		const isMounted = useRef(false);
-		useEffect(() => {
-		  isMounted.current = true;
-		  return () => (isMounted.current = false);
-		}, []);
-		return isMounted;
-	};
-
-    const isMounted = useIsMounted();
     useEffect(() => {
+        clickBuscarRefreshing(true)
+        console.log('Montou') 
+    }, []);
 
-        navigation.addListener('focus', () => {
-            if (isMounted.current) {
-                clickBuscarRefreshing(true)
-            }
-        });
-
-	}, []);
-
-    // Get State
-    const tags = useSelector((state) => {
-        // console.log(state.tags.tags)
-        return state.tags.tags
-    })
-
-    const loader = useSelector((state) => state.geral.loaderGeral)
+    useEffect(() => {
+        return () => { 
+            dispatch(
+                limpaTags()
+            )
+            console.log('Desmontou') 
+        }
+    }, []);
 
     return (
         <>

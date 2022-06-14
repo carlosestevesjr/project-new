@@ -5,11 +5,11 @@ import Config from '../../../../config'
 
 //Utils
 import _ from 'lodash'
-import { formataDataBr } from '../../../../utils/index'
+import { formataDataBr} from '../../../../utils/index'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaTagsSearch,  salvaListaTagsSearch } from '../../../../redux/slices/tagsSlice'
+import { buscaTagsSearch,  limpaTagsSearch } from '../../../../redux/slices/tagsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, TextInput, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -28,7 +28,24 @@ const Screen = ({ navigation, route, ...props}) => {
 	const [page, setPage] = useState(1);
 	const [refreshing, setRefreshing] = useState(false);
     const [search, setSearch] = useState("")
-    const qtd = 15
+    const qtd = 20
+
+    // Get State
+    const tags_search = useSelector((state) => {
+        // console.log('tags search', state.tags)
+        return state.tags.tags_search
+    })
+
+    const message_tags_search = useSelector((state) => {
+        // console.log('message search',state.tags.message_tags_search)
+        return state.tags.message_tags_search
+    } )
+
+    const loader = useSelector((state) =>
+    {
+        // console.log('loader search',state.geral.loaderGeral.open)
+        return state.geral.loaderGeral.open
+    })
 
     const typeImage = (image, channel_type) => {
 		if(channel_type === "podcast"){
@@ -43,8 +60,6 @@ const Screen = ({ navigation, route, ...props}) => {
         setPage(1)
         const v_page = 1
 
-        // setRefreshing(true);
-    
         dispatch(
             buscaTagsSearch(
                 {
@@ -57,31 +72,7 @@ const Screen = ({ navigation, route, ...props}) => {
                 }
             ),
         )
-        // setRefreshing(false);
-      
-    }
 
-    const clickBuscar = (reload = false) => {
-       
-        setPage(1)
-        const v_page = page
-        // setRefreshing(true);
-    
-        dispatch(
-            buscaTagsSearch(
-                {
-                    params:{
-                        v_page: v_page,
-                        qtd:qtd,
-                        busca:(search != "")? search : "",
-                        reload: reload
-                    }
-                }
-            ),
-        )
-        // setPage(1);
-        // setRefreshing(false);
-        
     }
 
     const clickBuscarMais = (reload = false) => {
@@ -167,62 +158,64 @@ const Screen = ({ navigation, route, ...props}) => {
     const ITEM_HEIGHT = 200
 	const keyExtractor = useCallback((item) => item.tag_id.toString(), [])
 
-    //Monta Registros									
-	const useIsMounted = () => {
-		const isMounted = useRef(false);
-		useEffect(() => {
-		  isMounted.current = true;
-		  return () => (isMounted.current = false);
-		}, []);
-		return isMounted;
-	};
-    const isMounted = useIsMounted();
-
     const inputElement = useRef(null);
 
     useEffect(() => {
-
+        // clickBuscarRefreshing(true)
         if (inputElement.current) {
             inputElement.current.focus();
         }
+        console.log('Montou') 
+    }, []);
 
-        navigation.addListener('focus', () => {
-            if (isMounted.current) {
-                dispatch(
-                    salvaListaTagsSearch({
-                        'data':"",
-                        'reload': true,
-                        'params': {
-                            busca: "",
-                        }
-                    }),
-                )
+    useEffect(() => {
+        return () => { 
+            dispatch(
+                limpaTagsSearch()
+            )
+            console.log('Desmontou') 
+        }
+    }, []);
 
-            }
-            // The screen is focused
-            // Call any action
-        });
 
-	}, []);
+    // //Monta Registros									
+	// const useIsMounted = () => {
+	// 	const isMounted = useRef(false);
+	// 	useEffect(() => {
+	// 	  isMounted.current = true;
+	// 	  return () => (isMounted.current = false);
+	// 	}, []);
+	// 	return isMounted;
+	// };
+    // const isMounted = useIsMounted();
 
-    // Get State
-    const tags_search = useSelector((state) => {
-        // console.log('tags search', state.tags)
-        return state.tags.tags_search
-    })
+    // const inputElement = useRef(null);
 
-    const message_tags_search = useSelector((state) => {
-        // console.log('message search',state.tags.message_tags_search)
-        return state.tags.message_tags_search
-    } )
+    // useEffect(() => {
 
-    const loader = useSelector((state) =>
-    {
-        // console.log('loader search',state.geral.loaderGeral.open)
-        return state.geral.loaderGeral.open
-    })
+    //     if (inputElement.current) {
+    //         inputElement.current.focus();
+    //     }
 
-   
+    //     navigation.addListener('focus', () => {
+    //         if (isMounted.current) {
+    //             dispatch(
+    //                 salvaListaTagsSearch({
+    //                     'data':"",
+    //                     'reload': true,
+    //                     'params': {
+    //                         busca: "",
+    //                     }
+    //                 }),
+    //             )
+
+    //         }
+    //         // The screen is focused
+    //         // Call any action
+    //     });
+
+	// }, []);
+
     return (
         <>
             {

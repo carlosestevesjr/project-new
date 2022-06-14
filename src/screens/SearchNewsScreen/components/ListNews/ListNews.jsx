@@ -5,11 +5,11 @@ import Config from '../../../../config'
 
 //Utils
 import _ from 'lodash'
-import { formataDataBr } from '../../../../utils/index'
+import { formataDataBr, verifyApiAutorization } from '../../../../utils/index'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaNewsSearch, salvaSearchListaNews } from '../../../../redux/slices/searchNewsSlice'
+import { buscaNewsSearch, limpaSearchListaNews } from '../../../../redux/slices/newsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, TextInput, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -30,6 +30,25 @@ const Screen = ({ navigation, route, ...props}) => {
     const [search, setSearch] = useState("")
     const qtd = 20
 
+    // Get State
+    const user = useSelector((state) => state.geral_persist.user)
+    const apiToken = verifyApiAutorization(user)
+    const search_news = useSelector((state) => {
+        // console.log('news search',state.search_news.search_news)
+        return state.news.search_news
+    } )
+
+    const message = useSelector((state) => {
+        // console.log('message search',state.search_news.message)
+        return state.news.message_search_news
+    } )
+
+    const loader = useSelector((state) =>
+    {
+        // console.log('loader search',state.geral.loaderGeral.open)
+        return state.geral.loaderGeral.open
+    })
+
     const typeImage = (image, channel_type) => {
 		if(channel_type === "podcast"){
 			return image
@@ -43,12 +62,11 @@ const Screen = ({ navigation, route, ...props}) => {
         setPage(1)
         const v_page = 1
 
-        // setRefreshing(true);
-    
         dispatch(
             buscaNewsSearch(
                 {
                     params:{
+                        apiToken,
                         v_page: v_page,
                         qtd:qtd,
                         busca:(search != "" )? search : "",
@@ -57,31 +75,7 @@ const Screen = ({ navigation, route, ...props}) => {
                 }
             ),
         )
-        // setRefreshing(false);
       
-    }
-
-    const clickBuscar = (reload = false) => {
-       
-        setPage(1)
-        const v_page = page
-        // setRefreshing(true);
-    
-        dispatch(
-            buscaNewsSearch(
-                {
-                    params:{
-                        v_page: v_page,
-                        qtd:qtd,
-                        busca:(search != "" )? search : "",
-                        reload: reload
-                    }
-                }
-            ),
-        )
-        // setPage(1);
-        // setRefreshing(false);
-        
     }
 
     const clickBuscarMais = (reload = false) => {
@@ -92,6 +86,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaNewsSearch(
                 {
                     params:{
+                        apiToken,
                         v_page: v_page,
                         qtd:qtd,
                         busca:(search != "" )? search : "",
@@ -267,62 +262,25 @@ const Screen = ({ navigation, route, ...props}) => {
 
     const ITEM_HEIGHT = 200
 	const keyExtractor = useCallback((item) => item.new.news_id.toString(), [])
-
-    //Monta Registros									
-	const useIsMounted = () => {
-		const isMounted = useRef(false);
-		useEffect(() => {
-		  isMounted.current = true;
-		  return () => (isMounted.current = false);
-		}, []);
-		return isMounted;
-	};
-    const isMounted = useIsMounted();
-
+    
     const inputElement = useRef(null);
-
     useEffect(() => {
-
+        clickBuscarRefreshing(true)
         if (inputElement.current) {
             inputElement.current.focus();
         }
+        console.log('Montou') 
+    }, []);
 
-        navigation.addListener('focus', () => {
-            if (isMounted.current) {
-                dispatch(
-                    salvaSearchListaNews({
-                        'data':"",
-                        'reload': true,
-                        'params': {
-                            busca: "",
-                        }
-                    }),
-                )
+    useEffect(() => {
+        return () => { 
+            dispatch(
+                limpaSearchListaNews()
+            )
+            console.log('Desmontou') 
+        }
+    }, []);
 
-            }
-            // The screen is focused
-            // Call any action
-        });
-
-	}, []);
-
-    // Get State
-    const search_news = useSelector((state) => {
-        // console.log('news search',state.search_news.search_news)
-        return state.search_news.search_news
-    } )
-
-    const message = useSelector((state) => {
-        // console.log('message search',state.search_news.message)
-        return state.search_news.message
-    } )
-
-    const loader = useSelector((state) =>
-    {
-        // console.log('loader search',state.geral.loaderGeral.open)
-        return state.geral.loaderGeral.open
-    })
-   
     return (
         <>
             {

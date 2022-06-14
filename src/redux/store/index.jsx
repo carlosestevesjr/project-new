@@ -13,8 +13,6 @@ const persistConfig = {
         'geral',
         'news',
         'search_news',
-        'news_channel',
-        'news_tag',
         'channels',
         'tags',
     ],

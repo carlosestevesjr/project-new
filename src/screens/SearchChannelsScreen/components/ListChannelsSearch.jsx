@@ -11,7 +11,7 @@ import { Icon } from 'react-native-elements'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaChannelsSearch , salvaListaChannelsSearch } from '../../../redux/slices/channelsSlice'
+import { buscaChannelsSearch , limpaChannelsSearch } from '../../../redux/slices/channelsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, TextInput, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -42,10 +42,8 @@ const Screen = ({ navigation, route, ...props}) => {
 
     const clickBuscarRefreshing = (reload = true) => {
         setPage(1)
-        const v_page = page
+        const v_page = 1
 
-        // setRefreshing(true);
-       
         dispatch(
             buscaChannelsSearch(
                 {
@@ -58,28 +56,7 @@ const Screen = ({ navigation, route, ...props}) => {
                 }
             ),
         )
-        // setRefreshing(false);
-    }
 
-    const clickBuscar = (reload = false) => {
-        setPage(1)
-        const v_page = page
-        // setRefreshing(true);
-       
-        dispatch(
-            buscaChannelsSearch(
-                {
-                    params:{
-                        v_page: v_page,
-                        qtd: qtd,
-                        busca:(search != "" )? search : "",
-                        reload: reload,
-                    }
-                }
-            ),
-        )
-        // setPage(1);
-        // setRefreshing(false);
     }
 
     const clickBuscarMais = (reload = false) => {
@@ -99,8 +76,6 @@ const Screen = ({ navigation, route, ...props}) => {
         )
         setPage(v_page)
     }
-
-    const inputElement = useRef(null);
     
     const searchText = (text) => {
         if(text.length > 0){
@@ -229,41 +204,24 @@ const Screen = ({ navigation, route, ...props}) => {
     const ITEM_HEIGHT = 200
 	const keyExtractor = useCallback((item) => item.channels_id.toString(), [])
 
-    //Monta Registros									
-	const useIsMounted = () => {
-		const isMounted = useRef(false);
-		useEffect(() => {
-		  isMounted.current = true;
-		  return () => (isMounted.current = false);
-		}, []);
-		return isMounted;
-	};
+    const inputElement = useRef(null);
 
-    const isMounted = useIsMounted();
     useEffect(() => {
-
+        // clickBuscarRefreshing(true)
         if (inputElement.current) {
             inputElement.current.focus();
         }
+        console.log('Montou') 
+    }, []);
 
-        navigation.addListener('focus', () => {
-            if (isMounted.current) {
-                dispatch(
-                    salvaListaChannelsSearch({
-                        'data':"",
-                        'reload': true,
-                        'params': {
-                            busca: "",
-                        }
-                    }),
-                )
-
-            }
-            // The screen is focused
-            // Call any action
-        });
-
-	}, []);
+    useEffect(() => {
+        return () => { 
+            dispatch(
+                limpaChannelsSearch()
+            )
+            console.log('Desmontou') 
+        }
+    }, []);
 
     // Get State
     const channels_search = useSelector((state) => {
@@ -271,7 +229,7 @@ const Screen = ({ navigation, route, ...props}) => {
         return state.channels.channels_search
     })
 
-    const message_channels_search = useSelector((state) => {
+    const message = useSelector((state) => {
         // console.log(state.channels.channels)
         return state.channels.message_channels_search
     })
@@ -317,7 +275,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                 <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
                             :
                         
-                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há canais</Text>
+                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>{message}</Text>
                             
                         }
                     </View>
