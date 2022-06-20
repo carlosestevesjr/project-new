@@ -4,6 +4,9 @@ import { API }   from '../../services/api'
 
 import { alteraStatusLoaderGeral } from './geralSlice'
 
+import { buscaNews, salvaAtualizaNews } from './newsSlice'
+import { buscaTagsRecents } from './tagsSlice'
+
 export const channelsSlice = createSlice({
     name: 'channels',
     initialState: {
@@ -60,6 +63,18 @@ export const channelsSlice = createSlice({
         limpaListaChannelsSearch: (state, action) => {
             state.channels_search = []
         },
+        salvaCheckChannel: (state, action) => {
+            if(action.payload.list_channels.length > 0){
+                state.channels = action.payload.list_channels
+            }
+        },
+        salvaCheckChannelsSearch: (state, action) => {
+            // console.log('action.payload.list_tags',action.payload.list_tags)
+            if(action.payload.list_channels.length > 0){
+                state.channels_search = action.payload.list_channels
+            }
+        },
+
        
     },
 });
@@ -68,7 +83,10 @@ export const {
     salvaListaChannels,
     limpaListaChannels,
     salvaListaChannelsSearch,
-    limpaListaChannelsSearch 
+    limpaListaChannelsSearch,
+    salvaCheckChannel,
+    salvaCheckChannelsSearch
+   
 } = channelsSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -134,6 +152,126 @@ export const limpaChannelsSearch = payload => async(dispatch) => {
     dispatch(
         limpaListaChannelsSearch()
     )
+}
+
+export const buscaSetChannel = payload => async(dispatch) => {
+   
+    dispatch(alteraStatusLoaderGeral(true))
+    let resp = null
+    try {
+        if(payload.params.select == 0 ){
+            const { unsetChannel } = API
+            resp = await unsetChannel(payload)
+            
+        }else{
+            const { setChannel } = API
+            resp = await setChannel(payload)
+        }
+
+        let list_channels = payload.params.list_channels
+        if(resp.status == 200 && resp.data.code == '001') {
+            
+            const channels_id = payload.params.channels_id
+            //Percorre os canais selecionando a lista
+            let newArray = list_channels.map((canais) => {
+                let obj = Object.assign({}, canais)
+                if(channels_id == canais.channels_id ){
+                    if(payload.params.select == 0 ){
+                        obj.select = payload.params.select
+                    }else{
+                        obj.select = payload.params.select
+                    }
+                   
+                }
+                return obj
+            });
+
+            dispatch(
+                salvaCheckChannel({
+                    'list_channels':newArray
+                }),
+            )
+          
+        }else{
+            
+        }
+
+        dispatch(
+            salvaAtualizaNews(
+                {
+                    params:{
+                        'news_atualiza':true
+                    }
+                }
+            ),
+        ) 
+        dispatch(alteraStatusLoaderGeral(false))
+
+    } catch (error) {
+        console.log('errou')
+        console.log(error)
+        // dispatch(loginFailed());
+    }
+    
+}
+
+export const buscaSetChannelSearch = payload => async(dispatch) => {
+   
+    dispatch(alteraStatusLoaderGeral(true))
+    let resp = null
+    try {
+        if(payload.params.select == 0 ){
+            const { unsetChannel } = API
+            resp = await unsetChannel(payload)
+            
+        }else{
+            const { setChannel } = API
+            resp = await setChannel(payload)
+        }
+
+        let list_channels = payload.params.list_channels
+        if(resp.status == 200 && resp.data.code == '001') {
+            
+            const channels_id = payload.params.channels_id
+            //Percorre os canais selecionando a lista
+            let newArray = list_channels.map((canais) => {
+                let obj = Object.assign({}, canais)
+                if(channels_id == canais.channels_id ){
+                    if(payload.params.select == 0 ){
+                        obj.select = payload.params.select
+                    }else{
+                        obj.select = payload.params.select
+                    }
+                   
+                }
+                return obj
+            });
+
+            dispatch(
+                salvaCheckChannelsSearch({
+                    'list_channels':newArray
+                }),
+            )
+          
+        }else{
+            
+        }
+        dispatch(buscaAtualizaNews(
+            {
+                params:{
+                    'news_atualiza':true
+                }
+            }
+        )) 
+       
+        dispatch(alteraStatusLoaderGeral(false))
+
+    } catch (error) {
+        console.log('errou')
+        console.log(error)
+        // dispatch(loginFailed());
+    }
+    
 }
 
 

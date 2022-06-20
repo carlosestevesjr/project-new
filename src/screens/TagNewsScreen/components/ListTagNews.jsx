@@ -205,7 +205,7 @@ const Screen = ({ navigation, route, ...props }) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={styles.newsTag}>
+                    {/* <View style={styles.newsTag}>
                         {
                             item.tags && item.tags.map(function (tag, i) {
                                 return <TouchableOpacity
@@ -228,7 +228,7 @@ const Screen = ({ navigation, route, ...props }) => {
                             })
                         }
 
-                    </View>
+                    </View> */}
                 </View>
             </Components.Card>
     )
@@ -238,7 +238,7 @@ const Screen = ({ navigation, route, ...props }) => {
 
     useEffect(() => {
         clickBuscarRefreshing(true)
-        console.log('Montou') 
+        console.log('Montou Tags News') 
     }, []);
 
     useEffect(() => {
@@ -246,7 +246,7 @@ const Screen = ({ navigation, route, ...props }) => {
             dispatch(
                 limpaListaTagNews()
             )
-            console.log('Desmontou') 
+            console.log('Desmontou Tags News') 
         }
     }, []);
 

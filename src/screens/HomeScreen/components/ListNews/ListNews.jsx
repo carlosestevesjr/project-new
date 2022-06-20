@@ -9,7 +9,7 @@ import { formataDataBr, verifyApiAutorization } from '../../../../utils/index'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaNews, limpaNews } from '../../../../redux/slices/newsSlice'
+import { buscaNews, limpaNews, salvaAtualizaNews } from '../../../../redux/slices/newsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -25,15 +25,25 @@ const Screen = ({ navigation, route, ...props}) => {
 
 	const [page, setPage] = useState(1);
 	const [refreshing, setRefreshing] = useState(false);
+
     const qtd = 20
 
     // Get State
-    const user = useSelector((state) => state.geral_persist.user)
+    const user = useSelector((state) => {
+        // console.log('home user',state.geral_persist.user)
+        return state.geral_persist.user
+    })
     const apiToken = verifyApiAutorization(user)
     const news = useSelector((state) => {
         // console.log('dasdasdas',state.news.news)
         return state.news.news
     })
+    const news_atualiza = useSelector((state) => {
+        // console.log('state.news.news_atualiza', state.news.news_atualiza)
+        return state.news.news_atualiza
+    } )
+    // const [news_atualiza, setNews_atualiza] = useSelector(state => state.news)
+
     const loader = useSelector((state) => state.geral.loaderGeral.open)
 
     const typeImage = (image, channel_type) => {
@@ -79,7 +89,6 @@ const Screen = ({ navigation, route, ...props}) => {
 
     const HeaderList = ({ }) => (
         <>
-            
         </>
     )
 
@@ -238,7 +247,7 @@ const Screen = ({ navigation, route, ...props}) => {
 
     useEffect(() => {
         clickBuscarRefreshing(true)
-        console.log('Montou') 
+        console.log('Montou News') 
     }, []);
 
     useEffect(() => {
@@ -246,25 +255,30 @@ const Screen = ({ navigation, route, ...props}) => {
             dispatch(
                 limpaNews()
             )
-            console.log('Desmontou') 
+            console.log('Desmontou News') 
         }
     }, []);
 
-
-    // useEffect(() => {
-    //     clickBuscarRefreshing(true)
-    //     console.log('Montou') 
-    // }, []);
-    // if(user.api_token != undefined && user.api_token != "" ){
-    //     return user.api_token 
-    // }else{
-    //     return tokenApi 
-  
-    // }
+    useEffect(() => {
+        if(news_atualiza){
+            
+            clickBuscarRefreshing(true)
+                      
+            dispatch(
+                salvaAtualizaNews(
+                    {
+                        params:{
+                            'news_atualiza':false
+                        }
+                    }
+                ),
+            )
+        }
+        console.log('update caso user') 
+    }, [news_atualiza]);
 
     return (
         <>
-           
             {
                 ( news.length > 0 ) ?
                     <FlatList

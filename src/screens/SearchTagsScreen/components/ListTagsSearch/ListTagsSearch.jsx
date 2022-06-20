@@ -5,11 +5,12 @@ import Config from '../../../../config'
 
 //Utils
 import _ from 'lodash'
-import { formataDataBr} from '../../../../utils/index'
+import { formataDataBr, verifyApiAutorization} from '../../../../utils/index'
+
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaTagsSearch,  limpaTagsSearch } from '../../../../redux/slices/tagsSlice'
+import { buscaTagsSearch, limpaTagsSearch, buscaSetTagsSearch } from '../../../../redux/slices/tagsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, TextInput, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -31,6 +32,9 @@ const Screen = ({ navigation, route, ...props}) => {
     const qtd = 20
 
     // Get State
+    const user = useSelector((state) => state.geral_persist.user)
+    const apiToken = verifyApiAutorization(user)
+
     const tags_search = useSelector((state) => {
         // console.log('tags search', state.tags)
         return state.tags.tags_search
@@ -64,6 +68,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaTagsSearch(
                 {
                     params:{
+                        apiToken,
                         v_page: v_page,
                         qtd:qtd,
                         busca:(search != "" )? search : "",
@@ -83,6 +88,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaTagsSearch(
                 {
                     params:{
+                        apiToken,
                         v_page: v_page,
                         qtd:qtd,
                         busca:(search != "")? search : "",
@@ -93,6 +99,41 @@ const Screen = ({ navigation, route, ...props}) => {
         )
         setPage(v_page)
         
+    }
+
+    const checkTags = (select, tags_id) => {
+        
+        if(select == 0){
+            
+            dispatch(
+                buscaSetTagsSearch(
+                    {
+                        params:{
+                            apiToken,
+                            tags_id: tags_id,
+                            list_tags: tags_search,
+                            select: 1
+                        }
+                    }
+                ),
+            )
+
+        }else{
+
+            dispatch(
+                buscaSetTagsSearch(
+                    {
+                        params:{
+                            apiToken,
+                            tags_id: tags_id,
+                            list_tags: tags_search,
+                            select: 0
+                        }
+                    }
+                ),
+            )
+        }
+       
     }
 
     const searchText = (text) => {
@@ -108,51 +149,88 @@ const Screen = ({ navigation, route, ...props}) => {
 
     const renderItem = useCallback(
         ({ item, index }) =>
-            <Components.Card >
-                <View key={index} style={styles.boxNews}>
-                    <View style={styles.news}>
-                        <View style={styles.containerChannel}>
-                            <TouchableOpacity
-                                style={styles.newsChannelLogo}
-                                onPress={() => (navigation.push(
-                                    'Tag',
-                                    {
-                                        data:item,
-                                        title:'Tag',
-                                    }
-                                ))
+        <Components.Card >
+            <View key={index} style={styles.boxNews}>
+                <View style={styles.news}>
+                    <View style={styles.containerChannel}>
+                        <TouchableOpacity
+                            style={styles.newsChannelLogo}
+                            onPress={() => (navigation.push(
+                                'Tag',
+                                {
+                                    data:item,
+                                    title:'Tag',
                                 }
-                            >
-                                <Image
-                                    style={styles.newsChannelImage}
-                                    resizeMode={'contain'}
-                                    source={{
-                                        uri:Config.LOCAL_HOST_NOCINEMA+item.tag_image,
-                                    }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.containerChannelName}
-                                onPress={() => (navigation.push(
-                                    'Tag',
-                                    {
-                                        data:item,
-                                        title:'Tag',
-                                    }
-                                ))
+                            ))
+                            }
+                        >
+                            <Image
+                                style={styles.newsChannelImage}
+                                resizeMode={'contain'}
+                                source={{
+                                    uri:Config.LOCAL_HOST_NOCINEMA+item.tag_image,
+                                }}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.containerChannelName}
+                            onPress={() => (navigation.push(
+                                'Tag',
+                                {
+                                    data:item,
+                                    title:'Tag',
                                 }
-                            >
-                                <View >
-                                    <Text style={styles.ChannelName}>
-                                    #{item.tag_name}
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                      
+                            ))
+                            }
+                        >
+                            <View >
+                                <Text style={styles.ChannelName}>
+                                #{item.tag_name}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                        {
+                            (item.select !== undefined) &&(
+
+                                (item.select == 1) ?
+                                    <TouchableOpacity
+                                        style={{width:'15%'}}
+                                        onPress={() => (
+                                            (user.api_token != undefined && user.api_token != "") ? checkTags(item.select, item.tag_id) : navigation.navigate('Login') 
+                                        )
+                                        }
+                                    >
+                                        <Icon
+                                            iconStyle={{  padding : 10,borderColor:primary500, color:"#155724"}}
+                                            name='check-circle'
+                                            type='font-awesome'
+                                            color={light}
+                                            size={25} 
+                                        />
+                                    </TouchableOpacity>
+                                :
+                                    <TouchableOpacity
+                                        style={{width:'15%'}}
+                                        onPress={() => (
+                                            (user.api_token != undefined && user.api_token != "") ? checkTags(item.select, item.tag_id) : navigation.navigate('Login') 
+                                        )
+                                        }
+                                    >
+                                        <Icon
+                                            iconStyle={{ padding : 10,borderColor:primary500, color:"#F44336"}}
+                                            name='times-circle'
+                                            type='font-awesome'
+                                            color={light}
+                                            size={25}  
+                                        />
+                                    </TouchableOpacity>
+                                )
+                        }
                     </View>
+                
                 </View>
-            </Components.Card>
+            </View>
+        </Components.Card>
     )
 
     const ITEM_HEIGHT = 200

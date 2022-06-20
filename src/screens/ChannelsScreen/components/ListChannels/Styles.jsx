@@ -15,25 +15,23 @@ const styles = StyleSheet.create({
 	},
     containerChannel:{
         width:'100%',
-        // height:50,
         flexDirection: "row",
-        // marginBottom:5,
-        // borderBottomColor:'#d3d3d3',
-		// borderBottomWidth:1,
-        paddingTop: 3,
-        paddingBottom:3
+        justifyContent:'flex-start',
+        alignItems:'center',
+        marginBottom:3,
+        borderBottomColor:'#d3d3d3',
+		borderBottomWidth:1,
     },
 	newsChannelLogo:{
-		width:'30%',
+		width:'25%',
         padding:5,
         height:50,
 	},
 	newsChannelImage:{
-		width:'100%',
 		height:'100%'
 	},
     containerChannelName:{
-        width:'70%',
+        width:'60%',
         // height: 40,
         flexDirection: 'column',
         justifyContent: 'center',

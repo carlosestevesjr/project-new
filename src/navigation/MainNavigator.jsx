@@ -39,33 +39,12 @@ const MainNavigator = ({ navigation, route, ...props }) => {
     const MainStack = createNativeStackNavigator();
     const MainDrawer = createDrawerNavigator();
 
-    // Get State
-    const user = useSelector((state) => state.geral_persist.user)
-    const apiToken = verifyApiAutorization(user)
-
-    //Variables Default
-    const dispatch = useDispatch()
-
-    const logOut = () => {
-
-        dispatch(
-            LoginOut(
-                {
-                    params:{
-                        apiToken
-                    }
-                }
-            ),
-        )
-        console.log('sair')
-        
-    }
-
     const [count, setCount] = React.useState(0);
     const HeaderLeft = ({title, navigation }) => (
+        
         <>
             <View style={{ flexDirection:'row' }}>
-                {/* {
+                {
                     (title == "NOTÍCIAS") ?
                     <View style={styles.iconContainer}>
                         <TouchableOpacity
@@ -80,21 +59,7 @@ const MainNavigator = ({ navigation, route, ...props }) => {
                     </View>
                     :false
                 }
-                {
-                    (title == "NOTÍCIAS") ?
-                    <View style={styles.iconContainer}>
-                        <TouchableOpacity
-                            style={styles.newsChannelLogo}
-                            onPress={() => (
-                                logOut()
-                            )
-                            }
-                        >
-                            <Icon color='#FFF' name='sign-out' type='font-awesome' />
-                        </TouchableOpacity>
-                    </View>
-                    :false
-                } */}
+               
             </View>
         </>
     )
@@ -121,6 +86,7 @@ const MainNavigator = ({ navigation, route, ...props }) => {
             </View>
         ),
         'headerRight': () => (
+
             <>
                 <HeaderLeft title={title} navigation={navigation}></HeaderLeft>
             </>

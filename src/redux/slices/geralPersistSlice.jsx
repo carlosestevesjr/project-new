@@ -3,19 +3,20 @@ import { createSlice } from '@reduxjs/toolkit'
 import { API }   from '../../services/api'
 
 import { alteraStatusLoaderGeral } from './geralSlice'
+import { salvaAtualizaNews } from './newsSlice'
 
 export const geralPersistSlice = createSlice({
     name: 'geral_persist',
     initialState: {
-        user:{},
+        user:[],
         modalDisclemer: {
             open:true
         },
         message: "",
     },
     reducers: {
-        
         salvaUser: (state, action) => {
+            state.user = []
             // console.log('segunda condição')
             if(action.payload.data.content.dados){
                 state.user = action.payload.data.content.dados
@@ -29,7 +30,6 @@ export const geralPersistSlice = createSlice({
             // console.log('modalDisclemer', action.payload.open)
             state.modalDisclemer.open = action.payload.open
         },
-       
     },
 });
 
@@ -58,6 +58,7 @@ export const alteraModalDisclemer = payload => async(dispatch) => {
 };
 
 export const Login = payload => async(dispatch) => {
+    
     dispatch(alteraStatusLoaderGeral(true))
     try {
         const { buscaLogin } = API
@@ -66,7 +67,7 @@ export const Login = payload => async(dispatch) => {
             dispatch(
                 salvaUser({
                     'data':resp.data,
-                }),
+                })
             )
         }
 
@@ -75,6 +76,17 @@ export const Login = payload => async(dispatch) => {
         console.log(error)
         // dispatch(loginFailed());
     }
+
+    dispatch(
+        salvaAtualizaNews(
+            {
+                params:{
+                    'news_atualiza':true
+                }
+            }
+        ),
+    ) 
+
     dispatch(alteraStatusLoaderGeral(false))
     
 };
@@ -95,6 +107,17 @@ export const LoginOut = payload => async(dispatch) => {
         console.log(error)
         // dispatch(loginFailed());
     }
+
+    dispatch(
+        salvaAtualizaNews(
+            {
+                params:{
+                    'news_atualiza':true
+                }
+            }
+        ),
+    ) 
+
     dispatch(alteraStatusLoaderGeral(false))
     
 };

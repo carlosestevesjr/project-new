@@ -5,13 +5,13 @@ import Config from '../../../config'
 
 //Utils
 import _ from 'lodash'
-import { stripHtml } from '../../../utils/index'
+import { stripHtml, verifyApiAutorization } from '../../../utils/index'
 
 import { Icon } from 'react-native-elements'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaChannelsSearch , limpaChannelsSearch } from '../../../redux/slices/channelsSlice'
+import { buscaChannelsSearch , limpaChannelsSearch, buscaSetChannelSearch } from '../../../redux/slices/channelsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, TextInput, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -32,6 +32,22 @@ const Screen = ({ navigation, route, ...props}) => {
     const [search, setSearch] = useState("")
     const qtd = 10
 
+    // Get State
+    const user = useSelector((state) => state.geral_persist.user)
+    const apiToken = verifyApiAutorization(user)
+
+    const channels_search = useSelector((state) => {
+        // console.log(state.channels.channels)
+        return state.channels.channels_search
+    })
+
+    const message = useSelector((state) => {
+        // console.log(state.channels.channels)
+        return state.channels.message_channels_search
+    })
+
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
+
     const typeImage = (image, channel_type) => {
 		if(channel_type === "podcast"){
 			return image
@@ -48,6 +64,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaChannelsSearch(
                 {
                     params:{
+                        apiToken,
                         v_page: v_page,
                         qtd: qtd,
                         busca:(search != "" )? search : "",
@@ -66,6 +83,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaChannelsSearch(
                 {
                     params:{
+                        apiToken,
                         v_page: v_page,
                         qtd: qtd,
                         busca:(search != "" )? search : "",
@@ -75,6 +93,45 @@ const Screen = ({ navigation, route, ...props}) => {
             ),
         )
         setPage(v_page)
+    }
+
+    const checkCanal = (select, channels_id) => {
+        
+        // setRequisicaoCheckCanais(true);
+       
+        if(select == 0){
+            
+            dispatch(
+                buscaSetChannelSearch(
+                    {
+                        params:{
+                            apiToken,
+                            channels_id: channels_id,
+                            list_channels: channels_search,
+                            select: 1
+                        }
+                    }
+                ),
+            )
+
+            // setRequisicaoCheckCanais(false);
+                
+        }else{
+
+            dispatch(
+                buscaSetChannelSearch(
+                    {
+                        params:{
+                            apiToken,
+                            channels_id: channels_id,
+                            list_channels: channels_search,
+                            select: 0
+                        }
+                    }
+                ),
+            )
+        }
+       
     }
     
     const searchText = (text) => {
@@ -194,6 +251,42 @@ const Screen = ({ navigation, route, ...props}) => {
                                    
                                 {/* </Text> */}
                             </View>
+                            {
+                                (item.select !== undefined) &&(
+
+                                    (item.select == 1) ?
+                                        <TouchableOpacity
+                                            style={{width:'15%'}}
+                                            onPress={() => (
+                                                (user.api_token != undefined && user.api_token != "") ? checkCanal(item.select, item.channels_id) : navigation.navigate('Login') 
+                                            )
+                                            }
+                                        >
+                                            <Icon
+                                                iconStyle={{  padding : 15,borderColor:primary500, color:"#155724"}}
+                                                name='check-circle'
+                                                type='font-awesome'
+                                                color={light}
+                                                size={25}  
+                                            />
+                                        </TouchableOpacity>
+                                    :
+                                        <TouchableOpacity
+                                            style={{width:'15%'}}
+                                            onPress={() => (
+                                                (user.api_token != undefined && user.api_token != "") ? checkCanal(item.select, item.channels_id) : navigation.navigate('Login') 
+                                            )}    
+                                        >
+                                            <Icon
+                                                iconStyle={{  padding : 10,borderColor:primary500, color:"#F44336"}}
+                                                name='times-circle'
+                                                type='font-awesome'
+                                                color={light}
+                                                size={25} 
+                                            />
+                                        </TouchableOpacity>
+                                    )
+                            }
                         </View>
                       
                     </View>
@@ -222,19 +315,6 @@ const Screen = ({ navigation, route, ...props}) => {
             console.log('Desmontou') 
         }
     }, []);
-
-    // Get State
-    const channels_search = useSelector((state) => {
-        // console.log(state.channels.channels)
-        return state.channels.channels_search
-    })
-
-    const message = useSelector((state) => {
-        // console.log(state.channels.channels)
-        return state.channels.message_channels_search
-    })
-
-    const loader = useSelector((state) => state.geral.loaderGeral.open)
 
     return (
         <>

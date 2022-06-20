@@ -19,6 +19,7 @@ export function formataDataBr(data) {
 }
 
 export function verifyApiAutorization(user){
+   
     const tokenApi = ""
     if(user.api_token != undefined && user.api_token != "" ){
         return user.api_token 

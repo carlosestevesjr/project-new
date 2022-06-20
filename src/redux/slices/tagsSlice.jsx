@@ -4,6 +4,9 @@ import { API }   from '../../services/api'
 
 import { alteraStatusLoaderGeral } from './geralSlice'
 
+import { buscaNews, salvaAtualizaNews } from './newsSlice'
+
+
 export const tagsSlice = createSlice({
     name: 'tags',
     initialState: {
@@ -75,7 +78,17 @@ export const tagsSlice = createSlice({
         limpaListaTagsSearch: (state, action) => {
             state.tags_search = []
         },
-       
+        salvaCheckTags: (state, action) => {
+            if(action.payload.list_tags.length > 0){
+                state.tags = action.payload.list_tags
+            }
+        },
+        salvaCheckTagsSearch: (state, action) => {
+            // console.log('action.payload.list_tags',action.payload.list_tags)
+            if(action.payload.list_tags.length > 0){
+                state.tags_search = action.payload.list_tags
+            }
+        },
     },
 });
 
@@ -84,7 +97,9 @@ export const {
     limpaListaTags,
     salvaListaTagsRecents,
     salvaListaTagsSearch,
-    limpaListaTagsSearch 
+    limpaListaTagsSearch,
+    salvaCheckTags,
+    salvaCheckTagsSearch 
 } = tagsSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -174,6 +189,150 @@ export const limpaTagsSearch = payload => async(dispatch) => {
     dispatch(
         limpaListaTagsSearch()
     )
+}
+
+export const buscaSetTags = payload => async(dispatch) => {
+   
+    dispatch(alteraStatusLoaderGeral(true))
+    let resp = null
+    try {
+        if(payload.params.select == 0 ){
+            const { unsetTag } = API
+            resp = await unsetTag(payload)
+            
+        }else{
+            const { setTag } = API
+            resp = await setTag(payload)
+        }
+
+       
+        let list_tags = payload.params.list_tags
+        if(resp.status == 200 && resp.data.code == '001') {
+            
+            const tags_id = payload.params.tags_id
+            
+            //Percorre os canais selecionando a lista
+            let newArray = list_tags.map((tags) => {
+                let obj = Object.assign({}, tags)
+                if(tags_id == tags.tag_id ){
+                    if(payload.params.select == 0 ){
+                        obj.select = payload.params.select
+                    }else{
+                        obj.select = payload.params.select
+                    }
+                }
+                return obj
+            });
+            
+            dispatch(
+                salvaCheckTags({
+                    'list_tags':newArray
+                }),
+            )
+          
+        }else{
+          
+        }
+     
+        dispatch(alteraStatusLoaderGeral(false))
+
+    } catch (error) {
+        console.log('errou')
+        console.log(error)
+        // dispatch(loginFailed());
+    }
+
+    dispatch(
+        salvaAtualizaNews(
+            {
+                params:{
+                    'news_atualiza':true
+                }
+            }
+        ),
+    ) 
+    
+}
+
+export const buscaSetTagsSearch = payload => async(dispatch) => {
+   
+    dispatch(alteraStatusLoaderGeral(true))
+    let resp = null
+    try {
+        if(payload.params.select == 0 ){
+            const { unsetTag } = API
+            resp = await unsetTag(payload)
+            
+        }else{
+            const { setTag } = API
+            resp = await setTag(payload)
+        }
+
+        let list_tags = payload.params.list_tags
+        if(resp.status == 200 && resp.data.code == '001') {
+            
+            const tags_id = payload.params.tags_id
+            
+            //Percorre os canais selecionando a lista
+            let newArray = list_tags.map((tags) => {
+                let obj = Object.assign({}, tags)
+                if(tags_id == tags.tag_id ){
+                    if(payload.params.select == 0 ){
+                        obj.select = payload.params.select
+                    }else{
+                        obj.select = payload.params.select
+                    }
+                }
+                return obj
+            });
+            
+            dispatch(
+                salvaCheckTagsSearch({
+                    'list_tags':newArray
+                }),
+            )
+          
+        }else{
+          
+        }
+
+        //Atualiza Home
+        dispatch(
+            buscaNews(
+                {
+                    params:{
+                        apiToken:payload.params.apiToken,
+                        v_page: 1,
+                        qtd: 20,
+                        reload: true
+                    }
+                }
+            )
+        )
+        dispatch(
+          
+            buscaTagsRecents(
+                {
+                    params:{
+                        apiToken:payload.params.apiToken,
+                        dateInitial:"",
+                        dateFinal:"",
+                        page:1,
+                        qtd: 1000,
+                        reload: true
+                    }
+                }
+            )
+        )
+
+        dispatch(alteraStatusLoaderGeral(false))
+
+    } catch (error) {
+        console.log('errou')
+        console.log(error)
+        // dispatch(loginFailed());
+    }
+    
 }
 
 export default tagsSlice.reducer;

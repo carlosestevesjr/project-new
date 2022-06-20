@@ -1,4 +1,4 @@
-import React, { useState, useEffect,  useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 // import { alteraStatusLoaderGeral } from './../../redux/slices/geralSlice'
 
@@ -7,9 +7,11 @@ import { Icon } from 'react-native-elements'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { Login } from '../../redux/slices/geralPersistSlice'
+import { Login, LoginOut } from '../../redux/slices/geralPersistSlice'
+import { salvaAtualizaNews } from '../../redux/slices/newsSlice'
 
 import theme, { primary500, light, background } from '../../theme/index'
+import { verifyApiAutorization } from '../../utils/index'
 import Components from '../../components'
 
 import styles from './Styles';
@@ -17,13 +19,23 @@ import styles from './Styles';
 const Screen = ({ navigation, route, ...props }) => {
 
     //Variables Default
-    const dispatch = useDispatch()
+    const dispatch = useDispatch([])
 
     const [email, setEmail] = useState('carlosestevesjr0@gmail.com');
     const [password, setPassword] = useState('nerd0471');
 
+    // Get State
+    const user = useSelector((state) => state.geral_persist.user)
+    const apiToken = verifyApiAutorization(user)
+    const news_atualiza = useSelector((state) => {
+        // console.log('state.news.news_atualiza', state.news.news_atualiza)
+        return state.news.news_atualiza
+    } )
+    
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
+
     const logar = () => {
-        let userData ={
+        let userData = {
             email,
             password
         }
@@ -31,16 +43,59 @@ const Screen = ({ navigation, route, ...props }) => {
         dispatch(
             Login(
                 {
-                    params:userData
+                    params: userData
                 }
-            ),
+            )
         )
-        return false
+
     }
 
-    const loader = useSelector((state) => state.geral.loaderGeral.open)
+    const logOut = () => {
+
+        dispatch(
+
+            LoginOut(
+                {
+                    params: {
+                        apiToken
+                    }
+                }
+            )
+
+        )
+
+    }
+
+    useEffect(() => {
+        console.log('Montou Login')
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            console.log('Desmontou Login')
+        }
+    }, []);
+
+    useEffect(() => {
+        if(news_atualiza){
+            
+            dispatch(
+                salvaAtualizaNews(
+                    {
+                        params:{
+                            'news_atualiza':false
+                        }
+                    }
+                ),
+            )
+        }
+        console.log('update caso user') 
+    }, [news_atualiza]);
+
     return (
         <Components.Container title="home">
+
+            
             <View style={styles.container}>
                 <ScrollView style={styles.containerScrow}>
                     <View style={styles.containerLogo}>
@@ -49,7 +104,7 @@ const Screen = ({ navigation, route, ...props }) => {
                             resizeMode={'contain'}
                             source={require('../../assets/images/commons/logo_clear.png')}
                         />
-                    </View>     
+                    </View>
                     <View style={styles.containerBox}>
                         <View>
                             <View style={styles.inputContainer}>
@@ -58,7 +113,7 @@ const Screen = ({ navigation, route, ...props }) => {
                                     name='user-circle'
                                     type='font-awesome'
                                     color={primary500}
-                                    size={18}  
+                                    size={18}
                                 />
                                 <TextInput style={styles.inputs}
                                     placeholder="Usuário"
@@ -74,7 +129,7 @@ const Screen = ({ navigation, route, ...props }) => {
                                     name='unlock-alt'
                                     type='font-awesome'
                                     color={primary500}
-                                    size={18}  
+                                    size={18}
                                 />
                                 <TextInput style={styles.inputs}
                                     placeholder="Senha"
@@ -86,32 +141,36 @@ const Screen = ({ navigation, route, ...props }) => {
                             </View>
                         </View>
                         <View style={styles.containerAcoes}>
-                            <TouchableOpacity 
-                                style={[styles.buttonContainer, styles.loginButton, styles.btnPrimary]} 
-                                onPress={() => (navigation.navigate('Criar Usuário'))}    
+                            <TouchableOpacity
+                                style={[styles.buttonContainer, styles.loginButton, styles.btnPrimary]}
+                                onPress={() => (navigation.navigate('Criar Usuário'))}
                             >
-                                <Text style={styles.loginText}>NOVO CADASTRO</Text>
+                                <Text style={styles.loginText}>CADASTRAR</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity 
-                                style={[styles.buttonContainer, styles.loginButton, styles.btnSuccess]} 
-                                onPress={() => logar()}    
+                            <TouchableOpacity
+                                style={[styles.buttonContainer, styles.loginButton, styles.btnSuccess]}
+                                onPress={() => logar()}
                             >
                                 <Text style={styles.loginText}>LOGIN</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                     {
-                        <View  style={{width:"100%",  flex:1, flexDirection:'row', alignContent:'center', alignItems:'center'}}>
-                        {
-                            loader ?
-                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Carregando...</Text>
-                            :
-                        
-                                <Text style={{ color: '#333', fontSize:18, fontWeight:'bold', flex:1, textAlign:'center',  }}>Não há notícias</Text>
-                            
-                        }
-                    </View>
+                        (user.api_token != undefined && user.api_token != "") &&
+                            <View style={styles.containerBox}>
+                                <View style={styles.containerAcoes}>
+                                    <TouchableOpacity
+                                        style={[styles.buttonContainer, styles.loginButton, styles.btnCustom1]}
+                                        onPress={() => (logOut())}
+                                    >
+                                        <Text style={styles.loginText}>SAIR</Text>
+                                    </TouchableOpacity>
+
+                                </View>
+                            </View>
+                           
                     }
+                   
                 </ScrollView>
             </View>
         </Components.Container>

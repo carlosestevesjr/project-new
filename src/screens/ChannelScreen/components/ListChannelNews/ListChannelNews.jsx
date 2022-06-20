@@ -91,22 +91,9 @@ const Screen = ({ navigation, route, ...props}) => {
                 <View key={index} style={styles.boxNews}>
                     <View style={styles.news}>
                         <View style={styles.containerChannel}>
-                            <TouchableOpacity
+                            <View
                                 style={styles.newsChannelLogo}
-                                onPress={() => (navigation.push(
-                                    'Canal',
-                                    {
-                                        data: {
-                                            channels_id: item.new.channels_id,
-                                            channel_type: item.new.channel_type,
-                                            channel: item.new.channel,
-                                            image: item.new.channel_logo,
-                                            tags: item.tags
-                                        },
-                                        title:'Canal'
-                                    }
-                                ))
-                                }
+                                
                             >
                                 <Image
                                     style={styles.newsChannelImage}
@@ -115,7 +102,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                         uri:Config.LOCAL_HOST_NOCINEMA+item.new.channel_logo,
                                     }}
                                 />
-                            </TouchableOpacity>
+                            </View>
                             <View style={styles.containerChannelName} >
                                 <Text style={styles.ChannelName}>
                                     {item.new.channel}

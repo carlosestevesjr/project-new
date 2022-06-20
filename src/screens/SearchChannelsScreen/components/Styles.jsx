@@ -33,35 +33,45 @@ const styles = StyleSheet.create({
     containerChannel:{
         width:'100%',
         flexDirection: "row",
+        justifyContent:'flex-start',
+        alignItems:'center',
         marginBottom:3,
         borderBottomColor:'#d3d3d3',
 		borderBottomWidth:1,
-        // padding:5 ,
     },
-
+	newsChannelLogo:{
+		width:'25%',
+        padding:5,
+        height:50,
+	},
 	newsChannelImage:{
-		width:'100%',
 		height:'100%'
 	},
-    newsChannelLogo:{
-		width:80,
-        height:80,
-        padding:5,
-	},
     containerChannelName:{
-        width:'65%',
+        width:'60%',
+        // height: 40,
         flexDirection: 'column',
         justifyContent: 'center',
-       
+        // alignItems: 'center',
+     
     },
 	ChannelName:{
         width:'100%',
 		textTransform:'uppercase',
         color:primary500,
-		fontSize:theme.sizes.exrtraSmall,
+		fontSize:theme.sizes.extraSmall,
         fontWeight:'bold',
         paddingLeft: 10,
         paddingRight: 10,
+	},
+    newsDescricao:{
+		width:'100%',
+        fontWeight:'bold',
+        fontStyle: 'italic',
+		textTransform:'uppercase',
+		padding:8,
+		color:primary500,
+		fontSize:theme.sizes.extraSmall,
 	},
 });
 

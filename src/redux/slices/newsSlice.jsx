@@ -1,13 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { API }   from '../../services/api'
+import { API } from '../../services/api'
 
 import { alteraStatusLoaderGeral } from './geralSlice'
+
+import { View, StyleSheet, Button, Alert } from "react-native";
 
 export const newsSlice = createSlice({
     name: 'news',
     initialState: {
         news: [],
+        news_atualiza:false,
         message_news: "",
         news_tag: [],
         message_news_tag: "",
@@ -18,36 +21,39 @@ export const newsSlice = createSlice({
     },
     reducers: {
         salvaListaNews: (state, action) => {
-            if(action.payload.reload){
+            if (action.payload.reload) {
                 state.news = []
                 // console.log('primeira condição')
-                if(action.payload.data.content.dados.length > 0){
+                if (action.payload.data.content.dados.length > 0) {
                     state.news = action.payload.data.content.dados
                 }
-            }else{
+            } else {
                 // console.log('segunda condição')
-                if(action.payload.data.content.dados.length > 0){
+                if (action.payload.data.content.dados.length > 0) {
                     state.news = state.news.concat(action.payload.data.content.dados)
-                }else{
+                } else {
                     // state.news = []
                 }
             }
+        },
+        salvaAtualizaNews: (state, action) => {
+            state.news_atualiza = action.payload.params.news_atualiza
         },
         limpaListaNews: (state, action) => {
             state.news = []
         },
         salvaListaTagNews: (state, action) => {
-            if(action.payload.reload){
+            if (action.payload.reload) {
                 state.news_tag = []
                 // console.log('primeira condição esse')
-                if(action.payload.data.content.dados.length > 0){
+                if (action.payload.data.content.dados.length > 0) {
                     state.news_tag = action.payload.data.content.dados
                 }
-            }else{
+            } else {
                 // console.log('segunda condição esse ')
-                if(action.payload.data.content.dados.length > 0){
+                if (action.payload.data.content.dados.length > 0) {
                     state.news_tag = state.news_tag.concat(action.payload.data.content.dados)
-                }else{
+                } else {
                     // state.news_tag = []
                 }
             }
@@ -57,17 +63,17 @@ export const newsSlice = createSlice({
         },
         salvaListaNewsChannel: (state, action) => {
             // console.log('status reload', action.payload.reload)
-            if(action.payload.reload){
+            if (action.payload.reload) {
                 state.news_channel = []
                 // console.log('primeira condição')
-                if(action.payload.data.content.dados.length > 0){
+                if (action.payload.data.content.dados.length > 0) {
                     state.news_channel = action.payload.data.content.dados
                 }
-            }else{
+            } else {
                 // console.log('segunda condição')
-                if(action.payload.data.content.dados.length > 0){
+                if (action.payload.data.content.dados.length > 0) {
                     state.news_channel = state.news_channel.concat(action.payload.data.content.dados)
-                }else{
+                } else {
                     // state.news_channel = []
                 }
             }
@@ -77,33 +83,34 @@ export const newsSlice = createSlice({
         },
         salvaSearchListaNews: (state, action) => {
             // console.log('b',action.payload.params.busca)
-            if(action.payload.params.busca == ""){
+            if (action.payload.params.busca == "") {
                 state.search_news = []
-                state.message_search_news= "Faça sua busca no campo abaixo"
-              
-            }else if(action.payload.reload){
+                state.message_search_news = "Faça sua busca no campo abaixo"
+
+            } else if (action.payload.reload) {
                 // console.log('primeira condição')
-                if(action.payload.data.content.dados.length != undefined){
+                if (action.payload.data.content.dados.length != undefined) {
                     state.search_news = action.payload.data.content.dados
                 }
-                state.message_search_news= "Não há notícias"
-            }else{
+                state.message_search_news = "Não há notícias"
+            } else {
                 // console.log('segunda condição')
-                if(action.payload.data.content.dados.length > 0){
+                if (action.payload.data.content.dados.length > 0) {
                     state.search_news = state.search_news.concat(action.payload.data.content.dados)
                 }
-                state.message_search_news= ""
+                state.message_search_news = ""
             }
         },
         limpaSearchListaNews: (state, action) => {
             state.search_news = []
         },
-        
+
     },
 });
 
-export const { 
+export const {
     salvaListaNews,
+    salvaAtualizaNews,
     limpaListaNews,
     salvaListaTagNews,
     limpaListaTagNews,
@@ -113,20 +120,33 @@ export const {
     limpaSearchListaNews
 } = newsSlice.actions;
 
-export const buscaNews = payload => async(dispatch) => {
+export const buscaNews = payload => async (dispatch) => {
     dispatch(alteraStatusLoaderGeral(true))
     try {
         const { buscaNews } = API
         const resp = await buscaNews(payload)
-        console.log('resp',resp)
-        console.log('payload',payload)
-        if(resp.status == 200) {
+        // console.log('resp',resp)
+        // console.log('payload',payload)
+        if (resp.status == 200) {
             dispatch(
                 salvaListaNews({
-                    'data':resp.data,
+                    'data': resp.data,
                     'reload': payload.params.reload
                 }),
             )
+        }else{
+            // Alert.alert(
+            //     "ALERTA",
+            //     "My Alert Msg",
+            //     [
+            //         {
+            //             text: "Cancel",
+            //             onPress: () => console.log("Cancel Pressed"),
+            //             style: "cancel"
+            //         },
+            //         { text: "OK", onPress: () => console.log("OK Pressed") }
+            //     ]
+            // );
         }
 
     } catch (error) {
@@ -135,26 +155,44 @@ export const buscaNews = payload => async(dispatch) => {
         // dispatch(loginFailed());
     }
     dispatch(alteraStatusLoaderGeral(false))
-    
+
 };
 
-export const limpaNews = payload => async(dispatch) => {
+export const buscaAtualizaNews = payload => async (dispatch) => {
+  
+    try {
+       
+        dispatch(
+            salvaAtualizaNews({
+                'news_atualiza': payload.params.news_atualiza
+            }),
+        )
+
+    } catch (error) {
+        console.log('errou')
+        console.log(error)
+        // dispatch(loginFailed());
+    }
+
+};
+
+export const limpaNews = payload => async (dispatch) => {
     dispatch(
         limpaListaNews()
     )
 }
 
-export const buscaNewsTag = payload => async(dispatch) => {
+export const buscaNewsTag = payload => async (dispatch) => {
     dispatch(alteraStatusLoaderGeral(true))
-   
+
     try {
         const { buscaNewsTag } = API
         const resp = await buscaNewsTag(payload)
         // console.log('data tag', resp)
-        if(resp.status == 200) {
+        if (resp.status == 200) {
             dispatch(
                 salvaListaTagNews({
-                    'data':resp.data,
+                    'data': resp.data,
                     'reload': payload.params.reload
                 }),
             )
@@ -166,24 +204,24 @@ export const buscaNewsTag = payload => async(dispatch) => {
         // dispatch(loginFailed());
     }
     dispatch(alteraStatusLoaderGeral(false))
-    
+
 };
 
-export const limpaNewsTag = payload => async(dispatch) => {
+export const limpaNewsTag = payload => async (dispatch) => {
     dispatch(
         limpaListaTagNews()
     )
 }
 
-export const buscaNewsChannel = payload => async(dispatch) => {
+export const buscaNewsChannel = payload => async (dispatch) => {
     dispatch(alteraStatusLoaderGeral(true))
     try {
         const { buscaNewsChannel } = API
         const resp = await buscaNewsChannel(payload)
-        if(resp.status == 200) {
+        if (resp.status == 200) {
             dispatch(
                 salvaListaNewsChannel({
-                    'data':resp.data,
+                    'data': resp.data,
                     'reload': payload.params.reload
                 }),
             )
@@ -195,24 +233,24 @@ export const buscaNewsChannel = payload => async(dispatch) => {
         // dispatch(loginFailed());
     }
     dispatch(alteraStatusLoaderGeral(false))
-    
+
 };
 
-export const limpaNewsChannel = payload => async(dispatch) => {
+export const limpaNewsChannel = payload => async (dispatch) => {
     dispatch(
         limpaListaNewsChannel()
     )
 }
 
-export const buscaNewsSearch = payload => async(dispatch) => {
+export const buscaNewsSearch = payload => async (dispatch) => {
     dispatch(alteraStatusLoaderGeral(true))
     try {
         const { buscaSearchNews } = API
         const resp = await buscaSearchNews(payload)
-        if(resp.status == 200) {
+        if (resp.status == 200) {
             dispatch(
                 salvaSearchListaNews({
-                    'data':resp.data,
+                    'data': resp.data,
                     'reload': payload.params.reload,
                     'params': payload.params
                 }),
@@ -225,15 +263,13 @@ export const buscaNewsSearch = payload => async(dispatch) => {
         // dispatch(loginFailed());
     }
     dispatch(alteraStatusLoaderGeral(false))
-    
+
 };
 
-export const limpaNewsSearch = payload => async(dispatch) => {
+export const limpaNewsSearch = payload => async (dispatch) => {
     dispatch(
         limpaSearchListaNews()
     )
 }
-
-
 
 export default newsSlice.reducer;

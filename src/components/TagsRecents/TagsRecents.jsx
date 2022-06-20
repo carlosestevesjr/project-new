@@ -8,6 +8,9 @@ import theme, { primary500} from '../../theme/index'
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
 import { buscaTagsRecents } from '../../redux/slices/tagsSlice'
+import { salvaAtualizaNews } from '../../redux/slices/newsSlice'
+
+import { verifyApiAutorization } from '../../utils/index'
 
 //Config
 import Config from './../../config'
@@ -24,12 +27,29 @@ const TagsRecents = ({ navigation, route, ...props}) => {
     const dateInitial = ''
     const dateFinal = ''
 
+     // Get State
+    const user = useSelector((state) => state.geral_persist.user)
+    const apiToken = verifyApiAutorization(user)
+
+    const news_atualiza = useSelector((state) => {
+        // console.log('state.news.news_atualiza', state.news.news_atualiza)
+        return state.news.news_atualiza
+    } )
+    
+    const tags_recents = useSelector((state) => {
+        // console.log('dasdasdas',state.news.news)
+        return state.tags.tags_recents
+    } )
+    const loader = useSelector((state) => state.geral.loaderGeral.open)
+
     const clickBuscar = (reload = false) => {
      
         dispatch(
             buscaTagsRecents(
                 {
                     params:{
+                        v_page:1,
+                        apiToken,
                         qtd: qtd,
                         dateInitial:dateInitial,
                         dateFinal:dateFinal,
@@ -79,13 +99,24 @@ const TagsRecents = ({ navigation, route, ...props}) => {
         clickBuscar(false)
 	}, []);
     
-    // Get State
-    const tags_recents = useSelector((state) => {
-        // console.log('dasdasdas',state.news.news)
-        return state.tags.tags_recents
-    } )
-    const loader = useSelector((state) => state.geral.loaderGeral.open)
-
+    useEffect(() => {
+        if(news_atualiza){
+            
+            clickBuscar(true)
+                      
+            dispatch(
+                salvaAtualizaNews(
+                    {
+                        params:{
+                            'news_atualiza':false
+                        }
+                    }
+                ),
+            )
+        }
+        console.log('update caso user') 
+    }, [news_atualiza]);
+   
     return (
         <View style={styles.sampleStyle}>
             {/* <Text style={styles.title}>Tags Atualizadas Recentemente</Text> */}

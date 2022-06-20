@@ -5,7 +5,7 @@ import Config from '../../../config'
 
 //Utils
 import _ from 'lodash'
-import { stripHtml } from '../../../utils/index'
+import { verifyApiAutorization } from '../../../utils/index'
 
 import theme, { primary500, light, background} from '../../../theme/index'
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -13,7 +13,7 @@ import { Icon } from 'react-native-elements'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
-import { buscaTags, limpaTags } from '../../../redux/slices/tagsSlice'
+import { buscaTags, limpaTags, buscaSetTags } from '../../../redux/slices/tagsSlice'
 
 //Components
 import { Dimensions, View, RefreshControl, Text, FlatList, Image, TouchableOpacity } from 'react-native'
@@ -33,11 +33,13 @@ const Screen = ({ navigation, route, ...props}) => {
     const qtd = 50
 
     // Get State
+    const user = useSelector((state) => state.geral_persist.user)
+    const apiToken = verifyApiAutorization(user)
     const tags = useSelector((state) => {
         // console.log(state.tags.tags)
         return state.tags.tags
     })
-
+    
     const loader = useSelector((state) => state.geral.loaderGeral)
 
     const typeImage = (image, channel_type) => {
@@ -48,6 +50,45 @@ const Screen = ({ navigation, route, ...props}) => {
 		}
 	}
 
+    const checkTags = (select, tags_id) => {
+        
+        // setRequisicaoCheckCanais(true);
+        if(select == 0){
+            
+            dispatch(
+                buscaSetTags(
+                    {
+                        params:{
+                            apiToken,
+                            tags_id: tags_id,
+                            list_tags: tags,
+                            select: 1
+                        }
+                    }
+                ),
+            )
+
+            // setRequisicaoCheckCanais(false);
+                
+        }else{
+
+            dispatch(
+                buscaSetTags(
+                    {
+                        params:{
+                            apiToken,
+                            tags_id: tags_id,
+                            list_tags: tags,
+                            select: 0
+                        }
+                    }
+                ),
+            )
+            console.log('não faz a requisição')
+        }
+       
+    }
+
     const clickBuscarRefreshing = (reload = true) => {
         setPage(1)
         const v_page = 1
@@ -56,6 +97,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaTags(
                 {
                    params:{
+                        apiToken,
                         v_page:v_page,
                         qtd: qtd,
                         reload: reload,
@@ -73,6 +115,7 @@ const Screen = ({ navigation, route, ...props}) => {
             buscaTags(
                 {
                    params:{
+                        apiToken,
                         v_page: v_page,
                         qtd: qtd,
                         reload: reload,
@@ -130,6 +173,43 @@ const Screen = ({ navigation, route, ...props}) => {
                                     </Text>
                                 </View>
                             </TouchableOpacity>
+                            {
+                                (item.select !== undefined) &&(
+
+                                    (item.select == 1) ?
+                                        <TouchableOpacity
+                                            style={{width:'15%'}}
+                                            onPress={() => (
+                                                (user.api_token != undefined && user.api_token != "") ? checkTags(item.select, item.tag_id) : navigation.navigate('Login') 
+                                            )
+                                            }
+                                        >
+                                            <Icon
+                                                iconStyle={{  padding : 10,borderColor:primary500, color:"#155724"}}
+                                                name='check-circle'
+                                                type='font-awesome'
+                                                color={light}
+                                                size={25} 
+                                            />
+                                        </TouchableOpacity>
+                                    :
+                                        <TouchableOpacity
+                                            style={{width:'15%'}}
+                                            onPress={() => (
+                                                (user.api_token != undefined && user.api_token != "") ? checkTags(item.select, item.tag_id) : navigation.navigate('Login') 
+                                            )
+                                            }
+                                        >
+                                            <Icon
+                                                iconStyle={{ padding : 10,borderColor:primary500, color:"#F44336"}}
+                                                name='times-circle'
+                                                type='font-awesome'
+                                                color={light}
+                                                size={25}  
+                                            />
+                                        </TouchableOpacity>
+                                    )
+                            }
                         </View>
                       
                     </View>
@@ -142,6 +222,9 @@ const Screen = ({ navigation, route, ...props}) => {
 
     useEffect(() => {
         clickBuscarRefreshing(true)
+        const unsubscribe = navigation.addListener('focus', () => {
+            clickBuscarRefreshing(true)
+          });
         console.log('Montou') 
     }, []);
 

@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
 	newsBanner:{
 		// width:'100%',
         backgroundColor:primary50,
+        marginBottom:5
 	},
     newsBannerLoader:{
         zIndex:0,
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
         // fontWeight: 'bold',
         fontStyle: 'italic',
         paddingLeft: 10,
-        paddingRight: 10,
+        paddingRight: 10
 	},
     newsTypeMedia:{
 		position:'absolute',

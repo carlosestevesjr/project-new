@@ -32,18 +32,18 @@ const apiRoutes = {
     //Channels -------------------------------------------------------------------
     buscaChannels: (payload) => {
         // console.log('route' ,"/v1/lista-channels/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd)
-        return api.get("/v1/lista-channels/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd, payload) 
+        return api.get("/v1/lista-channels/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken, payload) 
     },
 
     buscaChannelsSearch: (payload) => {
         // console.log('route' ,"/v1/lista-channels-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca)
         return api.get(
-            "/v1/lista-channels-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca, payload) 
+            "/v1/lista-channels-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca+"&apiToken="+payload.params.apiToken, payload) 
     },
 
     //News -------------------------------------------------------------------
     buscaNews: (payload) => {
-        console.log('route' ,"/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken)
+        // console.log('route' ,"/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken)
         return api.get("/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken, payload)  
     }, 
 
@@ -64,23 +64,43 @@ const apiRoutes = {
 
     //Tags -------------------------------------------------------------------
     buscaTagsRecents: (payload) => {
-        // console.log('route' ,"/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"")
-        return api.get("/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"", payload) 
+        console.log('route' ,"/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"&apiToken="+payload.params.apiToken)
+        return api.get("/v1/lista-tags-recentes?page="+payload.params.v_page+"&qtd="+payload.params.qtd+"&dateInitial="+payload.params.dateInitial+"&dateFinal="+payload.params.dateFinal+"&apiToken="+payload.params.apiToken, payload) 
     },
 
     buscaTags: (payload) => {
         // console.log('route' ,"/v1/lista-tags/")
-        return api.get("/v1/lista-tags/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd, payload) 
+        return api.get("/v1/lista-tags/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken, payload) 
     },
 
     buscaTagsSearch: (payload) => {
-        // console.log('route' ,"/v1/lista-tags-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca)
-        return api.get("/v1/lista-tags-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca, payload) 
+        console.log('route' ,"/v1/lista-tags-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca+"&apiToken="+payload.params.apiToken)
+        return api.get("/v1/lista-tags-search/?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&search="+payload.params.busca+"&apiToken="+payload.params.apiToken, payload) 
     },
 
     //User -------------------------------------------------------------------
-    buscaLogin: (payload) => {
+    setTag: (payload) => {
+        console.log('route',"/v1/set-tag?tags_id="+payload.params.tags_id+"&apiToken="+payload.params.apiToken)
+        return api.post("/v1/set-tag?tags_id="+payload.params.tags_id+"&apiToken="+payload.params.apiToken, payload) 
+    },
+
+    unsetTag: (payload) => {
+        console.log('route', "/v1/unset-tag?tags_id="+payload.params.tags_id+"&apiToken="+payload.params.apiToken)
+        return api.post("/v1/unset-tag?tags_id="+payload.params.tags_id+"&apiToken="+payload.params.apiToken, payload) 
+    },
+
+    setChannel: (payload) => {
+        console.log('route', "/v1/set-canal?channels_id="+payload.params.channels_id+"&apiToken="+payload.params.apiToken)
+        return api.post("/v1/set-canal?channels_id="+payload.params.channels_id+"&apiToken="+payload.params.apiToken, payload) 
+    },
+
+    unsetChannel: (payload) => {
         // console.log('route', "/v1/login")
+        return api.post("/v1/unset-canal?channels_id="+payload.params.channels_id+"&apiToken="+payload.params.apiToken, payload) 
+    },
+
+    buscaLogin: (payload) => {
+        console.log('route', "/v1/login")
         return api.post("/v1/login", payload) 
     },
 

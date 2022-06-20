@@ -37,9 +37,9 @@ const App = () => {
             <Provider store={store}>
                 <PaperProvider theme={theme}>
                     <PersistGate loading={null} persistor={persistor}>
-                        <StatusBar barStyle="light-content" hidden = {false} translucent = {true} backgroundColor="#390147" />
+                        <StatusBar barStyle="light-content" hidden = {false} translucent = {false} backgroundColor="#FFF" />
                         <MainNavigator /> 
-                        <Initialize />
+                        {/* <Initialize /> */}
                     </PersistGate>
                 </PaperProvider>
             </Provider>
