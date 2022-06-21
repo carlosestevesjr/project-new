@@ -4,6 +4,7 @@ import TagNewsScreen from './TagNewsScreen/TagNewsScreen';
 import TagsScreen from './TagsScreen/TagsScreen';
 import ChannelsScreen from './ChannelsScreen/ChannelsScreen';
 import LoginScreen from './LoginScreen/LoginScreen';
+import CreateUserScreen from './CreateUserScreen/CreateUserScreen';
 import PokemonDetailScreen from './PokemonDetailScreen/PokemonDetailScreen';
 import ViewNewsScreen from './ViewNewsScreen/ViewNewsScreen';
 import SearchNewsScreen from './SearchNewsScreen/SearchNewsScreen';
@@ -20,6 +21,7 @@ export default {
     TagsScreen,
     ChannelsScreen,
     LoginScreen,
+    CreateUserScreen,
     PokemonDetailScreen,
     ViewNewsScreen,
     SearchNewsScreen,

@@ -3,6 +3,7 @@ import { usePushNotification } from './src/Hooks'
 import { StatusBar } from 'expo-status-bar';
 
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import  { primary500, light, background } from './src/theme/index'
 
 const theme = {
     ...DefaultTheme,
@@ -37,9 +38,9 @@ const App = () => {
             <Provider store={store}>
                 <PaperProvider theme={theme}>
                     <PersistGate loading={null} persistor={persistor}>
-                        <StatusBar barStyle="light-content" hidden = {false} translucent = {false} backgroundColor="#FFF" />
+                        <StatusBar barStyle="light-content" hidden = {false} translucent = {false} backgroundColor={primary500} />
                         <MainNavigator /> 
-                        {/* <Initialize /> */}
+                        <Initialize />
                     </PersistGate>
                 </PaperProvider>
             </Provider>

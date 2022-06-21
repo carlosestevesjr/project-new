@@ -7,11 +7,13 @@ import _ from 'lodash'
 import { API }   from '../../services/api'
 import { alteraStatusLoaderGeral } from './../../redux/slices/geralSlice'
 
-import { View, Text, Image, TouchableOpacity, Pressable, ScrollView, TextInput, StyleSheet } from 'react-native'
+import { View, Text, Alert, ScrollView, TextInput, TouchableOpacity } from 'react-native'
 import { Icon } from 'react-native-elements'
 
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
+
+import { validateEmail, validateName } from '../../utils/index'
 
 import theme, { primary500, light, background } from '../../theme/index'
 import Components from '../../components'
@@ -26,11 +28,39 @@ const Screen = ({ navigation, route, ...props }) => {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
+    const [enviando, setEnviando] = useState('');
 
-    const [messageValidation, setValidation] = useState('');
+    const [messageName, setMessageName] = useState(false)
+    const [messageEmail, setMessageEmail] = useState(false)
+    const [messageMensagem, setMessageMensagem] = useState(false)
 
     const enviarEmail =  async() => {
 
+        setMessageName(false)
+        setMessageEmail(false)
+        setMessageMensagem(false)
+
+        let erro = false
+        if(!validateName(name)){
+            setMessageName(true)
+            erro = true
+        }
+
+        if(!validateEmail(email)){
+            setMessageEmail(true)
+            erro = true
+        }
+       
+        if(message.length < 3){
+            setMessageMensagem(true)
+            erro = true
+        }
+
+        if(erro){
+            return false
+        }
+
+        setEnviando(true)
         dispatch(alteraStatusLoaderGeral(true))
 
         try {
@@ -44,15 +74,46 @@ const Screen = ({ navigation, route, ...props }) => {
                     }
                 }
             )
-            if(resp.status == 200) {
-                console.log('mensagem enviada com sucesso')
+           
+            if(resp.status == 201 && resp.data.code == "001") {
+                Alert.alert(
+                    "Email ",
+                    "Email enviado com sucesso.",
+                    [
+                      { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ]
+                );
+                setEnviando(false)
+            }else{
+                let newArray = ""
+              
+                if(resp.data.content.dados.errors != undefined){
+                    resp.data.content.dados.errors.map((erro, i) => {
+                        // imprime a chave e o nome do respectivo
+                        Object.keys(erro).forEach(
+                            (chave) => { return newArray += resp.data.content.dados.errors[i][chave]+  '\n' } 
+                        )
+                        return true
+                    })
+                }
+               
+                Alert.alert(
+                    "ERROS",
+                    newArray,
+                    [
+                      { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ]
+                );
+                setEnviando(false)
             }
     
         } catch (error) {
             console.log('errou')
             console.log(error)
+            setEnviando(false)
             // dispatch(loginFailed());
         }
+
         dispatch(alteraStatusLoaderGeral(false))
       
 	}
@@ -81,7 +142,15 @@ const Screen = ({ navigation, route, ...props }) => {
                             Lembrando que não é garantido que conseguiremos colocar, mas faremos todo esforço para conseguir. 
                         </Text>
                         <View style={styles.containerBox}>
-                            <View>
+
+                            <View style={styles.inputContainer}>
+                                <Icon
+                                    raised
+                                    name='user-circle'
+                                    type='font-awesome'
+                                    color={primary500}
+                                    size={13}  
+                                />
                                 <TextInput
                                     style={styles.inputs}
                                     placeholder="Name"
@@ -89,6 +158,23 @@ const Screen = ({ navigation, route, ...props }) => {
                                     underlineColorAndroid='transparent'
                                     onChangeText={(name) => setName(name)}
                                     value={name}
+                                />
+                            </View>
+                            {
+                                messageName && 
+                                <View>
+                                    <Text style={{padding:5, color:"#000", fontSize:13}}>
+                                        O campo nome deve conter nome e sobrenome 
+                                    </Text>
+                                </View>
+                            }
+                           <View style={styles.inputContainer}>
+                                <Icon
+                                    raised
+                                    name='envelope'
+                                    type='font-awesome'
+                                    color={primary500}
+                                    size={13}  
                                 />
                                 <TextInput
                                     style={styles.inputs}
@@ -98,6 +184,15 @@ const Screen = ({ navigation, route, ...props }) => {
                                     onChangeText={(email) => setEmail(email)}
                                     value={email}
                                 />
+                             </View>
+                                {
+                                    messageEmail && 
+                                    <View >
+                                        <Text style={{padding:5, color:"#000", fontSize:13}}>
+                                            O campo email está incorreto  
+                                        </Text>
+                                    </View>
+                                }
                                 <TextInput
                                     style={styles.inputsMultline}
                                     placeholder="Mensagem"
@@ -106,20 +201,27 @@ const Screen = ({ navigation, route, ...props }) => {
                                     onChangeText={(message) => setMessage(message)}
                                     value={message}
                                 />
-                                <View style={styles.buttonContent}>
-                                    <Pressable
-                                        style={[styles.button, styles.buttonOpen]}
-                                        onPress={() => enviarEmail()}
-                                    >
-                                        <Text style={styles.textStyle}>Enviar</Text>
-                                    </Pressable>
-                                </View>
+                           
                                 {
-                                    <Text>
-                                        {messageValidation}
-                                    </Text>
+                                    messageMensagem && 
+                                    <View>
+                                        <Text style={{padding:5, color:"#000", fontSize:13}}>
+                                            O campo mensagem deve conter ao menos 3 letras 
+                                        </Text>
+                                    </View>
                                 }
-                            </View>
+
+                                {
+                                    !enviando &&
+                                    <TouchableOpacity 
+                                        style={[styles.buttonContainer, styles.loginButton, styles.btnSuccess, {width:'100%'}]} 
+                                        onPress={() => (enviarEmail())}    
+                                    >
+                                        <Text style={styles.loginText}>ENVIAR</Text>
+                                    </TouchableOpacity>
+                                }
+                                
+                           
                         </View>
                     </View>
                 </ScrollView>

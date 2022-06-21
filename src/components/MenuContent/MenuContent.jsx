@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, ScrollView } from 'react-native'
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Icon } from 'react-native-elements'
 
@@ -25,15 +25,16 @@ const MenuContent = (props) => {
 
 	return (
 		<View style={[styles.menuContent]}>
-			<DrawerContentScrollView {...props}>
-                <View style={[styles.cabecalho]}>
-                    <View style={[styles.cabecalhoTitle]}>
-                        <Image
-                            resizeMode={'cover'}
-                            source={require('../../assets/images/commons/logo_clear.png')}
-                        />
-                    </View>
+            <View style={[styles.cabecalho]}>
+                <View style={[styles.cabecalhoTitle]}>
+                    <Image
+                        resizeMode={'cover'}
+                        source={require('../../assets/images/commons/logo_clear.png')}
+                    />
                 </View>
+            </View>
+			<DrawerContentScrollView {...props}>
+            <ScrollView style={styles.containerScrow}>
 				<Drawer.Section style={[styles.bottomDrawerSection]}>
 					<DrawerItem
 						label={"Home"}
@@ -99,8 +100,6 @@ const MenuContent = (props) => {
 						labelStyle={styles.drawerItemLabel}
 						style={styles.drawerItem}
 					/>
-
-                    
                     <DrawerItem
 						label={'Doação'}                                                                                                                                                                                                                                                                                                                                                                                                            
 						onPress={() => { 
@@ -150,13 +149,13 @@ const MenuContent = (props) => {
 						style={styles.drawerItem}
 					/>
                     <DrawerItem
-						label={"Login"}
+						label={"Usuário"}
 						onPress={() => { 
 							navigation.navigate('Login') 
 						}}
 						icon={() =>	<Icon
                                 iconStyle={{ padding : 10, borderRadius:10, backgroundColor:background, color:primary500}}
-                                name='home'
+                                name='user'
                                 type='font-awesome'
                                 color={light}
                                 size={theme.sizes.extraSmall}  
@@ -166,6 +165,7 @@ const MenuContent = (props) => {
 						style={styles.drawerItem}
 					/> 
 				</Drawer.Section>
+            </ScrollView>
 			</DrawerContentScrollView>
 		</View>
 	)

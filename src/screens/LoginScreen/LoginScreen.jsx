@@ -21,8 +21,10 @@ const Screen = ({ navigation, route, ...props }) => {
     //Variables Default
     const dispatch = useDispatch([])
 
-    const [email, setEmail] = useState('carlosestevesjr0@gmail.com');
-    const [password, setPassword] = useState('nerd0471');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [ocultaSenha, setOcultaSenha] = useState(true)
 
     // Get State
     const user = useSelector((state) => state.geral_persist.user)
@@ -32,9 +34,9 @@ const Screen = ({ navigation, route, ...props }) => {
         return state.news.news_atualiza
     } )
     
-    const loader = useSelector((state) => state.geral.loaderGeral.open)
-
     const logar = () => {
+        let erro = false
+
         let userData = {
             email,
             password
@@ -76,26 +78,24 @@ const Screen = ({ navigation, route, ...props }) => {
         }
     }, []);
 
-    useEffect(() => {
-        if(news_atualiza){
+    // useEffect(() => {
+    //     if(news_atualiza){
             
-            dispatch(
-                salvaAtualizaNews(
-                    {
-                        params:{
-                            'news_atualiza':false
-                        }
-                    }
-                ),
-            )
-        }
-        console.log('update caso user') 
-    }, [news_atualiza]);
+    //         dispatch(
+    //             salvaAtualizaNews(
+    //                 {
+    //                     params:{
+    //                         'news_atualiza':false
+    //                     }
+    //                 }
+    //             ),
+    //         )
+    //     }
+    //     console.log('update caso user') 
+    // }, [news_atualiza]);
 
     return (
         <Components.Container title="home">
-
-            
             <View style={styles.container}>
                 <ScrollView style={styles.containerScrow}>
                     <View style={styles.containerLogo}>
@@ -105,71 +105,138 @@ const Screen = ({ navigation, route, ...props }) => {
                             source={require('../../assets/images/commons/logo_clear.png')}
                         />
                     </View>
-                    <View style={styles.containerBox}>
-                        <View>
-                            <View style={styles.inputContainer}>
-                                <Icon
-                                    raised
-                                    name='user-circle'
-                                    type='font-awesome'
-                                    color={primary500}
-                                    size={18}
-                                />
-                                <TextInput style={styles.inputs}
-                                    placeholder="Usuário"
-                                    keyboardType="email-address"
-                                    underlineColorAndroid='transparent'
-                                    value={email}
-                                    onChangeText={(email) => setEmail(email)}
-                                />
-                            </View>
-                            <View style={styles.inputContainer}>
-                                <Icon
-                                    raised
-                                    name='unlock-alt'
-                                    type='font-awesome'
-                                    color={primary500}
-                                    size={18}
-                                />
-                                <TextInput style={styles.inputs}
-                                    placeholder="Senha"
-                                    secureTextEntry={true}
-                                    underlineColorAndroid='transparent'
-                                    value={password}
-                                    onChangeText={(password) => setPassword(password)}
-                                />
-                            </View>
-                        </View>
-                        <View style={styles.containerAcoes}>
-                            <TouchableOpacity
-                                style={[styles.buttonContainer, styles.loginButton, styles.btnPrimary]}
-                                onPress={() => (navigation.navigate('Criar Usuário'))}
-                            >
-                                <Text style={styles.loginText}>CADASTRAR</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.buttonContainer, styles.loginButton, styles.btnSuccess]}
-                                onPress={() => logar()}
-                            >
-                                <Text style={styles.loginText}>LOGIN</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
                     {
-                        (user.api_token != undefined && user.api_token != "") &&
+                        (user.api_token != undefined && user.api_token != "") ?
+                            <>
+                                <View style={styles.containerBox}>
+
+                                    <View style={styles.inputContainer}>
+                                        <Icon
+                                            raised
+                                            name='user-circle'
+                                            type='font-awesome'
+                                            color={primary500}
+                                            size={18}
+                                        />
+                                        <TextInput style={styles.inputs}
+                                            placeholder="Usuário"
+                                            keyboardType="email-address"
+                                            editable={false}
+                                            underlineColorAndroid='transparent'
+                                            value={email}
+                                            
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Icon
+                                            raised
+                                            name='lock'
+                                            type='font-awesome'
+                                            color={primary500}
+                                            size={18}
+                                        />
+                                        <TextInput style={styles.inputs}
+                                            placeholder="Senha"
+                                            secureTextEntry={false}
+                                            editable={false}
+                                            underlineColorAndroid='transparent'
+                                            value={password}
+                                        />
+                                    </View>
+                                </View>
+
+                             
+                                <View style={styles.containerBox}>
+                                    <View style={styles.containerAcoes}>
+                                        <TouchableOpacity
+                                            style={[styles.buttonContainer, styles.loginButton, styles.btnCustom1]}
+                                            onPress={() => (logOut())}
+                                        >
+                                            <Text style={styles.loginText}>SAIR</Text>
+                                        </TouchableOpacity>
+
+                                    </View>
+                                </View>
+                            </>
+                        :
                             <View style={styles.containerBox}>
+                                <View>
+                                    <View style={styles.inputContainer}>
+                                        <Icon
+                                            raised
+                                            name='user-circle'
+                                            type='font-awesome'
+                                            color={primary500}
+                                            size={18}
+                                        />
+                                        <TextInput style={styles.inputs}
+                                            placeholder="Usuário"
+                                            keyboardType="email-address"
+                                            underlineColorAndroid='transparent'
+                                            value={email}
+                                            onChangeText={(email) => setEmail(email.trim())}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Icon
+                                            raised
+                                            name='unlock-alt'
+                                            type='font-awesome'
+                                            color={primary500}
+                                            size={18}
+                                        />
+                                        <TextInput style={styles.inputs}
+                                            placeholder="Senha"
+                                            secureTextEntry={ocultaSenha}
+                                            underlineColorAndroid='transparent'
+                                            value={password}
+                                            onChangeText={(password) => setPassword(password.trim())}
+                                        />
+                                        {
+                                        ocultaSenha ?
+                                            <TouchableOpacity
+                                                onPress={() => (setOcultaSenha(false))}
+                                            >
+                                                <Icon
+                                                    raised
+                                                    name='eye'
+                                                    type='font-awesome'
+                                                    color={primary500}
+                                                    size={16}  
+                                                />
+                                            </TouchableOpacity>
+                                        :
+                                            <TouchableOpacity
+                                                onPress={() => (setOcultaSenha(true))}
+                                                >
+                                                    <Icon
+                                                        raised
+                                                        name='eye-slash'
+                                                        type='font-awesome'
+                                                        color={primary500}
+                                                        size={16}  
+                                                    />
+                                            </TouchableOpacity>
+                                        }
+                                    </View>
+                                </View>
                                 <View style={styles.containerAcoes}>
                                     <TouchableOpacity
-                                        style={[styles.buttonContainer, styles.loginButton, styles.btnCustom1]}
-                                        onPress={() => (logOut())}
+                                        style={[styles.buttonContainer, styles.loginButton, styles.btnPrimary]}
+                                        onPress={() => (navigation.navigate('Criar Usuário'))}
                                     >
-                                        <Text style={styles.loginText}>SAIR</Text>
+                                        <Text style={styles.loginText}>CADASTRAR</Text>
                                     </TouchableOpacity>
-
+                                    <TouchableOpacity
+                                        style={[styles.buttonContainer, styles.loginButton, styles.btnSuccess]}
+                                        onPress={() => logar()}
+                                    >
+                                        <Text style={styles.loginText}>LOGIN</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
-                           
                     }
+                    
                    
                 </ScrollView>
             </View>

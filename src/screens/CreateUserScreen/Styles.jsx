@@ -1,57 +1,35 @@
-import { StyleSheet } from 'react-native'
-
-import {
-    primary500,
+import { StyleSheet } from 'react-native';
+import  { 
+    background,
+    light,
     primary800,
-    background
-} from '../../theme/index'
-
+    primary900
+ }  from "../../theme/index"
 const styles = StyleSheet.create({
-    centeredView: {
+    container: {
+        width:'100%',
         flex: 1,
-        width: "100%",
+        flexDirection:'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor:primary900,
     },
-    contentView: {
-        margin: 5,
-        backgroundColor: "white",
-        borderRadius: 5,
-        padding: 10,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
+    containerScrow:{
     },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: 'center',
-    },
-    modalText: {
-        marginBottom: 15,
-        // textAlign: "center"
-    },
-    modalTextDestaque: {
-        color:primary500,
-        paddingLeft: 15,
-        paddingRight: 15,
-        fontWeight: 'bold',
-        fontSize:theme.sizes.small,
-        marginBottom: 15,
-        textAlign: "center"
-    },
-    modalTextBold: {
-        fontWeight: 'bold',
-    },
-    containerBox: {
+    containerLogo: {
         width:'100%',
+        flexDirection:'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
+    cabecalhoLogo: {
+        width:300,
+        margin:'2%'
+	},
     containerBox: {
-        width:'100%',
-      
+       
+        width:'80%',
+        marginLeft:'10%'
     },
     containerAcoes:{
         flexWrap:'wrap',
@@ -60,10 +38,9 @@ const styles = StyleSheet.create({
 		alignItems: "center"
     },
     inputContainer: {
-        backgroundColor:background,
-        borderWidth: 1,
-        borderColor:primary500 ,
+        backgroundColor: '#FFFFFF',
         borderRadius:5,
+        borderBottomWidth: 1,
         // height:45,
         marginTop:10,
         flexDirection: 'row',
@@ -78,21 +55,12 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     inputs:{
-        width:'100%',
         fontWeight:'bold',
         color:primary800,
         height:45,
-    },
-    inputsMultline:{
-        width:'100%',
-        textAlignVertical: 'top',
-        backgroundColor:background,
-        height: 200,
-        marginTop: 5,
-        borderWidth: 1,
-        borderColor:primary500 ,
-        padding: 10,
-        borderRadius:5,
+        marginLeft:0,
+        borderBottomColor: '#FFFFFF',
+        flex:1,
     },
     inputIcon:{
         width:30,
@@ -109,8 +77,9 @@ const styles = StyleSheet.create({
         backgroundColor:'transparent'
     },
     loginButton: {
-        marginTop:15,
-       
+        margin:5,
+        paddingLeft:25,
+        paddingRight:25,
     },
     loginText: {
         color: 'white',
@@ -151,6 +120,7 @@ const styles = StyleSheet.create({
     checkboxContainer: {
         flexDirection: "row",
         flexWrap:"wrap",
+       
     },
     checkBoxText: {
         borderRadius:5,
@@ -199,6 +169,6 @@ const styles = StyleSheet.create({
         borderBottomColor:'#290A4D',
         backgroundColor:'#3F0F75' 
     }
-})
+});
 
-export default styles
+export default styles;

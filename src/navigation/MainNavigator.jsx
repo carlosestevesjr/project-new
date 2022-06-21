@@ -8,17 +8,10 @@ import { Icon } from "react-native-elements";
 
 //Components
 import Componets from '../components'
-import {  verifyApiAutorization } from '../utils/index'
 import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 
-import { LoginOut } from '../redux/slices/geralPersistSlice'
-
 //Dispatchs
-import { useSelector, useDispatch } from 'react-redux';
-
 import Screens from '../screens'
-
-import theme from "../theme/index"
 
 const styles = StyleSheet.create({
 
@@ -27,7 +20,7 @@ const styles = StyleSheet.create({
     },
     iconContainer: {
         paddingTop: 5,
-        paddingRight: 10,
+        paddingRight: 15,
         flexDirection: "row",
         justifyContent: 'flex-end',
        
@@ -150,6 +143,10 @@ const MainNavigator = ({ navigation, route, ...props }) => {
 
     const LoginComponent = (props, route) => (
         <Screens.LoginScreen  {...props} {...route} />
+    )
+
+    const CreateUserComponent = (props, route) => (
+        <Screens.CreateUserScreen  {...props} {...route} />
     )
 
     const ViewNewsComponent = (props, route) => (
@@ -275,6 +272,12 @@ const MainNavigator = ({ navigation, route, ...props }) => {
                         name="Login"
                         component={LoginComponent}
                         options={titleOptions('Login')}
+                    />
+
+                    <MainDrawer.Screen
+                        name="Criar Usuário"
+                        component={CreateUserComponent}
+                        options={titleOptions('Criar Usuário')}
                     />
                   
                 </MainStack.Navigator>
