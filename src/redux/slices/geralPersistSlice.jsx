@@ -181,6 +181,10 @@ export const LoginOut = payload => async(dispatch) => {
             dispatch(
                 limpaUser(),
             )
+        }else{
+            dispatch(
+                limpaUser(),
+            )
         }
 
     } catch (error) {

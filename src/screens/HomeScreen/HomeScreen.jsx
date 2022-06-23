@@ -1,4 +1,4 @@
-import React, { useState, useEffect,  useCallback, useRef } from 'react';
+import React from 'react';
 
 //Config
 import Config from '../../config'
@@ -7,17 +7,19 @@ import Config from '../../config'
 import _ from 'lodash'
 
 //Dispatchs
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 //Components
+
+
 import { View, Text, Image, TouchableOpacity, Pressable, TextInput, StyleSheet } from 'react-native'
 import { Icon } from 'react-native-elements'
 
 import ListNews from '../HomeScreen/components/ListNews/ListNews'
 import { alteraStatusMostraImage } from '../../redux/slices/geralPersistSlice'
-
 import theme, { secundary500, textDanger, light} from '../../theme/index'
 import Components from './../../components'
+import { usePushNotification } from '../../Hooks/index'
 
 // import { Appbar, BottomNavigation, Text, Drawer } from 'react-native-paper';
 
@@ -25,6 +27,20 @@ import Components from './../../components'
 import styles from './Styles'
 
 const Screen = ({ navigation, route, ...props }) => {
+
+    const user = useSelector((state) => {
+        // console.log('home user',state.geral_persist.user)
+        return state.geral_persist.user
+    })
+
+    const InitializeTokenNotification = () => {
+        (user.api_token != undefined && user.api_token != "") ?
+            usePushNotification(user.id)
+        :
+            usePushNotification()
+        return null  
+    }
+   
 
     // const NewsRoute = () => <Text>Noticias</Text>;
 
@@ -58,6 +74,8 @@ const Screen = ({ navigation, route, ...props }) => {
     return (
         <>
             <Components.Container title="home">
+                <InitializeTokenNotification />
+               
                 <View style={{ width:'100%'}}>
                     <Components.TagsRecents  navigation={navigation} props={props} route={route} />                  
                 </View>

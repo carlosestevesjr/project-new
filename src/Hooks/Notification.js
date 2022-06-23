@@ -4,7 +4,7 @@ import * as Notifications from 'expo-notifications';
 import { useState, useEffect, useRef } from 'react';
 import { API }   from '../services/api'
 
-export default function usePushNotification () {
+export default function usePushNotification (user_id = null) {
 
 	Notifications.setNotificationHandler({
 	  handleNotification: async () => ({
@@ -20,7 +20,7 @@ export default function usePushNotification () {
   const responseListener = useRef();
   
   useEffect(() => {
-    registerForPushNotificationsAsync()
+    registerForPushNotificationsAsync(user_id)
     .then(token => setExpoPushToken(token));
 
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
@@ -39,7 +39,7 @@ export default function usePushNotification () {
 
 }
 
-export async function registerForPushNotificationsAsync() {
+export async function registerForPushNotificationsAsync(user_id) {
   let token;
   if (Constants.isDevice) {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
@@ -54,7 +54,7 @@ export async function registerForPushNotificationsAsync() {
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
     
-    salvarTokenNotificacao(token);
+    salvarTokenNotificacao(token, user_id);
 
   } else {
     console.log('Must use physical device for Push Notifications');
@@ -72,7 +72,7 @@ export async function registerForPushNotificationsAsync() {
   return token;
 }
 
-async function salvarTokenNotificacao(token) {
+async function salvarTokenNotificacao(token, user_id) {
     console.log('token notification', token )
 
     try {
@@ -80,6 +80,7 @@ async function salvarTokenNotificacao(token) {
         
         params = {
             "token": token,
+            "user_id":user_id,
             "platform": Platform.OS
         }
 
@@ -88,7 +89,7 @@ async function salvarTokenNotificacao(token) {
             params
         }
         const resp = await setTokenPush(payload)
-        // console.log('retorno',resp)
+        console.log('retorno',resp)
         if(resp.status == 200) {
           console.log(resp.data);
         }

@@ -8,7 +8,6 @@ import { Icon } from 'react-native-elements'
 //Dispatchs
 import { useSelector, useDispatch } from 'react-redux';
 import { Login, LoginOut } from '../../redux/slices/geralPersistSlice'
-import { salvaAtualizaNews } from '../../redux/slices/newsSlice'
 
 import theme, { primary500, light, background } from '../../theme/index'
 import { verifyApiAutorization } from '../../utils/index'
@@ -78,22 +77,6 @@ const Screen = ({ navigation, route, ...props }) => {
         }
     }, []);
 
-    // useEffect(() => {
-    //     if(news_atualiza){
-            
-    //         dispatch(
-    //             salvaAtualizaNews(
-    //                 {
-    //                     params:{
-    //                         'news_atualiza':false
-    //                     }
-    //                 }
-    //             ),
-    //         )
-    //     }
-    //     console.log('update caso user') 
-    // }, [news_atualiza]);
-
     return (
         <Components.Container title="home">
             <View style={styles.container}>
@@ -119,33 +102,33 @@ const Screen = ({ navigation, route, ...props }) => {
                                             size={18}
                                         />
                                         <TextInput style={styles.inputs}
-                                            placeholder="Usuário"
+                                            placeholder="Email"
                                             keyboardType="email-address"
                                             editable={false}
                                             underlineColorAndroid='transparent'
-                                            value={email}
+                                            value={user.name}
                                             
                                         />
                                     </View>
+
                                     <View style={styles.inputContainer}>
                                         <Icon
                                             raised
-                                            name='lock'
+                                            name='envelope'
                                             type='font-awesome'
                                             color={primary500}
                                             size={18}
                                         />
                                         <TextInput style={styles.inputs}
-                                            placeholder="Senha"
-                                            secureTextEntry={false}
+                                            placeholder="Email"
+                                            keyboardType="email-address"
                                             editable={false}
                                             underlineColorAndroid='transparent'
-                                            value={password}
+                                            value={user.email}
                                         />
                                     </View>
                                 </View>
 
-                             
                                 <View style={styles.containerBox}>
                                     <View style={styles.containerAcoes}>
                                         <TouchableOpacity
@@ -164,13 +147,13 @@ const Screen = ({ navigation, route, ...props }) => {
                                     <View style={styles.inputContainer}>
                                         <Icon
                                             raised
-                                            name='user-circle'
+                                            name='envelope'
                                             type='font-awesome'
                                             color={primary500}
                                             size={18}
                                         />
                                         <TextInput style={styles.inputs}
-                                            placeholder="Usuário"
+                                            placeholder="Email"
                                             keyboardType="email-address"
                                             underlineColorAndroid='transparent'
                                             value={email}
