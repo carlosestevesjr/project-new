@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
 		marginRight:'1%',
 		marginBottom:60,
 		width:'98%',
+        color:'#333'
 		// height:'100%'
 	},
 	

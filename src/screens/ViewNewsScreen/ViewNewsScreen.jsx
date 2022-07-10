@@ -114,10 +114,10 @@ const Screen = ({ navigation, route }) => {
                             <View style={styles.containerChannelName} >
                                 <Text style={styles.ChannelName}>
                                     {route.params.data.channel}
-                                    -{route.params.data.id}
+                                    - {route.params.data.news_id}
                                 </Text>
                                 <Text style={styles.newsData} >
-                                    {formataDataBr(route.params.data.data)}
+                                    {formataDataBr(route.params.data.news_data)}
                                 </Text>
                                 {
                                     route.params.data.channel_type == "podcast" &&
@@ -156,14 +156,14 @@ const Screen = ({ navigation, route }) => {
                                     style={styles.newsBannerImage}
                                     resizeMode={'contain'}
                                     source={{
-                                        uri: typeImage(route.params.data.image, route.params.data.channel_type),
+                                        uri: typeImage(route.params.data.news_image, route.params.data.channel_type),
                                     }}
                                 />
                             </View>
                         </TouchableOpacity>
                         <View style={styles.newsTitle}>
                             <Text style={styles.newsDescricao}>
-                                {route.params.data.title}
+                                {route.params.data.news_title}
                             </Text>
                         </View>
                     </View>
