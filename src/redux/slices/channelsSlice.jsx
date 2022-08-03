@@ -196,15 +196,34 @@ export const buscaSetChannel = payload => async(dispatch) => {
             
         }
 
+        //Atualiza Home
         dispatch(
-            salvaAtualizaNews(
+            buscaNews(
                 {
                     params:{
-                        'news_atualiza':true
+                        apiToken:payload.params.apiToken,
+                        v_page: 1,
+                        qtd: 20,
+                        reload: true
                     }
                 }
-            ),
-        ) 
+            )
+        )
+        dispatch(
+        
+            buscaTagsRecents(
+                {
+                    params:{
+                        apiToken:payload.params.apiToken,
+                        dateInitial:"",
+                        dateFinal:"",
+                        page:1,
+                        qtd: 1000,
+                        reload: true
+                    }
+                }
+            )
+        )
         dispatch(alteraStatusLoaderGeral(false))
 
     } catch (error) {
@@ -256,13 +275,35 @@ export const buscaSetChannelSearch = payload => async(dispatch) => {
         }else{
             
         }
-        dispatch(buscaAtualizaNews(
-            {
-                params:{
-                    'news_atualiza':true
+        
+        //Atualiza Home
+        dispatch(
+            buscaNews(
+                {
+                    params:{
+                        apiToken:payload.params.apiToken,
+                        v_page: 1,
+                        qtd: 20,
+                        reload: true
+                    }
                 }
-            }
-        )) 
+            )
+        )
+        dispatch(
+        
+            buscaTagsRecents(
+                {
+                    params:{
+                        apiToken:payload.params.apiToken,
+                        dateInitial:"",
+                        dateFinal:"",
+                        page:1,
+                        qtd: 1000,
+                        reload: true
+                    }
+                }
+            )
+        )
        
         dispatch(alteraStatusLoaderGeral(false))
 

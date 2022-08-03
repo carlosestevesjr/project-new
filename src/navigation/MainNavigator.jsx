@@ -179,7 +179,6 @@ const MainNavigator = ({ navigation, route, ...props }) => {
             drawerContent={props => (<Componets.MenuContent  {...props} />)}
         >
             <MainDrawer.Screen
-               
                 name="Home"
                 component={HomeComponent}
                 options={() => titleOptions('NOTÍCIAS', navigation)}

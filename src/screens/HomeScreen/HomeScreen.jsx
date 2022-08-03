@@ -38,7 +38,7 @@ const Screen = ({ navigation, route, ...props }) => {
             usePushNotification(user.id)
         :
             usePushNotification()
-        return null  
+            return null  
     }
    
 
