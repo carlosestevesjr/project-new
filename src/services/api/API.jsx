@@ -42,7 +42,7 @@ const apiRoutes = {
 
     //News -------------------------------------------------------------------
     buscaNews: (payload) => {
-        // console.log('route' ,"/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken)
+        console.log('route' ,"/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken)
         return api.get("/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken, payload)  
     }, 
 

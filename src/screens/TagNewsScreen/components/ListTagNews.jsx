@@ -97,6 +97,7 @@ const Screen = ({ navigation, route, ...props }) => {
                                         data: {
                                             channels_id: item.new.channels_id,
                                             channel_type: item.new.channel_type,
+                                            channel_slug: item.new.channel_slug,
                                             channel: item.new.channel,
                                             image: item.new.channel_logo,
                                             tags: item.tags
