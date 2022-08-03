@@ -243,7 +243,7 @@ const Screen = ({ navigation, route, ...props}) => {
         if (inputElement.current) {
             inputElement.current.focus();
         }
-        console.log('Montou') 
+        // console.log('Montou') 
     }, []);
 
     useEffect(() => {
@@ -251,7 +251,7 @@ const Screen = ({ navigation, route, ...props}) => {
             dispatch(
                 limpaTagsSearch()
             )
-            console.log('Desmontou') 
+            // console.log('Desmontou') 
         }
     }, []);
 

@@ -129,12 +129,12 @@ const Screen = ({ navigation, route, ...props }) => {
     }
 
     useEffect(() => {
-        console.log('Montou Create User')
+        // console.log('Montou Create User')
     }, []);
 
     useEffect(() => {
         return () => {
-            console.log('Desmontou Create User')
+            // console.log('Desmontou Create User')
         }
     }, []);
 

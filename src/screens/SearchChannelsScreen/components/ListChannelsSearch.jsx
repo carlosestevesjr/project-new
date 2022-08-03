@@ -159,6 +159,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                         data: {
                                             channels_id: item.channels_id,
                                             channel_type: item.channel_type,
+                                            channel_slug: item.channel_slug,
                                             channel: item.channel,
                                             image: item.channel_logo,
                                            
@@ -184,6 +185,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                             data: {
                                                 channels_id: item.channels_id,
                                                 channel_type: item.channel_type,
+                                                channel_slug: item.channel_slug,
                                                 channel: item.channel,
                                                 image: item.channel_logo,
                                             
@@ -304,7 +306,7 @@ const Screen = ({ navigation, route, ...props}) => {
         if (inputElement.current) {
             inputElement.current.focus();
         }
-        console.log('Montou') 
+        // console.log('Montou') 
     }, []);
 
     useEffect(() => {
@@ -312,7 +314,7 @@ const Screen = ({ navigation, route, ...props}) => {
             dispatch(
                 limpaChannelsSearch()
             )
-            console.log('Desmontou') 
+            // console.log('Desmontou') 
         }
     }, []);
 

@@ -214,7 +214,7 @@ export const buscaSetTags = payload => async(dispatch) => {
             //Percorre os canais selecionando a lista
             let newArray = list_tags.map((tags) => {
                 let obj = Object.assign({}, tags)
-                if(tags_id == tags.tag_id ){
+                if(tags_id == tags.tag_slug){
                     if(payload.params.select == 0 ){
                         obj.select = payload.params.select
                     }else{
@@ -276,7 +276,7 @@ export const buscaSetTagsSearch = payload => async(dispatch) => {
             //Percorre os canais selecionando a lista
             let newArray = list_tags.map((tags) => {
                 let obj = Object.assign({}, tags)
-                if(tags_id == tags.tag_id ){
+                if(tags_id == tags.tag_slug){
                     if(payload.params.select == 0 ){
                         obj.select = payload.params.select
                     }else{

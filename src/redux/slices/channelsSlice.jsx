@@ -175,7 +175,7 @@ export const buscaSetChannel = payload => async(dispatch) => {
             //Percorre os canais selecionando a lista
             let newArray = list_channels.map((canais) => {
                 let obj = Object.assign({}, canais)
-                if(channels_id == canais.channels_id ){
+                if(channels_id == canais.channel_slug ){
                     if(payload.params.select == 0 ){
                         obj.select = payload.params.select
                     }else{
@@ -255,7 +255,7 @@ export const buscaSetChannelSearch = payload => async(dispatch) => {
             //Percorre os canais selecionando a lista
             let newArray = list_channels.map((canais) => {
                 let obj = Object.assign({}, canais)
-                if(channels_id == canais.channels_id ){
+                if(channels_id == canais.channel_slug ){
                     if(payload.params.select == 0 ){
                         obj.select = payload.params.select
                     }else{

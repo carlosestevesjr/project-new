@@ -120,7 +120,7 @@ export const CreateUser = payload => async(dispatch) => {
     try {
         const { buscaCreateUser } = API
         const resp = await buscaCreateUser(payload)
-        console.log('create',resp.data )
+        // console.log('create',resp.data )
         
         if(resp.status == 201 && resp.data.code == "001" ) {
             Alert.alert(

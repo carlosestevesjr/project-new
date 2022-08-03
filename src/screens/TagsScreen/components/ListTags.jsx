@@ -180,7 +180,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                         <TouchableOpacity
                                             style={{width:'15%'}}
                                             onPress={() => (
-                                                (user.api_token != undefined && user.api_token != "") ? checkTags(item.select, item.tag_id) : navigation.navigate('Login') 
+                                                (user.api_token != undefined && user.api_token != "") ? checkTags(item.select, item.tag_slug) : navigation.navigate('Login') 
                                             )
                                             }
                                         >
@@ -196,7 +196,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                         <TouchableOpacity
                                             style={{width:'15%'}}
                                             onPress={() => (
-                                                (user.api_token != undefined && user.api_token != "") ? checkTags(item.select, item.tag_id) : navigation.navigate('Login') 
+                                                (user.api_token != undefined && user.api_token != "") ? checkTags(item.select, item.tag_slug) : navigation.navigate('Login') 
                                             )
                                             }
                                         >
@@ -225,7 +225,7 @@ const Screen = ({ navigation, route, ...props}) => {
         const unsubscribe = navigation.addListener('focus', () => {
             clickBuscarRefreshing(true)
           });
-        console.log('Montou') 
+        // console.log('Montou') 
     }, []);
 
     useEffect(() => {
@@ -233,7 +233,7 @@ const Screen = ({ navigation, route, ...props}) => {
             dispatch(
                 limpaTags()
             )
-            console.log('Desmontou') 
+            // console.log('Desmontou') 
         }
     }, []);
 

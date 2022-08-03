@@ -68,12 +68,12 @@ const Screen = ({ navigation, route, ...props }) => {
     }
 
     useEffect(() => {
-        console.log('Montou Login')
+        // console.log('Montou Login')
     }, []);
 
     useEffect(() => {
         return () => {
-            console.log('Desmontou Login')
+            // console.log('Desmontou Login')
         }
     }, []);
 

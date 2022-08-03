@@ -52,7 +52,7 @@ const Screen = ({ navigation, route, ...props}) => {
                         v_page: v_page,
                         qtd: qtd,
                         reload: reload,
-                        channel_id: route.params.data.channels_id
+                        channel_id: route.params.data.channel_slug
                     }
                 }
             ),
@@ -71,7 +71,7 @@ const Screen = ({ navigation, route, ...props}) => {
                         v_page: v_page,
                         qtd: qtd,
                         reload: reload,
-                        channel_id: route.params.data.channels_id
+                        channel_id: route.params.data.channel_slug
                     }
                 }
             ),
@@ -227,7 +227,7 @@ const Screen = ({ navigation, route, ...props}) => {
 
     useEffect(() => {
         clickBuscarRefreshing(true)
-        console.log('Montou') 
+        // console.log('Montou') 
     }, []);
 
     useEffect(() => {
@@ -235,7 +235,7 @@ const Screen = ({ navigation, route, ...props}) => {
             dispatch(
                 limpaListaNewsChannel()
             )
-            console.log('Desmontou') 
+            // console.log('Desmontou') 
         }
     }, []);
 

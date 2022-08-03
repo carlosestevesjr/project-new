@@ -89,9 +89,9 @@ async function salvarTokenNotificacao(token, user_id) {
             params
         }
         const resp = await setTokenPush(payload)
-        console.log('retorno',resp)
+        // console.log('retorno',resp)
         if(resp.status == 200) {
-          console.log(resp.data);
+        //   console.log(resp.data);
         }
 
     } catch (error) {

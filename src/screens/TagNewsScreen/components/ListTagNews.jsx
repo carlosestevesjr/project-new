@@ -49,7 +49,7 @@ const Screen = ({ navigation, route, ...props }) => {
                         v_page: v_page,
                         qtd: qtd,
                         reload: reload,
-                        tag_id: route.params.data.tag_id
+                        tag_id: route.params.data.tag_slug
                     }
                 }
             ),
@@ -68,7 +68,7 @@ const Screen = ({ navigation, route, ...props }) => {
                         v_page: v_page,
                         qtd: qtd,
                         reload: reload,
-                        tag_id: route.params.data.tag_id
+                        tag_id: route.params.data.tag_slug
                     }
                 }
             ),
@@ -238,7 +238,7 @@ const Screen = ({ navigation, route, ...props }) => {
 
     useEffect(() => {
         clickBuscarRefreshing(true)
-        console.log('Montou Tags News') 
+        // console.log('Montou Tags News') 
     }, []);
 
     useEffect(() => {
@@ -246,7 +246,7 @@ const Screen = ({ navigation, route, ...props }) => {
             dispatch(
                 limpaListaTagNews()
             )
-            console.log('Desmontou Tags News') 
+            // console.log('Desmontou Tags News') 
         }
     }, []);
 

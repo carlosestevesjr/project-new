@@ -147,6 +147,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                         data: {
                                             channels_id: item.channels_id,
                                             channel_type: item.channel_type,
+                                            channel_slug: item.channel_slug,
                                             channel: item.channel,
                                             image: item.channel_logo,
                                            
@@ -172,6 +173,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                             data: {
                                                 channels_id: item.channels_id,
                                                 channel_type: item.channel_type,
+                                                channel_slug: item.channel_slug,
                                                 channel: item.channel,
                                                 image: item.channel_logo,
                                             
@@ -246,7 +248,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                         <TouchableOpacity
                                             style={{width:'15%'}}
                                             onPress={() => (
-                                                (user.api_token != undefined && user.api_token != "") ? checkCanal(item.select, item.channels_id) : navigation.navigate('Login') 
+                                                (user.api_token != undefined && user.api_token != "") ? checkCanal(item.select, item.channel_slug) : navigation.navigate('Login') 
                                             )
                                             }
                                         >
@@ -262,7 +264,7 @@ const Screen = ({ navigation, route, ...props}) => {
                                         <TouchableOpacity
                                             style={{width:'15%'}}
                                             onPress={() => (
-                                                (user.api_token != undefined && user.api_token != "") ? checkCanal(item.select, item.channels_id) : navigation.navigate('Login') 
+                                                (user.api_token != undefined && user.api_token != "") ? checkCanal(item.select, item.channel_slug) : navigation.navigate('Login') 
                                             )}    
                                         >
                                             <Icon
@@ -289,7 +291,7 @@ const Screen = ({ navigation, route, ...props}) => {
         navigation.addListener('focus', () => {
             clickBuscarRefreshing(true)
         });
-        console.log('Montou') 
+        // console.log('Montou') 
     }, []);
 
     useEffect(() => {
@@ -297,7 +299,7 @@ const Screen = ({ navigation, route, ...props}) => {
             dispatch(
                 limpaChannels()
             )
-            console.log('Desmontou') 
+            // console.log('Desmontou') 
         }
     }, []);
 
