@@ -34,8 +34,7 @@ const App = () => {
                 <PaperProvider theme={theme}>
                     <PersistGate loading={null} persistor={persistor}>
                         <StatusBar barStyle="light-content" hidden={false} translucent={false} backgroundColor={primary500} />
-                        <MainNavigator /> 
-                       
+                        <MainNavigator />                 
                     </PersistGate>
                 </PaperProvider>
             </Provider>
