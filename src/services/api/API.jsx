@@ -1,4 +1,5 @@
 
+import config from '../../config'
 import { instance as API }  from './AxiosInstance'
 
 export const api = {
@@ -42,7 +43,7 @@ const apiRoutes = {
 
     //News -------------------------------------------------------------------
     buscaNews: (payload) => {
-        console.log('route' ,"/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken)
+        
         return api.get("/v1/lista-news?page="+ payload.params.v_page+"&qtd="+payload.params.qtd+"&apiToken="+payload.params.apiToken, payload)  
     }, 
 
@@ -99,7 +100,7 @@ const apiRoutes = {
     },
 
     buscaLogin: (payload) => {
-        // console.log('route', "/v1/login")
+        console.log('route', "/v1/login")
         return api.post("/v1/login", payload) 
     },
 
